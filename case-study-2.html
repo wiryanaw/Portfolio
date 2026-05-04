@@ -191,7 +191,7 @@
 
     <!-- HERO IMAGE -->
     <div class="cs-hero-img reveal">
-      <div class="img-placeholder" style="aspect-ratio:16/9">Hero image — menu management system</div>
+      <img src="cs2-hero.png" alt="Menu Management System — Hero" style="width:100%;height:auto;display:block;border-radius:8px;cursor:zoom-in;" class="lightbox-trigger">
     </div>
 
     <!-- OVERVIEW -->
@@ -236,7 +236,7 @@
         </div>
 
         <div class="img-slot">
-          <div class="img-placeholder">Current menu management workflow</div>
+          <img src="cs2-workflow.png" alt="Current menu management workflow">
         </div>
 
         <div class="subsection">
@@ -282,7 +282,7 @@
         </div>
 
         <div class="img-slot">
-          <div class="img-placeholder">On-site observation at the outlet</div>
+          <img src="cs2-observation.png" alt="On-site observation at the outlet">
         </div>
 
         <div class="subsection">
@@ -314,7 +314,7 @@
         </div>
 
         <div class="img-slot">
-          <div class="img-placeholder">Operations documentation — menu management spreadsheet</div>
+          <img src="cs2-ops.png" alt="Operations documentation — menu management spreadsheet">
         </div>
 
         <div class="subsection">
@@ -348,7 +348,7 @@
         </div>
 
         <div class="img-slot">
-          <div class="img-placeholder">The terms — Materials, Parent menu & Child menu</div>
+          <img src="cs2-terms.png" alt="The terms — Materials, Parent menu &amp; Child menu">
         </div>
 
       </section>
@@ -375,6 +375,10 @@
           </div>
         </div>
 
+        <div class="img-slot">
+          <img src="cs2-explorations.png" alt="Design explorations">
+        </div>
+
         <div class="subsection">
           <div class="subsection-title">Final UI</div>
           <div class="subsection-body">
@@ -383,7 +387,7 @@
         </div>
 
         <div class="img-slot">
-          <div class="img-placeholder">Final UI — child menu module</div>
+          <img src="cs2-final-ui.png" alt="Final UI — child menu module">
         </div>
       </section>
 
@@ -451,7 +455,7 @@
     // Lightbox
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');
-    document.querySelectorAll('.img-slot img').forEach(img => {
+    document.querySelectorAll('.img-slot img, .lightbox-trigger').forEach(img => {
       img.addEventListener('click', () => {
         lightboxImg.src = img.src;
         lightboxImg.alt = img.alt;
