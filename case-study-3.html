@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reduced User Complaints by 54% — Wiryana</title>
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:      #F5F1EB;
+      --ink:     #0D0B09;
+      --ink-2:   #7A7570;
+      --ink-3:   #BEB9B3;
+      --accent:  #C4622D;
+      --border:  #DDD8CF;
+      --font:    'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; height: auto; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+    }
+
+    .nav-back {
+      font-size: 13px;
+      color: var(--ink-2);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--ink); }
+
+    .nav-title {
+      font-size: 13px;
+      color: var(--ink-3);
+      max-width: 400px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .nav-title.visible { opacity: 1; }
+
+    /* ── WRAPPER ── */
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    /* ── HEADER ── */
+    .cs-header {
+      padding: 96px 0 64px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cs-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .cs-tag {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--ink-2);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 3px 10px;
+    }
+
+    .cs-year-badge {
+      font-size: 12px;
+      color: var(--ink-3);
+    }
+
+    .cs-title {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 600;
+      letter-spacing: -.03em;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+
+    /* ── META STRIP ── */
+    .cs-meta {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin: 48px 0;
+    }
+
+    .meta-item {
+      padding: 20px 0;
+      border-right: 1px solid var(--border);
+    }
+    .meta-item:last-child { border-right: none; }
+    .meta-item:not(:first-child) { padding-left: 20px; }
+
+    .meta-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 6px;
+    }
+
+    .meta-value {
+      font-size: 13px;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    .meta-value.accent {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    /* ── OVERVIEW ── */
+    .cs-overview {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .overview-text {
+      font-size: 18px;
+      line-height: 1.65;
+      color: var(--ink-2);
+    }
+
+    /* ── SECTIONS ── */
+    .cs-body { padding: 0 0 80px; }
+
+    .cs-section {
+      padding: 56px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .cs-section:last-child { border-bottom: none; }
+
+    .section-num {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -.02em;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+
+    .section-body p {
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--ink-2);
+      margin-bottom: 16px;
+    }
+    .section-body p:last-child { margin-bottom: 0; }
+
+    .section-body ul {
+      margin: 16px 0;
+      padding-left: 20px;
+    }
+    .section-body ul li {
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--ink-2);
+      margin-bottom: 8px;
+    }
+
+    /* ── OUTCOME CALLOUT ── */
+    .outcome-callout {
+      background: var(--ink);
+      border-radius: 12px;
+      padding: 40px;
+      margin: 32px 0;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .outcome-metric {
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 700;
+      letter-spacing: -.04em;
+      color: #F5F1EB;
+      white-space: nowrap;
+    }
+
+    .outcome-desc {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #BEB9B3;
+    }
+
+    /* ── IMAGE SLOT ── */
+    .img-slot {
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--border);
+      margin: 32px 0;
+    }
+
+    .img-slot img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .img-placeholder {
+      width: 100%;
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #E8E3DB;
+      color: var(--ink-3);
+      font-size: 12px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .img-caption {
+      font-size: 12px;
+      color: var(--ink-3);
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    /* ── FINDING CARDS ── */
+    .findings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .finding-card {
+      background: #EDE9E2;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .finding-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 8px;
+    }
+
+    .finding-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+
+    /* ── ITERATIONS ── */
+    .iteration {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    .iteration-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 8px;
+    }
+
+    .iteration-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .iteration-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ink-2);
+    }
+
+    .iteration.rejected .iteration-label { color: #C4622D; }
+    .iteration.accepted .iteration-label { color: #5A8A5A; }
+
+    /* ── FOOTER ── */
+    .cs-footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: var(--ink-3);
+    }
+
+    .back-to-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--ink-3);
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: color 0.2s;
+    }
+    .back-to-top:hover { color: var(--ink); }
+    .back-to-top:hover svg { transform: translateY(-2px); }
+    .back-to-top svg { transition: transform 0.2s; }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .wrap { padding: 0 24px; }
+
+      .cs-header { padding: 80px 0 48px; }
+
+      .cs-meta {
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+      }
+      .meta-item {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 16px 0;
+      }
+      .meta-item:not(:first-child) { padding-left: 0; }
+      .meta-item:last-child { border-bottom: none; }
+
+      .findings-grid { grid-template-columns: 1fr; }
+
+      .outcome-callout {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+
+      .nav-title { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .cs-meta { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-back">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M9 11L5 7L9 3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Wiryana
+    </a>
+    <span class="nav-title" id="navTitle">Reduced User Complaints by 54% with In-App Instructions</span>
+  </nav>
+
+  <div class="wrap">
+
+    <!-- HEADER -->
+    <header class="cs-header reveal">
+      <div class="cs-eyebrow">
+        <span class="cs-tag">Hangry App</span>
+        <span class="cs-tag">Loyalty</span>
+        <span class="cs-year-badge">2022</span>
+      </div>
+      <h1 class="cs-title">Reduced User Complaints by 54% with In-App Instructions</h1>
+    </header>
+
+    <!-- META STRIP -->
+    <div class="cs-meta reveal">
+      <div class="meta-item">
+        <div class="meta-label">Outcome</div>
+        <div class="meta-value accent">−54% Complaints</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Company</div>
+        <div class="meta-value">Hangry</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">My Role</div>
+        <div class="meta-value">Researcher & Designer (Lead)</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Timeline</div>
+        <div class="meta-value">Feb – Mar 2022</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Team</div>
+        <div class="meta-value">1 Designer, 1 Engineer</div>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="cs-overview reveal">
+      <p class="overview-text">
+        Users were struggling to scan QR codes on Hangry receipts, flooding support with complaints. I led the research and design of a contextual in-app help system that reduced those complaints by 54% within three months of launch.
+      </p>
+    </div>
+
+    <!-- BODY SECTIONS -->
+    <div class="cs-body">
+
+      <!-- 01 Problem -->
+      <section class="cs-section reveal">
+        <div class="section-num">01</div>
+        <h2 class="section-title">Problem</h2>
+        <div class="section-body">
+          <p>Users struggled with scanning QR codes on Hangry receipts, resulting in low success rates and a high volume of support complaints. The friction was causing users to abandon the loyalty flow entirely, hurting both retention and satisfaction.</p>
+        </div>
+
+        <!-- Image slot: problem/complaint data screenshot -->
+        <div class="img-slot">
+          <div class="img-placeholder">Problem — complaint data / support volume</div>
+        </div>
+      </section>
+
+      <!-- 02 Research -->
+      <section class="cs-section reveal">
+        <div class="section-num">02</div>
+        <h2 class="section-title">Research</h2>
+        <div class="section-body">
+          <p>We ran controlled experiments to identify the root causes, testing hypotheses around printer quality, QR code density, and device camera capabilities across iOS and Android devices.</p>
+        </div>
+
+        <!-- Image slot: research experiment setup -->
+        <div class="img-slot">
+          <div class="img-placeholder">Research — experiment setup / testing process</div>
+        </div>
+
+        <div class="findings-grid">
+          <div class="finding-card">
+            <div class="finding-label">Finding 01</div>
+            <div class="finding-text">Flattening receipts dramatically improved scan success rates</div>
+          </div>
+          <div class="finding-card">
+            <div class="finding-label">Finding 02</div>
+            <div class="finding-text">Print area size had no meaningful impact on performance</div>
+          </div>
+          <div class="finding-card">
+            <div class="finding-label">Finding 03</div>
+            <div class="finding-text">iOS performed better than Android on bent or damaged receipts</div>
+          </div>
+          <div class="finding-card">
+            <div class="finding-label">Finding 04</div>
+            <div class="finding-text">The Hangry app camera outperformed native camera alternatives</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 Competitive Benchmarking -->
+      <section class="cs-section reveal">
+        <div class="section-num">03</div>
+        <h2 class="section-title">Competitive Benchmarking</h2>
+        <div class="section-body">
+          <p>I analyzed how other apps handle similar scanning flows. Only Dana and Grab provided both feature explanations and a dedicated help section with visual instructions — a clear gap in the market that validated our solution direction.</p>
+        </div>
+
+        <!-- Image slot: benchmarking comparison -->
+        <div class="img-slot">
+          <div class="img-placeholder">Benchmarking — Dana & Grab comparison</div>
+        </div>
+      </section>
+
+      <!-- 04 Solution -->
+      <section class="cs-section reveal">
+        <div class="section-num">04</div>
+        <h2 class="section-title">Solution</h2>
+        <div class="section-body">
+          <p>We iterated through two approaches before landing on the final solution.</p>
+        </div>
+
+        <div class="iteration rejected">
+          <div class="iteration-label">❌ First Iteration — Rejected</div>
+          <div class="iteration-title">Mandatory pre-scan instructions</div>
+          <div class="iteration-desc">Blocked users before scanning, adding friction to the happy path. Rejected due to potential drop-off for users who didn't need help.</div>
+        </div>
+
+        <div class="iteration accepted">
+          <div class="iteration-label">✓ Final Implementation — Shipped</div>
+          <div class="iteration-title">Contextual help system — user-initiated</div>
+          <div class="iteration-desc">A help option available during scanning, not before. Step-by-step instructions addressing specific failure scenarios: folded receipts, water damage, poor lighting. Includes a clear CTA to re-scan after reading.</div>
+        </div>
+
+        <!-- Image slot: final UI design -->
+        <div class="img-slot">
+          <div class="img-placeholder">Solution — final UI screens</div>
+        </div>
+      </section>
+
+      <!-- 05 Results -->
+      <section class="cs-section reveal">
+        <div class="section-num">05</div>
+        <h2 class="section-title">Results</h2>
+
+        <div class="outcome-callout">
+          <div class="outcome-metric">−54%</div>
+          <div class="outcome-desc">Reduction in user complaints related to QR scanning, measured over a 3-month period following feature launch.</div>
+        </div>
+
+        <div class="section-body">
+          <p>Three-month comparative data confirmed a 54% drop in QR-related support complaints. The contextual help approach proved that giving users the right information at the right moment — without forcing it on them — was the key to improving success rates without hurting the core scanning experience.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="cs-footer">
+      <span class="footer-copy">© 2026 Wiryana</span>
+      <button class="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7 11V3M7 3L3.5 6.5M7 3L10.5 6.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back to top
+      </button>
+    </footer>
+
+  </div>
+
+  <script>
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    revealEls.forEach(el => observer.observe(el));
+
+    // Nav title fade in on scroll
+    const navTitle = document.getElementById('navTitle');
+    window.addEventListener('scroll', () => {
+      navTitle.classList.toggle('visible', window.scrollY > 120);
+    });
+  </script>
+
+</body>
+</html>
