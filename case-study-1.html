@@ -169,41 +169,53 @@
     }
     .gate.unlocked { display: none; }
     .gate-box {
-      width: 100%; max-width: 360px;
-      display: flex; flex-direction: column; gap: 24px;
+      width: 100%; max-width: 400px;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 20px; text-align: center;
     }
-    .gate-label {
-      font-size: 13px; font-weight: 500; color: var(--ink);
-      letter-spacing: -.01em;
+    .gate-icon {
+      color: var(--ink-3);
+    }
+    .gate-title {
+      font-size: 22px; font-weight: 600; letter-spacing: -.03em; color: var(--ink);
     }
     .gate-sub {
-      font-size: 13px; color: var(--ink-3); margin-top: 4px;
+      font-size: 14px; line-height: 1.6; color: var(--ink-2); margin-top: -8px;
     }
-    .gate-input-row {
-      display: flex; gap: 8px;
+    .gate-sub a {
+      color: var(--ink); font-weight: 500; text-decoration: underline;
+      text-underline-offset: 2px; text-decoration-color: var(--border);
+      transition: text-decoration-color 0.2s;
     }
+    .gate-sub a:hover { text-decoration-color: var(--ink); }
     .gate-input {
-      flex: 1; height: 40px; padding: 0 14px;
+      width: 100%; height: 48px; padding: 0 16px;
       font-family: var(--font); font-size: 14px;
       background: #fff; color: var(--ink);
-      border: 1px solid var(--border); border-radius: 6px;
-      outline: none; transition: border-color 0.2s;
+      border: 1px solid var(--border); border-radius: 100px;
+      outline: none; transition: border-color 0.2s; text-align: center;
     }
     .gate-input:focus { border-color: var(--ink); }
     .gate-input.error { border-color: #D94F3D; }
     .gate-btn {
-      height: 40px; padding: 0 18px;
-      font-family: var(--font); font-size: 13px; font-weight: 500;
+      width: 100%; height: 52px;
+      font-family: var(--font); font-size: 15px; font-weight: 600;
       background: var(--ink); color: var(--bg);
-      border: none; border-radius: 6px; cursor: pointer;
-      transition: opacity 0.2s; white-space: nowrap;
+      border: none; border-radius: 100px; cursor: pointer;
+      transition: opacity 0.2s; letter-spacing: -.01em;
     }
     .gate-btn:hover { opacity: 0.8; }
     .gate-error {
       font-size: 12px; color: #D94F3D;
-      opacity: 0; transition: opacity 0.2s;
+      opacity: 0; transition: opacity 0.2s; margin-top: -12px;
     }
     .gate-error.show { opacity: 1; }
+    .gate-back {
+      font-size: 13px; color: var(--ink-3); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 5px;
+      transition: color 0.2s;
+    }
+    .gate-back:hover { color: var(--ink); }
   </style>
 </head>
 
@@ -212,17 +224,16 @@
   <!-- PASSWORD GATE -->
   <div class="gate" id="gate">
     <div class="gate-box">
-      <div>
-        <p class="gate-label">This case study is password protected.</p>
-        <p class="gate-sub">Enter the password to continue.</p>
-      </div>
-      <div>
-        <div class="gate-input-row">
-          <input class="gate-input" id="gateInput" type="password" placeholder="Password" autocomplete="off">
-          <button class="gate-btn" id="gateBtn">Unlock</button>
-        </div>
-        <p class="gate-error" id="gateError">Incorrect password. Try again.</p>
-      </div>
+      <svg class="gate-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <h1 class="gate-title">Continue reading this case study</h1>
+      <p class="gate-sub">This case study is password-protected. Email <a href="mailto:wiryanaw@gmail.com">wiryanaw@gmail.com</a> to get access.</p>
+      <input class="gate-input" id="gateInput" type="password" placeholder="Enter password" autocomplete="off">
+      <p class="gate-error" id="gateError">Incorrect password. Try again.</p>
+      <button class="gate-btn" id="gateBtn">Unlock the rest</button>
+      <a href="index.html" class="gate-back">← Back to home</a>
     </div>
   </div>
 
