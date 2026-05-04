@@ -296,32 +296,87 @@
     }
 
     /* ── ITERATIONS ── */
-    .iteration {
-      padding: 16px 0;
-      margin-top: 8px;
+    .iterations-list {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    .iteration-label {
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--ink-3);
+    .iteration {
+      padding: 16px 18px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.4);
+      position: relative;
+    }
+
+    .iteration.rejected {
+      opacity: 0.65;
+    }
+
+    .iteration.shipped {
+      border-color: #A8C5A0;
+      background: rgba(168, 197, 160, 0.08);
+    }
+
+    .iteration-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
       margin-bottom: 6px;
     }
 
-    .iteration-label.rejected { color: var(--accent); }
-    .iteration-label.accepted { color: #5A7A5A; }
+    .iteration-num {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+
+    .iteration-badge {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 100px;
+      flex-shrink: 0;
+    }
+
+    .iteration-badge.rejected {
+      color: var(--accent);
+      background: rgba(196, 98, 45, 0.1);
+    }
+
+    .iteration-badge.refined {
+      color: #8A7A50;
+      background: rgba(138, 122, 80, 0.1);
+    }
+
+    .iteration-badge.shipped {
+      color: #4A7A4A;
+      background: rgba(74, 122, 74, 0.12);
+    }
 
     .iteration-title {
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--ink);
       margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .iteration.rejected .iteration-title {
+      text-decoration: line-through;
+      text-decoration-color: var(--ink-3);
+      color: var(--ink-2);
     }
 
     .iteration-desc {
-      font-size: 14px;
+      font-size: 13px;
       line-height: 1.65;
       color: var(--ink-2);
     }
@@ -543,22 +598,35 @@
           <p>We iterated through multiple approaches before reaching the final design.</p>
         </div>
 
-        <div class="iteration">
-          <div class="iteration-label rejected">Iteration 01 — Rejected</div>
-          <div class="iteration-title">Mandatory instruction page before scanning</div>
-          <div class="iteration-desc">Blocked all users before they could scan, adding unnecessary friction to the happy path. Dropped due to potential abandonment from users who didn't need help.</div>
-        </div>
+        <div class="iterations-list">
 
-        <div class="iteration">
-          <div class="iteration-label rejected">Iteration 02 — Refined</div>
-          <div class="iteration-title">Optional instructions with step-by-step guidance</div>
-          <div class="iteration-desc">Gave users the choice to access help. Included step-by-step instructions and a "Re-scan" CTA. Better, but too generic for different failure scenarios.</div>
-        </div>
+          <div class="iteration rejected">
+            <div class="iteration-header">
+              <span class="iteration-num">Iteration 01</span>
+              <span class="iteration-badge rejected">Rejected</span>
+            </div>
+            <div class="iteration-title">Mandatory instruction page before scanning</div>
+            <div class="iteration-desc">Blocked all users before they could scan, adding unnecessary friction to the happy path. Dropped due to potential abandonment from users who didn't need help.</div>
+          </div>
 
-        <div class="iteration">
-          <div class="iteration-label accepted">Final — Shipped</div>
-          <div class="iteration-title">Contextual bottom sheet — scenario-specific</div>
-          <div class="iteration-desc">A context-aware help bottom sheet triggered during scanning, addressing specific scenarios: folded receipts, water damage, poor lighting. User-initiated, not forced. Clear CTA to re-scan after reading.</div>
+          <div class="iteration">
+            <div class="iteration-header">
+              <span class="iteration-num">Iteration 02</span>
+              <span class="iteration-badge refined">Refined</span>
+            </div>
+            <div class="iteration-title">Optional instructions with step-by-step guidance</div>
+            <div class="iteration-desc">Gave users the choice to access help. Included step-by-step instructions and a "Re-scan" CTA. Better, but too generic for different failure scenarios.</div>
+          </div>
+
+          <div class="iteration shipped">
+            <div class="iteration-header">
+              <span class="iteration-num">Final</span>
+              <span class="iteration-badge shipped">✓ Shipped</span>
+            </div>
+            <div class="iteration-title">Contextual bottom sheet — scenario-specific</div>
+            <div class="iteration-desc">A context-aware help bottom sheet triggered during scanning, addressing specific scenarios: folded receipts, water damage, poor lighting. User-initiated, not forced. Clear CTA to re-scan after reading.</div>
+          </div>
+
         </div>
 
         <div class="img-slot">
