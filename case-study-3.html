@@ -351,12 +351,7 @@
       background: rgba(196, 98, 45, 0.1);
     }
 
-    .iteration-badge.refined {
-      color: #8A7A50;
-      background: rgba(138, 122, 80, 0.1);
-    }
-
-    .iteration-badge.shipped {
+.iteration-badge.shipped {
       color: #4A7A4A;
       background: rgba(74, 122, 74, 0.12);
     }
@@ -369,11 +364,6 @@
       line-height: 1.4;
     }
 
-    .iteration.rejected .iteration-title {
-      text-decoration: line-through;
-      text-decoration-color: var(--ink-3);
-      color: var(--ink-2);
-    }
 
     .iteration-desc {
       font-size: 13px;
@@ -609,18 +599,9 @@
             <div class="iteration-desc">Blocked all users before they could scan, adding unnecessary friction to the happy path. Dropped due to potential abandonment from users who didn't need help.</div>
           </div>
 
-          <div class="iteration">
-            <div class="iteration-header">
-              <span class="iteration-num">Iteration 02</span>
-              <span class="iteration-badge refined">Refined</span>
-            </div>
-            <div class="iteration-title">Optional instructions with step-by-step guidance</div>
-            <div class="iteration-desc">Gave users the choice to access help. Included step-by-step instructions and a "Re-scan" CTA. Better, but too generic for different failure scenarios.</div>
-          </div>
-
           <div class="iteration shipped">
             <div class="iteration-header">
-              <span class="iteration-num">Final</span>
+              <span class="iteration-num">Iteration 02</span>
               <span class="iteration-badge shipped">✓ Shipped</span>
             </div>
             <div class="iteration-title">Contextual bottom sheet — scenario-specific</div>
