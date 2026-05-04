@@ -168,7 +168,7 @@
     .cs-row {
       position: relative;
       display: grid;
-      grid-template-columns: 48px 1fr max-content 20px 28px;
+      grid-template-columns: 48px 1fr max-content 28px;
       align-items: center;
       gap: 20px;
       padding: 24px 0;
@@ -192,9 +192,13 @@
     .cs-sub  { font-size: 12px; color: var(--ink-2); }
     .cs-year { font-size: 12px; color: var(--ink-2); }
 
+    .cs-title-row {
+      display: flex; align-items: center; gap: 8px;
+    }
+
     .cs-lock {
-      display: flex; align-items: center; justify-content: center;
-      color: var(--ink-3);
+      display: inline-flex; align-items: center;
+      color: var(--ink-3); flex-shrink: 0;
     }
 
     .cs-arrow {
@@ -387,7 +391,7 @@
 
       /* Work */
       .work            { padding: 56px 24px 72px; }
-      .cs-row          { grid-template-columns: 36px 1fr 24px; gap: 12px; }
+      .cs-row          { grid-template-columns: 36px 1fr max-content 24px; gap: 12px; }
       .cs-year         { display: none; }
       .cs-title        { font-size: 15px; letter-spacing: -.01em; }
       .cs-sub          { font-size: 11px; }
@@ -460,16 +464,18 @@
       <article class="cs-row reveal" role="listitem" tabindex="0" data-idx="0">
         <span class="cs-num">01</span>
         <div class="cs-meta">
-          <span class="cs-title"></span>
+          <div class="cs-title-row">
+            <span class="cs-title"></span>
+            <span class="cs-lock" aria-label="Password protected" title="Password protected">
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1.5" y="5" width="9" height="6.5" rx="1.5" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M3.5 5V3.5a2.5 2.5 0 0 1 5 0V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
+            </span>
+          </div>
           <span class="cs-sub"></span>
         </div>
         <span class="cs-year"></span>
-        <span class="cs-lock" aria-label="Password protected" title="Password protected">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="1.5" y="5" width="9" height="6.5" rx="1.5" stroke="currentColor" stroke-width="1.2"/>
-            <path d="M3.5 5V3.5a2.5 2.5 0 0 1 5 0V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-          </svg>
-        </span>
         <span class="cs-arrow" aria-hidden="true">↗</span>
       </article>
 
@@ -480,7 +486,6 @@
           <span class="cs-sub"></span>
         </div>
         <span class="cs-year"></span>
-        <span></span>
         <span class="cs-arrow" aria-hidden="true">↗</span>
       </article>
 
@@ -491,7 +496,6 @@
           <span class="cs-sub"></span>
         </div>
         <span class="cs-year"></span>
-        <span></span>
         <span class="cs-arrow" aria-hidden="true">↗</span>
       </article>
 
@@ -502,7 +506,6 @@
           <span class="cs-sub"></span>
         </div>
         <span class="cs-year"></span>
-        <span></span>
         <span class="cs-arrow" aria-hidden="true">↗</span>
       </article>
 
