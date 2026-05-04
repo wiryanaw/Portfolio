@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu Management System — Wiryana</title>
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:      #F5F1EB;
+      --ink:     #0D0B09;
+      --ink-2:   #7A7570;
+      --ink-3:   #BEB9B3;
+      --accent:  #C4622D;
+      --border:  #DDD8CF;
+      --font:    'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; height: auto; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(245, 241, 235, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+    }
+
+    .nav-back {
+      font-size: 13px;
+      color: var(--ink-2);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--ink); }
+
+    .nav-title {
+      font-size: 13px;
+      color: var(--ink-3);
+      max-width: 400px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .nav-title.visible { opacity: 1; }
+
+    /* ── WRAP ── */
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    /* ── HEADER ── */
+    .cs-header {
+      padding: 100px 0 0;
+    }
+
+    .cs-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .cs-tag, .cs-year {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--ink-2);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 3px 10px;
+    }
+
+    .cs-title {
+      font-size: clamp(26px, 3.8vw, 46px);
+      font-weight: 600;
+      letter-spacing: -.03em;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+
+    /* ── META TABLE ── */
+    .cs-meta {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 10px 20px;
+      margin-top: 32px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      padding-bottom: 36px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .meta-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      padding-top: 1px;
+    }
+
+    .meta-value {
+      font-size: 13px;
+      color: var(--ink-2);
+      line-height: 1.5;
+    }
+
+    .meta-value.accent {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ── HERO IMAGE ── */
+    .cs-hero-img {
+      margin-top: 28px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .cs-hero-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── OVERVIEW ── */
+    .cs-overview {
+      padding: 28px 0 0;
+    }
+
+    .overview-text {
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--ink-2);
+    }
+
+    /* ── BODY SECTIONS ── */
+    .cs-body { padding-bottom: 80px; }
+
+    .cs-section {
+      padding: 52px 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .section-num {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -.02em;
+      color: var(--ink);
+    }
+
+    .section-body p {
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--ink-2);
+      margin-bottom: 14px;
+    }
+    .section-body p:last-child { margin-bottom: 0; }
+
+    /* Objectives list */
+    .objectives-list {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .objective-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--ink-2);
+    }
+
+    .objective-item::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      margin-top: 9px;
+    }
+
+    /* ── IMAGE SLOT ── */
+    .img-slot {
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 28px 0;
+    }
+
+    .img-slot img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .img-placeholder {
+      width: 100%;
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #E8E3DB;
+      color: var(--ink-3);
+      font-size: 11px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    /* ── FINDINGS ── */
+    .findings-list {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .finding-item {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+    }
+
+    .finding-index {
+      font-size: 11px;
+      color: var(--ink-3);
+      font-weight: 500;
+      letter-spacing: .06em;
+      flex-shrink: 0;
+      width: 20px;
+    }
+
+    .finding-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ink-2);
+    }
+
+    /* ── ITERATIONS ── */
+    .iterations-list {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .iteration {
+      padding: 16px 18px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.4);
+      position: relative;
+    }
+
+    .iteration.rejected { opacity: 0.65; }
+
+    .iteration.shipped {
+      border-color: #A8C5A0;
+      background: rgba(168, 197, 160, 0.08);
+    }
+
+    .iteration-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .iteration-num {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+
+    .iteration-badge {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 100px;
+      flex-shrink: 0;
+    }
+
+    .iteration-badge.rejected {
+      color: var(--accent);
+      background: rgba(196, 98, 45, 0.1);
+    }
+
+    .iteration-badge.shipped {
+      color: #4A7A4A;
+      background: rgba(74, 122, 74, 0.12);
+    }
+
+    .iteration-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .iteration-desc {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--ink-2);
+    }
+
+    /* ── RESULTS ── */
+    .result-metrics {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .result-metric {
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .result-metric:first-child { border-top: 1px solid var(--border); }
+
+    .metric-value {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700;
+      letter-spacing: -.04em;
+      color: var(--accent);
+      white-space: nowrap;
+      flex-shrink: 0;
+      min-width: 140px;
+    }
+
+    .metric-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ink-2);
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(13, 11, 9, 0.92);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      cursor: zoom-out;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox img {
+      max-width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 6px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+      cursor: default;
+    }
+
+    .lightbox-close {
+      position: fixed;
+      top: 20px;
+      right: 24px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      transition: background 0.2s;
+    }
+
+    .lightbox-close:hover { background: rgba(255,255,255,0.25); }
+
+    .img-slot img {
+      cursor: zoom-in;
+      transition: opacity 0.2s;
+    }
+
+    .img-slot img:hover { opacity: 0.9; }
+
+    /* ── FOOTER ── */
+    .cs-footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: var(--ink-3);
+    }
+
+    .back-to-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--ink-3);
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: color 0.2s;
+    }
+    .back-to-top:hover { color: var(--ink); }
+    .back-to-top:hover svg { transform: translateY(-2px); }
+    .back-to-top svg { transition: transform 0.2s; }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .wrap { padding: 0 24px; }
+      .cs-header { padding: 80px 0 40px; }
+      .cs-meta { grid-template-columns: 72px 1fr; gap: 8px 16px; }
+      .result-metric { flex-direction: column; gap: 6px; }
+      .nav-title { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .cs-meta { grid-template-columns: 70px 1fr; gap: 6px 12px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-back">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M9 11L5 7L9 3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Wiryana
+    </a>
+    <span class="nav-title" id="navTitle">Menu Management System</span>
+  </nav>
+
+  <div class="wrap">
+
+    <!-- HEADER -->
+    <header class="cs-header reveal">
+      <div class="cs-eyebrow">
+        <span class="cs-tag">Internal Tool</span>
+        <span class="cs-tag">Operations</span>
+        <span class="cs-year">2022</span>
+      </div>
+      <h1 class="cs-title">Saved IDR 64M by Unifying Menu Management Across 8 Brands</h1>
+    </header>
+
+    <!-- HERO IMAGE -->
+    <div class="cs-hero-img reveal">
+      <div class="img-placeholder" style="aspect-ratio:16/9">Hero image — menu management system</div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="cs-overview reveal">
+      <p class="overview-text">Outlet staff were spending 1.5 hours every morning manually updating 480 menu items across 8 brands and 3 platforms on separate devices. I designed a unified menu management system that consolidated everything into one interface — cutting that time down to minutes and eliminating IDR 64 million in unnecessary hardware costs.</p>
+    </div>
+
+    <!-- META -->
+    <div class="cs-meta reveal">
+      <span class="meta-label">Outcome</span>
+      <span class="meta-value accent">97.78% Efficiency Increase</span>
+      <span class="meta-label">Company</span>
+      <span class="meta-value">Hangry</span>
+      <span class="meta-label">Role</span>
+      <span class="meta-value">Product Designer (Lead)</span>
+      <span class="meta-label">Timeline</span>
+      <span class="meta-value">2022</span>
+      <span class="meta-label">Team</span>
+      <span class="meta-value">1 Designer, 1 Engineer</span>
+    </div>
+
+    <!-- BODY -->
+    <div class="cs-body">
+
+      <!-- 01 Problem -->
+      <section class="cs-section reveal">
+        <div class="section-header">
+          <span class="section-num">01</span>
+          <h2 class="section-title">Problem</h2>
+        </div>
+        <div class="section-body">
+          <p>Every morning, outlet staff at Hangry spent 1.5 hours manually toggling 480 menu items across 8 brands and 3 delivery platforms — GoFood, ShopeeFood, and GrabFood. Each brand required its own dedicated phone, resulting in 45 devices spread across outlets, costing approximately IDR 1.6 million per outlet.</p>
+          <p>This repetitive process was error-prone, time-consuming, and expensive. Any mistake — a menu left off or incorrectly toggled — directly impacted orders and customer experience.</p>
+        </div>
+        <div class="img-slot">
+          <div class="img-placeholder">Previous workflow — multiple devices per brand</div>
+        </div>
+      </section>
+
+      <!-- 02 Objectives -->
+      <section class="cs-section reveal">
+        <div class="section-header">
+          <span class="section-num">02</span>
+          <h2 class="section-title">Objectives</h2>
+        </div>
+        <div class="section-body">
+          <p>Design a tool that enables outlet staff to manage all menus across all brands and platforms from a single interface.</p>
+        </div>
+        <div class="objectives-list">
+          <div class="objective-item">Reduce daily menu management time from 1.5 hours to minutes</div>
+          <div class="objective-item">Consolidate multi-brand, multi-platform menu control into one device</div>
+          <div class="objective-item">Eliminate redundant hardware costs across outlets</div>
+          <div class="objective-item">Design for POS constraints — small screen (1024×768), low display quality</div>
+          <div class="objective-item">Use familiar terminology that operations staff already understood</div>
+        </div>
+      </section>
+
+      <!-- 03 Research -->
+      <section class="cs-section reveal">
+        <div class="section-header">
+          <span class="section-num">03</span>
+          <h2 class="section-title">Research</h2>
+        </div>
+        <div class="section-body">
+          <p>I conducted on-site observations at Hangry outlets, watching staff perform their morning routines and documenting each step. I gathered requirements directly from operations staff using their own existing documentation — the daily checklists and brand manuals they already relied on.</p>
+        </div>
+        <div class="img-slot">
+          <div class="img-placeholder">On-site observation notes</div>
+        </div>
+        <div class="findings-list">
+          <div class="finding-item">
+            <span class="finding-index">01</span>
+            <span class="finding-text">Staff needed to turn on/off multiple menus across multiple brands on multiple platforms simultaneously</span>
+          </div>
+          <div class="finding-item">
+            <span class="finding-index">02</span>
+            <span class="finding-text">Each brand required a dedicated phone — 45 phones in use across 5 new outlet locations</span>
+          </div>
+          <div class="finding-item">
+            <span class="finding-index">03</span>
+            <span class="finding-text">POS screens were limited to 1024×768 with poor display quality — the UI had to work within these constraints</span>
+          </div>
+          <div class="finding-item">
+            <span class="finding-index">04</span>
+            <span class="finding-text">Existing terminology in staff documentation should be preserved to reduce the learning curve</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 Solution -->
+      <section class="cs-section reveal">
+        <div class="section-header">
+          <span class="section-num">04</span>
+          <h2 class="section-title">Solution</h2>
+        </div>
+        <div class="section-body">
+          <p>A unified menu management platform accessible from a single device per outlet. The interface allowed staff to control all 480 menu items across all 8 brands and 3 platforms simultaneously — replacing the multi-phone workflow with a single, purpose-built tool optimised for POS hardware.</p>
+          <p>The design used familiar language from existing staff documentation and went through multiple testing rounds before full deployment across all Hangry outlets.</p>
+        </div>
+        <div class="img-slot">
+          <div class="img-placeholder">Final UI — unified menu management interface</div>
+        </div>
+        <div class="iterations-list">
+          <div class="iteration rejected">
+            <div class="iteration-header">
+              <span class="iteration-num">Iteration 01</span>
+              <span class="iteration-badge rejected">Rejected</span>
+            </div>
+            <div class="iteration-title">Flat list view — all items in one scroll</div>
+            <div class="iteration-desc">Displaying all 480 items in a single scrollable list was too overwhelming on a small POS screen. Staff couldn't quickly locate specific brands or platforms.</div>
+          </div>
+          <div class="iteration shipped">
+            <div class="iteration-header">
+              <span class="iteration-num">Iteration 02</span>
+              <span class="iteration-badge shipped">✓ Shipped</span>
+            </div>
+            <div class="iteration-title">Grouped by brand with platform toggles</div>
+            <div class="iteration-desc">Items grouped by brand with platform toggles (GoFood, ShopeeFood, GrabFood) at the top. Staff could act on an entire brand or drill into individual items — fast, familiar, and readable on 1024×768 POS displays.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 Results -->
+      <section class="cs-section reveal">
+        <div class="section-header">
+          <span class="section-num">05</span>
+          <h2 class="section-title">Results</h2>
+        </div>
+        <div class="section-body">
+          <p>Following full deployment across all Hangry outlets, the system delivered measurable improvements in both operational efficiency and cost savings.</p>
+        </div>
+        <div class="result-metrics">
+          <div class="result-metric">
+            <div class="metric-value">97.78%</div>
+            <div class="metric-desc">Efficiency increase in daily menu management — reduced from 1.5 hours to minutes each morning</div>
+          </div>
+          <div class="result-metric">
+            <div class="metric-value">IDR 64M</div>
+            <div class="metric-desc">Saved in hardware costs by eliminating redundant devices across outlets</div>
+          </div>
+          <div class="result-metric">
+            <div class="metric-value">45 → 5</div>
+            <div class="metric-desc">Phones reduced across five new outlet locations — one device now handles all 8 brands</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="cs-footer">
+      <span class="footer-copy">© 2026 Wiryana</span>
+      <button class="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7 11V3M7 3L3.5 6.5M7 3L10.5 6.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back to top
+      </button>
+    </footer>
+
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <img id="lightboxImg" src="" alt="" />
+  </div>
+
+  <script>
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.08 });
+    revealEls.forEach(el => observer.observe(el));
+
+    const navTitle = document.getElementById('navTitle');
+    window.addEventListener('scroll', () => {
+      navTitle.classList.toggle('visible', window.scrollY > 120);
+    });
+
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+
+    document.querySelectorAll('.img-slot img').forEach(img => {
+      img.addEventListener('click', () => {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
+
+</body>
+</html>
