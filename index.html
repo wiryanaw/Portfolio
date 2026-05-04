@@ -177,21 +177,7 @@
 
     .cs-row:first-child { border-top: 1px solid var(--border); }
 
-    .cs-fill {
-      position: absolute;
-      inset: 0;
-      background: var(--ink);
-      transform: scaleX(0);
-      transform-origin: left center;
-      transition: transform .5s cubic-bezier(.16,1,.3,1);
-    }
-
-    .cs-row:hover .cs-fill,
-    .cs-row:focus-visible .cs-fill { transform: scaleX(1); }
-
-    .cs-row > *:not(.cs-fill) { position: relative; z-index: 1; }
-
-    .cs-num  { font-size: 12px; color: var(--ink-3); transition: color .4s; }
+    .cs-num  { font-size: 12px; color: var(--ink-3); }
     .cs-meta { display: flex; flex-direction: column; gap: 3px; }
 
     .cs-title {
@@ -199,32 +185,18 @@
       font-weight: 500;
       letter-spacing: -.015em;
       line-height: 1.3;
-      transition: color .4s;
     }
 
-    .cs-sub {
-      font-size: 12px;
-      color: var(--ink-2);
-      transition: color .4s;
-    }
-
-    .cs-year {
-      font-size: 12px;
-      color: var(--ink-2);
-      transition: color .4s;
-    }
+    .cs-sub  { font-size: 12px; color: var(--ink-2); }
+    .cs-year { font-size: 12px; color: var(--ink-2); }
 
     .cs-arrow {
       font-size: 15px;
       color: var(--ink-2);
-      transition: color .4s, transform .4s cubic-bezier(.16,1,.3,1);
+      transition: transform .3s cubic-bezier(.16,1,.3,1);
     }
 
-    .cs-row:hover .cs-num               { color: var(--accent); }
-    .cs-row:hover .cs-title,
-    .cs-row:hover .cs-sub,
-    .cs-row:hover .cs-year              { color: var(--bg); }
-    .cs-row:hover .cs-arrow             { color: var(--bg); transform: translate(3px,-3px); }
+    .cs-row:hover .cs-arrow { transform: translate(3px,-3px); }
 
     /* ─── FLOATING PREVIEW CARD ───────────────────────────────── */
     .preview {
@@ -522,7 +494,6 @@
     <div class="cs-list" role="list" style="opacity:0;transition:opacity 0.3s ease;">
 
       <article class="cs-row reveal" role="listitem" tabindex="0" data-idx="0">
-        <div class="cs-fill" aria-hidden="true"></div>
         <span class="cs-num">01</span>
         <div class="cs-meta">
           <span class="cs-title"></span>
@@ -533,7 +504,6 @@
       </article>
 
       <article class="cs-row reveal" role="listitem" tabindex="0" data-idx="1">
-        <div class="cs-fill" aria-hidden="true"></div>
         <span class="cs-num">02</span>
         <div class="cs-meta">
           <span class="cs-title"></span>
@@ -544,7 +514,6 @@
       </article>
 
       <article class="cs-row reveal" role="listitem" tabindex="0" data-idx="2">
-        <div class="cs-fill" aria-hidden="true"></div>
         <span class="cs-num">03</span>
         <div class="cs-meta">
           <span class="cs-title"></span>
@@ -555,7 +524,6 @@
       </article>
 
       <article class="cs-row reveal" role="listitem" tabindex="0" data-idx="3">
-        <div class="cs-fill" aria-hidden="true"></div>
         <span class="cs-num">04</span>
         <div class="cs-meta">
           <span class="cs-title"></span>
