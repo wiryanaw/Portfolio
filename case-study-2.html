@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Menu Management System — Wiryana</title>
+  <title>Streamlined Menu Management — Wiryana</title>
 
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css">
@@ -22,479 +22,143 @@
     }
 
     html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--ink);
-      -webkit-font-smoothing: antialiased;
-    }
-
+    body { font-family: var(--font); background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
     a { text-decoration: none; color: inherit; }
     img { display: block; max-width: 100%; height: auto; }
 
     /* ── NAV ── */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       background: rgba(245, 241, 235, 0.92);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--border);
-      height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 48px;
+      height: 52px; display: flex; align-items: center;
+      justify-content: space-between; padding: 0 48px;
     }
-
-    .nav-back {
-      font-size: 13px;
-      color: var(--ink-2);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: color 0.2s;
-    }
+    .nav-back { font-size: 13px; color: var(--ink-2); display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
     .nav-back:hover { color: var(--ink); }
-
-    .nav-title {
-      font-size: 13px;
-      color: var(--ink-3);
-      max-width: 400px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
+    .nav-title { font-size: 13px; color: var(--ink-3); max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; opacity: 0; transition: opacity 0.3s; }
     .nav-title.visible { opacity: 1; }
 
     /* ── WRAP ── */
-    .wrap {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 0 48px;
-    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 0 48px; }
 
     /* ── HEADER ── */
-    .cs-header {
-      padding: 100px 0 0;
-    }
-
-    .cs-eyebrow {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
-
+    .cs-header { padding: 100px 0 0; }
+    .cs-eyebrow { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
     .cs-tag, .cs-year {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      color: var(--ink-2);
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      padding: 3px 10px;
+      font-size: 11px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
+      color: var(--ink-2); border: 1px solid var(--border); border-radius: 100px; padding: 3px 10px;
     }
+    .cs-title { font-size: clamp(26px, 3.8vw, 46px); font-weight: 600; letter-spacing: -.03em; line-height: 1.1; color: var(--ink); }
 
-    .cs-title {
-      font-size: clamp(26px, 3.8vw, 46px);
-      font-weight: 600;
-      letter-spacing: -.03em;
-      line-height: 1.1;
-      color: var(--ink);
-    }
-
-    /* ── META TABLE ── */
+    /* ── META ── */
     .cs-meta {
-      display: grid;
-      grid-template-columns: 80px 1fr;
-      gap: 10px 20px;
-      margin-top: 32px;
-      padding-top: 28px;
-      border-top: 1px solid var(--border);
-      padding-bottom: 36px;
-      border-bottom: 1px solid var(--border);
+      display: grid; grid-template-columns: 100px 1fr; gap: 10px 20px;
+      margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--border);
+      padding-bottom: 36px; border-bottom: 1px solid var(--border);
     }
-
-    .meta-label {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-      color: var(--ink-3);
-      padding-top: 1px;
-    }
-
-    .meta-value {
-      font-size: 13px;
-      color: var(--ink-2);
-      line-height: 1.5;
-    }
-
-    .meta-value.accent {
-      color: var(--accent);
-      font-weight: 600;
-    }
+    .meta-label { font-size: 11px; font-weight: 500; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-3); padding-top: 1px; }
+    .meta-value { font-size: 13px; color: var(--ink-2); line-height: 1.5; }
+    .meta-value.accent { color: var(--accent); font-weight: 600; }
 
     /* ── HERO IMAGE ── */
-    .cs-hero-img {
-      margin-top: 28px;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-    }
-
-    .cs-hero-img img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
+    .cs-hero-img { margin-top: 28px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+    .cs-hero-img img { width: 100%; height: auto; display: block; }
 
     /* ── OVERVIEW ── */
-    .cs-overview {
-      padding: 28px 0 0;
-    }
+    .cs-overview { padding: 28px 0 0; }
+    .overview-text { font-size: 16px; line-height: 1.75; color: var(--ink-2); }
 
-    .overview-text {
-      font-size: 16px;
-      line-height: 1.75;
-      color: var(--ink-2);
-    }
-
-    /* ── BODY SECTIONS ── */
+    /* ── BODY ── */
     .cs-body { padding-bottom: 80px; }
+    .cs-section { padding: 52px 0; border-top: 1px solid var(--border); }
 
-    .cs-section {
-      padding: 52px 0;
-    }
+    .section-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px; }
+    .section-num { font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+    .section-title { font-size: 18px; font-weight: 600; letter-spacing: -.02em; color: var(--ink); }
 
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .section-num {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--ink-3);
-    }
-
-    .section-title {
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: -.02em;
-      color: var(--ink);
-    }
-
-    .section-body p {
-      font-size: 15px;
-      line-height: 1.75;
-      color: var(--ink-2);
-      margin-bottom: 14px;
-    }
+    .section-body p { font-size: 15px; line-height: 1.75; color: var(--ink-2); margin-bottom: 14px; }
     .section-body p:last-child { margin-bottom: 0; }
 
-    /* Objectives list */
-    .objectives-list {
-      margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    /* ── SUBSECTIONS ── */
+    .subsection { margin-top: 32px; }
+    .subsection + .subsection { margin-top: 36px; }
+    .subsection-title {
+      font-size: 13px; font-weight: 600; letter-spacing: .04em;
+      text-transform: uppercase; color: var(--ink-3);
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
     }
+    .subsection-body p { font-size: 15px; line-height: 1.75; color: var(--ink-2); margin-bottom: 12px; }
+    .subsection-body p:last-child { margin-bottom: 0; }
 
-    .objective-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      font-size: 15px;
-      line-height: 1.6;
-      color: var(--ink-2);
-    }
+    /* ── LISTS ── */
+    .bullet-list { margin-top: 12px; display: flex; flex-direction: column; gap: 10px; }
+    .bullet-item { display: flex; align-items: flex-start; gap: 12px; font-size: 15px; line-height: 1.6; color: var(--ink-2); }
+    .bullet-item::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 9px; }
 
-    .objective-item::before {
-      content: '';
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--accent);
-      flex-shrink: 0;
-      margin-top: 9px;
+    .findings-list { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+    .finding-item { display: flex; align-items: baseline; gap: 16px; }
+    .finding-index { font-size: 11px; color: var(--ink-3); font-weight: 500; letter-spacing: .06em; flex-shrink: 0; width: 20px; }
+    .finding-text { font-size: 14px; line-height: 1.6; color: var(--ink-2); }
+
+    /* ── CONSTRAINTS ── */
+    .constraints-list { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+    .constraint-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 16px; border-radius: 8px;
+      border: 1px solid var(--border); background: rgba(255,255,255,0.4);
     }
+    .constraint-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+    .constraint-text { font-size: 14px; line-height: 1.6; color: var(--ink-2); }
+    .constraint-text strong { color: var(--ink); font-weight: 500; }
 
     /* ── IMAGE SLOT ── */
-    .img-slot {
-      width: 100%;
-      border-radius: 8px;
-      overflow: hidden;
-      margin: 28px 0;
-    }
-
-    .img-slot img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
+    .img-slot { width: 100%; border-radius: 8px; overflow: hidden; margin: 28px 0; }
+    .img-slot img { width: 100%; height: auto; display: block; cursor: zoom-in; transition: opacity 0.2s; }
+    .img-slot img:hover { opacity: 0.9; }
     .img-placeholder {
-      width: 100%;
-      aspect-ratio: 16/9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #E8E3DB;
-      color: var(--ink-3);
-      font-size: 11px;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-    }
-
-    /* ── FINDINGS ── */
-    .findings-list {
-      margin-top: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .finding-item {
-      display: flex;
-      align-items: baseline;
-      gap: 16px;
-    }
-
-    .finding-index {
-      font-size: 11px;
-      color: var(--ink-3);
-      font-weight: 500;
-      letter-spacing: .06em;
-      flex-shrink: 0;
-      width: 20px;
-    }
-
-    .finding-text {
-      font-size: 14px;
-      line-height: 1.6;
-      color: var(--ink-2);
-    }
-
-    /* ── ITERATIONS ── */
-    .iterations-list {
-      margin-top: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .iteration {
-      padding: 16px 18px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.4);
-      position: relative;
-    }
-
-    .iteration.rejected { opacity: 0.65; }
-
-    .iteration.shipped {
-      border-color: #A8C5A0;
-      background: rgba(168, 197, 160, 0.08);
-    }
-
-    .iteration-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 6px;
-    }
-
-    .iteration-num {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-      color: var(--ink-3);
-    }
-
-    .iteration-badge {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      padding: 2px 8px;
-      border-radius: 100px;
-      flex-shrink: 0;
-    }
-
-    .iteration-badge.rejected {
-      color: var(--accent);
-      background: rgba(196, 98, 45, 0.1);
-    }
-
-    .iteration-badge.shipped {
-      color: #4A7A4A;
-      background: rgba(74, 122, 74, 0.12);
-    }
-
-    .iteration-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 6px;
-      line-height: 1.4;
-    }
-
-    .iteration-desc {
-      font-size: 13px;
-      line-height: 1.65;
-      color: var(--ink-2);
+      width: 100%; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center;
+      background: #E8E3DB; color: var(--ink-3); font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
     }
 
     /* ── RESULTS ── */
-    .result-metrics {
-      margin-top: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .result-metric {
-      display: flex;
-      align-items: baseline;
-      gap: 20px;
-      padding: 24px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
+    .result-metrics { margin-top: 28px; display: flex; flex-direction: column; }
+    .result-metric { display: flex; align-items: baseline; gap: 20px; padding: 24px 0; border-bottom: 1px solid var(--border); }
     .result-metric:first-child { border-top: 1px solid var(--border); }
-
-    .metric-value {
-      font-size: clamp(32px, 5vw, 52px);
-      font-weight: 700;
-      letter-spacing: -.04em;
-      color: var(--accent);
-      white-space: nowrap;
-      flex-shrink: 0;
-      min-width: 140px;
-    }
-
-    .metric-desc {
-      font-size: 14px;
-      line-height: 1.6;
-      color: var(--ink-2);
-    }
+    .metric-value { font-size: clamp(32px, 5vw, 52px); font-weight: 700; letter-spacing: -.04em; color: var(--accent); white-space: nowrap; flex-shrink: 0; min-width: 130px; }
+    .metric-desc { font-size: 14px; line-height: 1.6; color: var(--ink-2); }
 
     /* ── LIGHTBOX ── */
-    .lightbox {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 999;
-      background: rgba(13, 11, 9, 0.92);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      cursor: zoom-out;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-
+    .lightbox { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(13,11,9,0.92); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); cursor: zoom-out; align-items: center; justify-content: center; padding: 24px; }
     .lightbox.open { display: flex; }
-
-    .lightbox img {
-      max-width: 100%;
-      max-height: 90vh;
-      object-fit: contain;
-      border-radius: 6px;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.5);
-      cursor: default;
-    }
-
-    .lightbox-close {
-      position: fixed;
-      top: 20px;
-      right: 24px;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.15);
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      transition: background 0.2s;
-    }
-
+    .lightbox img { max-width: 100%; max-height: 90vh; object-fit: contain; border-radius: 6px; box-shadow: 0 32px 80px rgba(0,0,0,0.5); cursor: default; }
+    .lightbox-close { position: fixed; top: 20px; right: 24px; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.15); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #fff; transition: background 0.2s; }
     .lightbox-close:hover { background: rgba(255,255,255,0.25); }
 
-    .img-slot img {
-      cursor: zoom-in;
-      transition: opacity 0.2s;
-    }
-
-    .img-slot img:hover { opacity: 0.9; }
-
     /* ── FOOTER ── */
-    .cs-footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .footer-copy {
-      font-size: 12px;
-      color: var(--ink-3);
-    }
-
-    .back-to-top {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      color: var(--ink-3);
-      background: none;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-      font-family: var(--font);
-      transition: color 0.2s;
-    }
+    .cs-footer { border-top: 1px solid var(--border); padding: 32px 0; display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-size: 12px; color: var(--ink-3); }
+    .back-to-top { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-3); background: none; border: none; padding: 0; cursor: pointer; font-family: var(--font); transition: color 0.2s; }
     .back-to-top:hover { color: var(--ink); }
     .back-to-top:hover svg { transform: translateY(-2px); }
     .back-to-top svg { transition: transform 0.2s; }
 
     /* ── REVEAL ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
+    .reveal { opacity: 0; transform: translateY(12px); transition: opacity 0.5s ease, transform 0.5s ease; }
     .reveal.in { opacity: 1; transform: none; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       nav { padding: 0 24px; }
       .wrap { padding: 0 24px; }
-      .cs-header { padding: 80px 0 40px; }
-      .cs-meta { grid-template-columns: 72px 1fr; gap: 8px 16px; }
+      .cs-header { padding: 80px 0 0; }
+      .cs-meta { grid-template-columns: 80px 1fr; gap: 8px 16px; }
       .result-metric { flex-direction: column; gap: 6px; }
       .nav-title { display: none; }
     }
-
     @media (max-width: 480px) {
       .cs-meta { grid-template-columns: 70px 1fr; gap: 6px 12px; }
     }
@@ -510,7 +174,7 @@
       </svg>
       Wiryana
     </a>
-    <span class="nav-title" id="navTitle">Menu Management System</span>
+    <span class="nav-title" id="navTitle">Streamlined Menu Management</span>
   </nav>
 
   <div class="wrap">
@@ -518,11 +182,11 @@
     <!-- HEADER -->
     <header class="cs-header reveal">
       <div class="cs-eyebrow">
+        <span class="cs-tag">POS</span>
         <span class="cs-tag">Internal Tool</span>
-        <span class="cs-tag">Operations</span>
         <span class="cs-year">2022</span>
       </div>
-      <h1 class="cs-title">Saved IDR 64M by Unifying Menu Management Across 8 Brands</h1>
+      <h1 class="cs-title">Streamlined Menu Management Across 3 Platforms, Driving 97.8% Efficiency</h1>
     </header>
 
     <!-- HERO IMAGE -->
@@ -532,7 +196,7 @@
 
     <!-- OVERVIEW -->
     <div class="cs-overview reveal">
-      <p class="overview-text">Outlet staff were spending 1.5 hours every morning manually updating 480 menu items across 8 brands and 3 platforms on separate devices. I designed a unified menu management system that consolidated everything into one interface — cutting that time down to minutes and eliminating IDR 64 million in unnecessary hardware costs.</p>
+      <p class="overview-text">I led the design of the menu management project, one of the key initiatives aimed at helping the company reduce costs. By unifying menu control across 8 brands and 3 platforms into a single interface, the tool increased operational efficiency by 97.78% and saved IDR 64 million in hardware costs.</p>
     </div>
 
     <!-- META -->
@@ -542,28 +206,44 @@
       <span class="meta-label">Company</span>
       <span class="meta-value">Hangry</span>
       <span class="meta-label">Role</span>
-      <span class="meta-value">Product Designer (Lead)</span>
+      <span class="meta-value">Product Designer & Researcher</span>
       <span class="meta-label">Timeline</span>
-      <span class="meta-value">2022</span>
+      <span class="meta-value">May – Sep 2022</span>
       <span class="meta-label">Team</span>
-      <span class="meta-value">1 Designer, 1 Engineer</span>
+      <span class="meta-value">1 Designer, 2 Engineers, 1 Head of Product, 1 Head of Operations</span>
     </div>
 
     <!-- BODY -->
     <div class="cs-body">
 
-      <!-- 01 Problem -->
+      <!-- 01 Problems -->
       <section class="cs-section reveal">
         <div class="section-header">
           <span class="section-num">01</span>
-          <h2 class="section-title">Problem</h2>
+          <h2 class="section-title">Problems</h2>
         </div>
-        <div class="section-body">
-          <p>Every morning, outlet staff at Hangry spent 1.5 hours manually toggling 480 menu items across 8 brands and 3 delivery platforms — GoFood, ShopeeFood, and GrabFood. Each brand required its own dedicated phone, resulting in 45 devices spread across outlets, costing approximately IDR 1.6 million per outlet.</p>
-          <p>This repetitive process was error-prone, time-consuming, and expensive. Any mistake — a menu left off or incorrectly toggled — directly impacted orders and customer experience.</p>
+
+        <div class="subsection">
+          <div class="subsection-title">User Problems</div>
+          <div class="subsection-body">
+            <p>Every morning before the outlet opens, staff need to update menus based on stock and availability. Hangry has 8 brands, each with approximately 20 menu items, and each brand has its own phone connected to 3 food platforms — GoFood, GrabFood, and ShopeeFood.</p>
+            <p>With 20 menu items × 3 platforms = 60 items per brand, and 60 × 8 brands = <strong>480 menu items</strong> managed by outlet staff every day.</p>
+          </div>
+          <div class="bullet-list" style="margin-top: 16px;">
+            <div class="bullet-item">It takes 1.5 hours every day to update the menu based on availability</div>
+            <div class="bullet-item">Turning off menus due to availability could happen up to 2 times daily — resulting in 3 non-productive hours for the cashier each day</div>
+          </div>
         </div>
+
         <div class="img-slot">
-          <div class="img-placeholder">Previous workflow — multiple devices per brand</div>
+          <div class="img-placeholder">Current menu management workflow</div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-title">Business Problem</div>
+          <div class="subsection-body">
+            <p>A new phone is required for each new brand at approximately IDR 1,600,000 per outlet. With 5 newly opened outlets and continued expansion across Indonesia, hardware costs were scaling unsustainably alongside business growth.</p>
+          </div>
         </div>
       </section>
 
@@ -573,80 +253,96 @@
           <span class="section-num">02</span>
           <h2 class="section-title">Objectives</h2>
         </div>
-        <div class="section-body">
-          <p>Design a tool that enables outlet staff to manage all menus across all brands and platforms from a single interface.</p>
+
+        <div class="subsection">
+          <div class="subsection-title">User Objectives</div>
+          <div class="bullet-list">
+            <div class="bullet-item">Streamline the process of menu management and reduce the time spent by outlet staff</div>
+            <div class="bullet-item">Provide reliable historical data sources for PPIC to plan deliveries, including easy access to download reports</div>
+          </div>
         </div>
-        <div class="objectives-list">
-          <div class="objective-item">Reduce daily menu management time from 1.5 hours to minutes</div>
-          <div class="objective-item">Consolidate multi-brand, multi-platform menu control into one device</div>
-          <div class="objective-item">Eliminate redundant hardware costs across outlets</div>
-          <div class="objective-item">Design for POS constraints — small screen (1024×768), low display quality</div>
-          <div class="objective-item">Use familiar terminology that operations staff already understood</div>
+
+        <div class="subsection">
+          <div class="subsection-title">Business Objectives</div>
+          <div class="bullet-list">
+            <div class="bullet-item">Eliminate the need to buy a separate phone for each brand</div>
+            <div class="bullet-item">Replace the existing third-party POS platform with an in-house solution to reduce ongoing platform fees</div>
+          </div>
         </div>
       </section>
 
-      <!-- 03 Research -->
+      <!-- 03 The Process -->
       <section class="cs-section reveal">
         <div class="section-header">
           <span class="section-num">03</span>
-          <h2 class="section-title">Research</h2>
+          <h2 class="section-title">The Process</h2>
         </div>
         <div class="section-body">
-          <p>I conducted on-site observations at Hangry outlets, watching staff perform their morning routines and documenting each step. I gathered requirements directly from operations staff using their own existing documentation — the daily checklists and brand manuals they already relied on.</p>
+          <p>I visited one of the outlets to observe how staff typically manage menus and orders on-site.</p>
         </div>
+
+        <div class="subsection">
+          <div class="subsection-title">Understanding the Current Flow</div>
+          <div class="subsection-body">
+            <p>I needed to understand how staff actually manage menus. Since PM requirements were unclear, I gathered requirements myself by reaching out directly to the operations team — asking them to share any documents they used to manage the menu.</p>
+            <p>After receiving the documents, I discovered that outlet staff typically turn off multiple menus across multiple brands simultaneously. This revealed the true scope of the requirement:</p>
+          </div>
+          <div class="findings-list">
+            <div class="finding-item">
+              <span class="finding-index">01</span>
+              <span class="finding-text">Turn on/off one menu in one brand on one platform</span>
+            </div>
+            <div class="finding-item">
+              <span class="finding-index">02</span>
+              <span class="finding-text">Turn on/off multiple menus in one brand on one platform</span>
+            </div>
+            <div class="finding-item">
+              <span class="finding-index">03</span>
+              <span class="finding-text">Turn on/off multiple menus in multiple brands on one platform</span>
+            </div>
+            <div class="finding-item">
+              <span class="finding-index">04</span>
+              <span class="finding-text">Turn on/off multiple menus in multiple brands on multiple platforms simultaneously</span>
+            </div>
+          </div>
+        </div>
+
         <div class="img-slot">
-          <div class="img-placeholder">On-site observation notes</div>
-        </div>
-        <div class="findings-list">
-          <div class="finding-item">
-            <span class="finding-index">01</span>
-            <span class="finding-text">Staff needed to turn on/off multiple menus across multiple brands on multiple platforms simultaneously</span>
-          </div>
-          <div class="finding-item">
-            <span class="finding-index">02</span>
-            <span class="finding-text">Each brand required a dedicated phone — 45 phones in use across 5 new outlet locations</span>
-          </div>
-          <div class="finding-item">
-            <span class="finding-index">03</span>
-            <span class="finding-text">POS screens were limited to 1024×768 with poor display quality — the UI had to work within these constraints</span>
-          </div>
-          <div class="finding-item">
-            <span class="finding-index">04</span>
-            <span class="finding-text">Existing terminology in staff documentation should be preserved to reduce the learning curve</span>
-          </div>
+          <div class="img-placeholder">Operations documentation — menu management spreadsheet</div>
         </div>
       </section>
 
-      <!-- 04 Solution -->
+      <!-- 04 Design Explorations -->
       <section class="cs-section reveal">
         <div class="section-header">
           <span class="section-num">04</span>
-          <h2 class="section-title">Solution</h2>
+          <h2 class="section-title">Design Explorations</h2>
         </div>
-        <div class="section-body">
-          <p>A unified menu management platform accessible from a single device per outlet. The interface allowed staff to control all 480 menu items across all 8 brands and 3 platforms simultaneously — replacing the multi-phone workflow with a single, purpose-built tool optimised for POS hardware.</p>
-          <p>The design used familiar language from existing staff documentation and went through multiple testing rounds before full deployment across all Hangry outlets.</p>
+
+        <div class="subsection">
+          <div class="subsection-title">The Design Constraints</div>
+          <div class="constraints-list">
+            <div class="constraint-item">
+              <div class="constraint-text"><strong>POS screen size</strong> — Limited resolution of 1024 × 768 required a compact, scannable layout</div>
+            </div>
+            <div class="constraint-item">
+              <div class="constraint-text"><strong>Poor display quality</strong> — Colors needed to be high contrast and clearly visible under poor screen conditions</div>
+            </div>
+            <div class="constraint-item">
+              <div class="constraint-text"><strong>Familiar terminology</strong> — Used the language outlet staff already knew: Parent menu = Menu, Child menu = Kompleks menu</div>
+            </div>
+          </div>
         </div>
+
+        <div class="subsection">
+          <div class="subsection-title">Final UI</div>
+          <div class="subsection-body">
+            <p>Here's the final UI of one of the modules in the menu management system — the Child Menu module. We went through several rounds of testing before reaching this version, including internal testing and a trial at one of the outlets. Only after implementing improvements based on feedback were we able to release it to all Hangry outlets.</p>
+          </div>
+        </div>
+
         <div class="img-slot">
-          <div class="img-placeholder">Final UI — unified menu management interface</div>
-        </div>
-        <div class="iterations-list">
-          <div class="iteration rejected">
-            <div class="iteration-header">
-              <span class="iteration-num">Iteration 01</span>
-              <span class="iteration-badge rejected">Rejected</span>
-            </div>
-            <div class="iteration-title">Flat list view — all items in one scroll</div>
-            <div class="iteration-desc">Displaying all 480 items in a single scrollable list was too overwhelming on a small POS screen. Staff couldn't quickly locate specific brands or platforms.</div>
-          </div>
-          <div class="iteration shipped">
-            <div class="iteration-header">
-              <span class="iteration-num">Iteration 02</span>
-              <span class="iteration-badge shipped">✓ Shipped</span>
-            </div>
-            <div class="iteration-title">Grouped by brand with platform toggles</div>
-            <div class="iteration-desc">Items grouped by brand with platform toggles (GoFood, ShopeeFood, GrabFood) at the top. Staff could act on an entire brand or drill into individual items — fast, familiar, and readable on 1024×768 POS displays.</div>
-          </div>
+          <div class="img-placeholder">Final UI — child menu module</div>
         </div>
       </section>
 
@@ -656,21 +352,18 @@
           <span class="section-num">05</span>
           <h2 class="section-title">Results</h2>
         </div>
-        <div class="section-body">
-          <p>Following full deployment across all Hangry outlets, the system delivered measurable improvements in both operational efficiency and cost savings.</p>
-        </div>
         <div class="result-metrics">
           <div class="result-metric">
             <div class="metric-value">97.78%</div>
-            <div class="metric-desc">Efficiency increase in daily menu management — reduced from 1.5 hours to minutes each morning</div>
+            <div class="metric-desc">Efficiency increase — outlet staff can now manage all 480 menu items across 8 brands and 3 platforms from a single device</div>
           </div>
           <div class="result-metric">
             <div class="metric-value">IDR 64M</div>
-            <div class="metric-desc">Saved in hardware costs by eliminating redundant devices across outlets</div>
+            <div class="metric-desc">Saved in hardware costs — reduced from IDR 72M (45 phones) to IDR 8M (5 phones) across five new outlet locations</div>
           </div>
           <div class="result-metric">
             <div class="metric-value">45 → 5</div>
-            <div class="metric-desc">Phones reduced across five new outlet locations — one device now handles all 8 brands</div>
+            <div class="metric-desc">Phones reduced across five outlets — each outlet previously needed 9 phones (8 brand-specific + 1 operational), now needs just 1</div>
           </div>
         </div>
       </section>
@@ -717,7 +410,6 @@
     // Lightbox
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');
-
     document.querySelectorAll('.img-slot img').forEach(img => {
       img.addEventListener('click', () => {
         lightboxImg.src = img.src;
@@ -726,19 +418,10 @@
         document.body.style.overflow = 'hidden';
       });
     });
-
-    function closeLightbox() {
-      lightbox.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) closeLightbox();
-    });
+    function closeLightbox() { lightbox.classList.remove('open'); document.body.style.overflow = ''; }
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
     document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeLightbox();
-    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
   </script>
 
 </body>
