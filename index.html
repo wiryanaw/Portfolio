@@ -196,46 +196,6 @@
       transition: transform .3s cubic-bezier(.16,1,.3,1);
     }
 
-    .cs-row:hover .cs-arrow { transform: translate(3px,-3px); }
-
-    /* ─── FLOATING PREVIEW CARD ───────────────────────────────── */
-    .preview {
-      position: fixed;
-      width: 260px;
-      height: 168px;
-      border-radius: 4px;
-      pointer-events: none;
-      z-index: var(--z-preview);
-      overflow: hidden;
-      opacity: 0;
-      transform: translate(20px, -84px) rotate(-1.5deg);
-      transition: opacity .2s ease;
-      box-shadow: 0 20px 56px rgba(13,11,9,.2);
-    }
-
-    .preview.show { opacity: 1; }
-
-    .preview-inner {
-      width: 100%; height: 100%;
-      padding: 16px 18px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .preview-tag {
-      font-size: 10px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.4);
-    }
-
-    .preview-label {
-      font-size: 13px;
-      letter-spacing: -.01em;
-      color: rgba(255,255,255,.82);
-      line-height: 1.3;
-    }
 
     /* ─── ABOUT SECTION ───────────────────────────────────────── */
     .about { padding: 80px 48px 100px; }
@@ -459,11 +419,6 @@
   <!-- Custom cursor -->
   <div class="cursor" id="cursor" aria-hidden="true"></div>
 
-  <!-- Floating preview card -->
-  <div class="preview" id="preview" aria-hidden="true">
-    <div class="preview-inner" id="previewInner"></div>
-  </div>
-
   <div class="page">
 
   <!-- ── NAVIGATION ─────────────────────────────────────────── -->
@@ -655,37 +610,7 @@
       el.style.transitionDelay = (i * 0.07) + 's';
     });
 
-    // ── Preview card (data-driven) ────────────────────────────
-    const preview      = document.getElementById('preview');
-    const previewInner = document.getElementById('previewInner');
-
-    // Live array — replaced by CMS if available
-    let previewData = [
-      { bg: 'linear-gradient(140deg,#071533,#1A4BAA,#2B80EC)', tag:'Case Study 01', label:'',                               img:'' },
-      { bg: 'linear-gradient(140deg,#2C1A0F,#7A3010,#C4622D)', tag:'Case Study 02', label:'Menu Management System',         img:'cs2-hero.png' },
-      { bg: 'linear-gradient(140deg,#0D1A0A,#1A3D14,#2E7D32)', tag:'Case Study 03', label:'QR Receipt Flow',                img:'QR Scanner.png' },
-      { bg: 'linear-gradient(140deg,#0C0C0C,#2E2E2E,#4C4C4C)', tag:'Case Study 04', label:'',                               img:'' },
-    ];
-
     document.querySelectorAll('.cs-row').forEach(row => {
-      row.addEventListener('mouseenter', () => {
-        const d = previewData[parseInt(row.dataset.idx, 10)];
-        if (!d) return;
-        if (d.img) {
-          previewInner.style.background = `linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.08) 55%), url(${encodeURI(d.img)}) center/cover no-repeat`;
-        } else {
-          previewInner.style.background = d.bg;
-        }
-        previewInner.innerHTML = `
-          <span class="preview-tag">${d.tag}</span>
-          <span class="preview-label">${d.label}</span>`;
-        preview.classList.add('show');
-      });
-      row.addEventListener('mousemove', e => {
-        preview.style.left = e.clientX + 'px';
-        preview.style.top  = e.clientY + 'px';
-      });
-      row.addEventListener('mouseleave', () => preview.classList.remove('show'));
       row.addEventListener('keydown', e => {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); row.click(); }
       });
@@ -773,12 +698,6 @@
         const works = toRows(workT);
         if (works.length) {
           const rows = document.querySelectorAll('.cs-row');
-          previewData = works.map((w, i) => ({
-            bg:    w.color || previewData[i]?.bg || '',
-            img:   w.image_url || previewData[i]?.img || '',
-            tag:   `Case Study ${String(i + 1).padStart(2, '0')}`,
-            label: w.description || w.title || '',
-          }));
           rows.forEach((row, i) => {
             if (i < works.length) {
               const w = works[i];
