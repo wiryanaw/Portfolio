@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css">
 
+
   <style>
     /* ─── RESET & TOKENS ──────────────────────────────────────── */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -86,143 +87,103 @@
       justify-content: space-between;
       padding: 24px 48px;
       background: var(--bg);
-      border-bottom: 1px solid transparent;
-      transition: border-color .3s;
+      transition: box-shadow .3s;
     }
 
-    nav.scrolled { border-bottom-color: var(--border); }
+    nav.scrolled { box-shadow: 0 1px 0 var(--border); }
 
-    /* prevent sections from hiding under fixed nav */
     section[id], footer[id] { scroll-margin-top: 72px; }
 
     .nav-brand {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
-      letter-spacing: .02em;
+      letter-spacing: .01em;
       color: var(--ink);
       text-decoration: none;
     }
 
-    .nav-menu { display: flex; gap: 36px; }
+    .nav-menu { display: flex; gap: 32px; }
 
     .nav-menu a {
       font-size: 13px;
       font-weight: 400;
       color: var(--ink-2);
       text-decoration: none;
-      letter-spacing: .02em;
       transition: color .2s;
     }
     .nav-menu a:hover { color: var(--ink); }
 
     /* ─── HERO ────────────────────────────────────────────────── */
     .hero {
-      padding: 160px 48px 96px;
+      padding: 160px 48px 100px;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      border-bottom: 1px solid var(--border);
     }
 
     .hero-statement {
-      font-size: clamp(18px, 2.2vw, 28px);
+      font-size: clamp(16px, 1.8vw, 24px);
       font-weight: 400;
-      line-height: 1.55;
-      letter-spacing: -.012em;
+      line-height: 1.5;
+      letter-spacing: -.015em;
       color: var(--ink);
-      max-width: 820px;
+      max-width: 780px;
       opacity: 0;
       animation: fadeIn 1s ease .15s forwards;
     }
 
     .hero-statement em {
-      font-style: italic;
-      color: var(--accent);
+      font-style: normal;
+      color: var(--ink);
     }
 
     @keyframes fadeIn { to { opacity: 1; } }
 
-    /* ─── ROTATING BADGE ──────────────────────────────────────── */
-    .badge {
-      position: relative;
-      width: 88px; height: 88px;
-      flex-shrink: 0;
-    }
-
-    .badge svg {
-      width: 100%; height: 100%;
-      animation: spin 13s linear infinite;
-    }
-
-    .badge text {
-      font-family: var(--font);
-      font-size: 9px;
-      fill: var(--ink-2);
-      letter-spacing: .09em;
-    }
-
-    .badge-center {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      color: var(--ink-2);
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
     /* ─── WORK SECTION ────────────────────────────────────────── */
-    .work {
-      padding: 80px 48px;
-      border-bottom: 1px solid var(--border);
-    }
+    .work { padding: 80px 48px 100px; }
 
     .sec-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 48px;
+      margin-bottom: 40px;
     }
 
     .sec-label {
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 400;
-      letter-spacing: .14em;
+      letter-spacing: .1em;
       text-transform: uppercase;
-      color: var(--ink-2);
+      color: var(--ink-3);
     }
 
     .sec-count {
-      font-size: 11px;
+      font-size: 12px;
       color: var(--ink-3);
-      letter-spacing: .08em;
     }
 
-    /* Case study rows */
-    .cs-list { border-top: 1px solid var(--border); }
-
+    /* Case study rows — only these borders remain */
     .cs-row {
       position: relative;
       display: grid;
-      grid-template-columns: 52px 1fr max-content 32px;
+      grid-template-columns: 48px 1fr max-content 28px;
       align-items: center;
       gap: 20px;
-      padding: 26px 0;
+      padding: 24px 0;
       border-bottom: 1px solid var(--border);
       cursor: pointer;
       overflow: hidden;
     }
 
-    /* Dark ink fill — slides in from left */
+    .cs-row:first-child { border-top: 1px solid var(--border); }
+
     .cs-fill {
       position: absolute;
       inset: 0;
       background: var(--ink);
       transform: scaleX(0);
       transform-origin: left center;
-      transition: transform .52s cubic-bezier(.16,1,.3,1);
+      transition: transform .5s cubic-bezier(.16,1,.3,1);
     }
 
     .cs-row:hover .cs-fill,
@@ -230,65 +191,61 @@
 
     .cs-row > *:not(.cs-fill) { position: relative; z-index: 1; }
 
-    /* Color transitions on hover */
-    .cs-num  { font-size: 12px; color: var(--ink-3); letter-spacing: .06em; transition: color .4s; }
-    .cs-meta { display: flex; flex-direction: column; gap: 4px; }
+    .cs-num  { font-size: 12px; color: var(--ink-3); transition: color .4s; }
+    .cs-meta { display: flex; flex-direction: column; gap: 3px; }
 
     .cs-title {
-      font-size: clamp(22px, 2.9vw, 40px);
+      font-size: 18px;
       font-weight: 500;
-      letter-spacing: -.028em;
-      line-height: 1;
+      letter-spacing: -.015em;
+      line-height: 1.3;
       transition: color .4s;
     }
 
     .cs-sub {
       font-size: 12px;
       color: var(--ink-2);
-      letter-spacing: .03em;
       transition: color .4s;
     }
 
     .cs-year {
-      font-size: 13px;
+      font-size: 12px;
       color: var(--ink-2);
-      letter-spacing: .03em;
       transition: color .4s;
     }
 
     .cs-arrow {
-      font-size: 17px;
+      font-size: 15px;
       color: var(--ink-2);
       transition: color .4s, transform .4s cubic-bezier(.16,1,.3,1);
     }
 
-    /* Invert text when row filled */
-    .cs-row:hover .cs-num   { color: var(--accent); }
+    .cs-row:hover .cs-num               { color: var(--accent); }
     .cs-row:hover .cs-title,
     .cs-row:hover .cs-sub,
-    .cs-row:hover .cs-year  { color: var(--bg); }
-    .cs-row:hover .cs-arrow { color: var(--bg); transform: translate(3px,-3px); }
+    .cs-row:hover .cs-year              { color: var(--bg); }
+    .cs-row:hover .cs-arrow             { color: var(--bg); transform: translate(3px,-3px); }
 
     /* ─── FLOATING PREVIEW CARD ───────────────────────────────── */
     .preview {
       position: fixed;
-      width: 264px;
-      height: 172px;
-      border-radius: 5px;
+      width: 260px;
+      height: 168px;
+      border-radius: 4px;
       pointer-events: none;
       z-index: var(--z-preview);
       overflow: hidden;
       opacity: 0;
-      transform: translate(22px, -86px) rotate(-1.8deg);
-      transition: opacity .22s ease;
-      box-shadow: 0 24px 64px rgba(13,11,9,.22);
+      transform: translate(20px, -84px) rotate(-1.5deg);
+      transition: opacity .2s ease;
+      box-shadow: 0 20px 56px rgba(13,11,9,.2);
     }
 
     .preview.show { opacity: 1; }
 
     .preview-inner {
       width: 100%; height: 100%;
-      padding: 18px 20px;
+      padding: 16px 18px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -302,17 +259,14 @@
     }
 
     .preview-label {
-      font-size: 14px;
+      font-size: 13px;
       letter-spacing: -.01em;
       color: rgba(255,255,255,.82);
       line-height: 1.3;
     }
 
     /* ─── ABOUT SECTION ───────────────────────────────────────── */
-    .about {
-      padding: 80px 48px;
-      border-bottom: 1px solid var(--border);
-    }
+    .about { padding: 80px 48px 100px; }
 
     .about-grid {
       display: grid;
@@ -321,10 +275,10 @@
     }
 
     .about-statement {
-      font-size: clamp(28px, 3.6vw, 52px);
+      font-size: clamp(24px, 3vw, 40px);
       font-weight: 500;
-      letter-spacing: -.032em;
-      line-height: 1.1;
+      letter-spacing: -.03em;
+      line-height: 1.15;
     }
 
     .about-statement em {
@@ -332,27 +286,38 @@
       color: var(--accent);
     }
 
-    .about-right { padding-top: 6px; }
+    .about-right { padding-top: 4px; }
 
     .about-text {
       font-size: 15px;
-      line-height: 1.72;
+      line-height: 1.7;
       color: var(--ink-2);
-      margin-bottom: 18px;
+      margin-bottom: 16px;
+    }
+
+    .inline-link {
+      color: var(--ink);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-color: var(--border);
+      transition: text-decoration-color 0.2s;
+    }
+    .inline-link:hover {
+      text-decoration-color: var(--ink);
     }
 
     .skills {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 32px;
+      gap: 6px;
+      margin-top: 28px;
     }
 
     .skill-tag {
-      font-size: 11px;
-      letter-spacing: .09em;
+      font-size: 12px;
+      letter-spacing: .06em;
       text-transform: uppercase;
-      padding: 7px 12px;
+      padding: 6px 10px;
       border: 1px solid var(--border);
       color: var(--ink-2);
       border-radius: 2px;
@@ -362,22 +327,20 @@
     .skill-tag:hover { border-color: var(--ink); color: var(--ink); }
 
     /* ─── CONTACT / FOOTER ────────────────────────────────────── */
-    .contact {
-      padding: 80px 48px 60px;
-    }
+    .contact { padding: 80px 48px 64px; }
 
     .contact-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 80px;
-      margin-bottom: 80px;
+      margin-bottom: 64px;
     }
 
     .contact-heading {
-      font-size: clamp(54px, 8.2vw, 114px);
+      font-size: clamp(48px, 7vw, 96px);
       font-weight: 700;
-      letter-spacing: -.045em;
-      line-height: .91;
+      letter-spacing: -.04em;
+      line-height: .92;
     }
 
     .contact-heading em {
@@ -392,27 +355,27 @@
     }
 
     .contact-intro {
-      font-size: 11px;
-      letter-spacing: .14em;
+      font-size: 12px;
+      letter-spacing: .1em;
       text-transform: uppercase;
-      color: var(--ink-2);
-      margin-bottom: 28px;
+      color: var(--ink-3);
+      margin-bottom: 24px;
     }
 
-    .contact-links { display: flex; flex-direction: column; gap: 20px; }
+    .contact-links { display: flex; flex-direction: column; gap: 16px; }
 
     .cta-link {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      font-size: 17px;
+      gap: 8px;
+      font-size: 15px;
       font-weight: 400;
       letter-spacing: -.01em;
       color: var(--ink);
       text-decoration: none;
       position: relative;
       width: fit-content;
-      transition: gap .35s cubic-bezier(.16,1,.3,1);
+      transition: gap .3s cubic-bezier(.16,1,.3,1);
     }
 
     .cta-link::after {
@@ -421,24 +384,46 @@
       bottom: -1px; left: 0;
       width: 0; height: 1px;
       background: var(--ink);
-      transition: width .4s cubic-bezier(.16,1,.3,1);
+      transition: width .35s cubic-bezier(.16,1,.3,1);
     }
 
-    .cta-link:hover { gap: 16px; }
+    .cta-link:hover { gap: 14px; }
     .cta-link:hover::after { width: 100%; }
 
     .footer-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding-top: 40px;
       border-top: 1px solid var(--border);
-      padding-top: 32px;
     }
 
     .footer-copy {
       font-size: 12px;
       color: var(--ink-3);
-      letter-spacing: .04em;
+    }
+
+    .back-to-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--ink-3);
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: color 0.2s;
+    }
+    .back-to-top:hover {
+      color: var(--ink);
+    }
+    .back-to-top:hover svg {
+      transform: translateY(-2px);
+    }
+    .back-to-top svg {
+      transition: transform 0.2s;
     }
 
     /* ─── SCROLL REVEAL ───────────────────────────────────────── */
@@ -451,28 +436,31 @@
     .reveal.in { opacity: 1; transform: translateY(0); }
 
     /* ─── RESPONSIVE ──────────────────────────────────────────── */
-    @media (max-width: 900px) {
-      nav               { padding: 20px 24px; }
-      .nav-menu         { gap: 24px; }
-      .hero             { grid-template-columns: 1fr; grid-template-rows: auto 1px auto; padding-top: 72px; }
-      .hero-vline       { width: 100%; height: 1px; transform: scaleX(0); transform-origin: left; }
-      @keyframes drawLine { to { transform: scaleX(1); } }
-      .hero-left        { padding: 40px 24px 32px; }
-      .hero-right       { padding: 32px 24px 40px; }
-      .hero-bottom      { flex-direction: column; align-items: flex-start; gap: 28px; }
-      .work             { padding: 60px 24px; }
-      .about            { padding: 60px 24px; }
-      .about-grid       { grid-template-columns: 1fr; gap: 40px; }
-      .contact          { padding: 60px 24px 44px; }
-      .contact-grid     { grid-template-columns: 1fr; gap: 40px; margin-bottom: 60px; }
-      .cs-row           { grid-template-columns: 40px 1fr auto; }
-      .cs-year          { display: none; }
-    }
+    @media (max-width: 768px) {
+      /* Nav */
+      nav              { padding: 20px 24px; }
+      .nav-menu        { display: none; }
 
-    @media (max-width: 600px) {
-      .nav-menu         { display: none; }
-      .hero-bottom      { flex-direction: column; align-items: flex-start; gap: 28px; }
-      .badge            { display: none; }
+      /* Hero */
+      .hero            { padding: 120px 24px 72px; }
+
+      /* Work */
+      .work            { padding: 56px 24px 72px; }
+      .cs-row          { grid-template-columns: 36px 1fr 24px; gap: 12px; }
+      .cs-year         { display: none; }
+      .cs-title        { font-size: 15px; letter-spacing: -.01em; }
+      .cs-sub          { font-size: 11px; }
+      .cs-num          { font-size: 11px; }
+
+      /* About */
+      .about           { padding: 56px 24px 72px; }
+      .about-grid      { grid-template-columns: 1fr; gap: 32px; }
+      .about-statement { font-size: 22px; }
+
+      /* Contact */
+      .contact         { padding: 56px 24px 48px; }
+      .contact-grid    { grid-template-columns: 1fr; gap: 36px; margin-bottom: 48px; }
+      .contact-heading { font-size: 44px; }
     }
 
     /* ─── ACCESSIBILITY ───────────────────────────────────────── */
@@ -602,6 +590,7 @@
         <p class="about-text">
           Previously at startups and agencies across Southeast Asia. I care deeply about systems thinking, design craft, and the details that make a product memorable.
         </p>
+        <p class="about-text"></p>
         <div class="skills" aria-label="Core skills">
           <span class="skill-tag">Product Design</span>
           <span class="skill-tag">UX Research</span>
@@ -643,8 +632,13 @@
     </div>
 
     <div class="footer-bar">
-      <span class="footer-copy">© 2024 Wiryana</span>
-      <span class="footer-copy">Crafted with intention · Jakarta, Indonesia</span>
+      <span class="footer-copy">© 2026 Wiryana</span>
+      <button class="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 11V3M7 3L3.5 6.5M7 3L10.5 6.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back to top
+      </button>
     </div>
   </footer>
 
@@ -786,6 +780,11 @@
       return text.replace(/\*([^*]+)\*/g, '<em>$1</em>');
     }
 
+    function parseAbout(text) {
+      return parseItalic(text)
+        .replace(/\bHangry\b/g, '<a href="https://www.ishangry.com/" target="_blank" rel="noopener" class="inline-link">Hangry</a>');
+    }
+
     async function loadCMS() {
       if (SHEET_ID === 'YOUR_GOOGLE_SHEET_ID') return;
 
@@ -816,13 +815,24 @@
             tag:   `Case Study ${String(i + 1).padStart(2, '0')}`,
             label: w.description || w.title || '',
           }));
-          works.forEach((w, i) => {
-            if (!rows[i]) return;
-            rows[i].querySelector('.cs-title').textContent = w.title       || '';
-            rows[i].querySelector('.cs-sub').textContent   = w.type        || '';
-            rows[i].querySelector('.cs-year').textContent  = w.year        || '';
-            rows[i].querySelector('.cs-num').textContent   = String(i + 1).padStart(2, '0');
+          rows.forEach((row, i) => {
+            if (i < works.length) {
+              const w = works[i];
+              row.querySelector('.cs-title').textContent = w.title || '';
+              row.querySelector('.cs-sub').textContent   = w.type  || '';
+              row.querySelector('.cs-year').textContent  = w.year  || '';
+              row.querySelector('.cs-num').textContent   = String(i + 1).padStart(2, '0');
+              if (w.url) {
+                row.style.cursor = 'pointer';
+                row.addEventListener('click', () => { window.location.href = w.url; });
+              }
+            } else {
+              row.style.display = 'none';
+            }
           });
+          // Update count label
+          const countEl = document.querySelector('.sec-count');
+          if (countEl) countEl.textContent = String(works.length).padStart(2, '0');
         }
 
         // ── 3. About ───────────────────────────────────────────
@@ -832,12 +842,17 @@
           if (el) el.innerHTML = parseItalic(aboutKV.heading);
         }
         const aboutTexts = document.querySelectorAll('.about-text');
-        if (aboutKV.text_1 && aboutTexts[0]) aboutTexts[0].textContent = aboutKV.text_1;
-        if (aboutKV.text_2 && aboutTexts[1]) aboutTexts[1].textContent = aboutKV.text_2;
-        if (aboutKV.skills) {
-          const skillsEl = document.querySelector('.skills');
-          if (skillsEl) {
-            skillsEl.innerHTML = aboutKV.skills.split(',')
+        if (aboutKV.text_1 && aboutTexts[0]) aboutTexts[0].innerHTML = parseAbout(aboutKV.text_1);
+        if (aboutKV.text_2 && aboutTexts[1]) aboutTexts[1].innerHTML = parseAbout(aboutKV.text_2);
+        if (aboutKV.text_3 && aboutTexts[2]) aboutTexts[2].innerHTML = parseAbout(aboutKV.text_3);
+        else if (aboutTexts[2]) aboutTexts[2].style.display = 'none';
+        const skillsEl = document.querySelector('.skills');
+        if (skillsEl && 'skills' in aboutKV) {
+          const val = aboutKV.skills.replace(/^[-–—]+$/, '').trim();
+          if (!val) {
+            skillsEl.style.display = 'none';
+          } else {
+            skillsEl.innerHTML = val.split(',')
               .map(s => `<span class="skill-tag">${s.trim()}</span>`).join('');
           }
         }
