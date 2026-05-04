@@ -519,53 +519,49 @@
       <span class="sec-count">04</span>
     </div>
 
-    <div class="cs-list" role="list">
+    <div class="cs-list" role="list" style="opacity:0;transition:opacity 0.3s ease;">
 
-      <article class="cs-row reveal" role="listitem" tabindex="0" data-idx="0"
-               aria-label="Case study 01: Paysend — FinTech Mobile App, 2024">
+      <article class="cs-row reveal" role="listitem" tabindex="0" data-idx="0">
         <div class="cs-fill" aria-hidden="true"></div>
         <span class="cs-num">01</span>
         <div class="cs-meta">
-          <span class="cs-title">Paysend</span>
-          <span class="cs-sub">FinTech · Mobile App</span>
+          <span class="cs-title"></span>
+          <span class="cs-sub"></span>
         </div>
-        <span class="cs-year">2024</span>
+        <span class="cs-year"></span>
         <span class="cs-arrow" aria-hidden="true">↗</span>
       </article>
 
-      <article class="cs-row reveal" role="listitem" tabindex="0" data-idx="1"
-               aria-label="Case study 02: Klinik — HealthTech Web and Mobile, 2023">
+      <article class="cs-row reveal" role="listitem" tabindex="0" data-idx="1">
         <div class="cs-fill" aria-hidden="true"></div>
         <span class="cs-num">02</span>
         <div class="cs-meta">
-          <span class="cs-title">Klinik</span>
-          <span class="cs-sub">HealthTech · Web + Mobile</span>
+          <span class="cs-title"></span>
+          <span class="cs-sub"></span>
         </div>
-        <span class="cs-year">2023</span>
+        <span class="cs-year"></span>
         <span class="cs-arrow" aria-hidden="true">↗</span>
       </article>
 
-      <article class="cs-row reveal" role="listitem" tabindex="0" data-idx="2"
-               aria-label="Case study 03: Toko — E-Commerce Web Platform, 2023">
+      <article class="cs-row reveal" role="listitem" tabindex="0" data-idx="2">
         <div class="cs-fill" aria-hidden="true"></div>
         <span class="cs-num">03</span>
         <div class="cs-meta">
-          <span class="cs-title">Toko</span>
-          <span class="cs-sub">E-Commerce · Web Platform</span>
+          <span class="cs-title"></span>
+          <span class="cs-sub"></span>
         </div>
-        <span class="cs-year">2023</span>
+        <span class="cs-year"></span>
         <span class="cs-arrow" aria-hidden="true">↗</span>
       </article>
 
-      <article class="cs-row reveal" role="listitem" tabindex="0" data-idx="3"
-               aria-label="Case study 04: Atlas DS — Design System Multi-platform, 2022">
+      <article class="cs-row reveal" role="listitem" tabindex="0" data-idx="3">
         <div class="cs-fill" aria-hidden="true"></div>
         <span class="cs-num">04</span>
         <div class="cs-meta">
-          <span class="cs-title">Atlas DS</span>
-          <span class="cs-sub">Design System · Multi-platform</span>
+          <span class="cs-title"></span>
+          <span class="cs-sub"></span>
         </div>
-        <span class="cs-year">2022</span>
+        <span class="cs-year"></span>
         <span class="cs-arrow" aria-hidden="true">↗</span>
       </article>
 
@@ -833,6 +829,9 @@
           // Update count label
           const countEl = document.querySelector('.sec-count');
           if (countEl) countEl.textContent = String(works.length).padStart(2, '0');
+          // Fade in list after data is loaded
+          const csList = document.querySelector('.cs-list');
+          if (csList) csList.style.opacity = '1';
         }
 
         // ── 3. About ───────────────────────────────────────────
