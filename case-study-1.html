@@ -159,10 +159,72 @@
     @media (max-width: 480px) {
       .cs-meta { grid-template-columns: 70px 1fr; gap: 6px 12px; }
     }
+
+    /* ── PASSWORD GATE ── */
+    .gate {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .gate.unlocked { display: none; }
+    .gate-box {
+      width: 100%; max-width: 360px;
+      display: flex; flex-direction: column; gap: 24px;
+    }
+    .gate-label {
+      font-size: 13px; font-weight: 500; color: var(--ink);
+      letter-spacing: -.01em;
+    }
+    .gate-sub {
+      font-size: 13px; color: var(--ink-3); margin-top: 4px;
+    }
+    .gate-input-row {
+      display: flex; gap: 8px;
+    }
+    .gate-input {
+      flex: 1; height: 40px; padding: 0 14px;
+      font-family: var(--font); font-size: 14px;
+      background: #fff; color: var(--ink);
+      border: 1px solid var(--border); border-radius: 6px;
+      outline: none; transition: border-color 0.2s;
+    }
+    .gate-input:focus { border-color: var(--ink); }
+    .gate-input.error { border-color: #D94F3D; }
+    .gate-btn {
+      height: 40px; padding: 0 18px;
+      font-family: var(--font); font-size: 13px; font-weight: 500;
+      background: var(--ink); color: var(--bg);
+      border: none; border-radius: 6px; cursor: pointer;
+      transition: opacity 0.2s; white-space: nowrap;
+    }
+    .gate-btn:hover { opacity: 0.8; }
+    .gate-error {
+      font-size: 12px; color: #D94F3D;
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .gate-error.show { opacity: 1; }
   </style>
 </head>
 
 <body>
+
+  <!-- PASSWORD GATE -->
+  <div class="gate" id="gate">
+    <div class="gate-box">
+      <div>
+        <p class="gate-label">This case study is password protected.</p>
+        <p class="gate-sub">Enter the password to continue.</p>
+      </div>
+      <div>
+        <div class="gate-input-row">
+          <input class="gate-input" id="gateInput" type="password" placeholder="Password" autocomplete="off">
+          <button class="gate-btn" id="gateBtn">Unlock</button>
+        </div>
+        <p class="gate-error" id="gateError">Incorrect password. Try again.</p>
+      </div>
+    </div>
+  </div>
 
   <nav>
     <a href="index.html" class="nav-back">
@@ -316,6 +378,33 @@
   </div>
 
   <script>
+    // Password gate
+    const PASSWORD = 'pantry2026';
+    const gate     = document.getElementById('gate');
+    const gateInput = document.getElementById('gateInput');
+    const gateBtn   = document.getElementById('gateBtn');
+    const gateError = document.getElementById('gateError');
+
+    if (sessionStorage.getItem('cs1_unlocked') === '1') {
+      gate.classList.add('unlocked');
+    }
+
+    function tryUnlock() {
+      if (gateInput.value === PASSWORD) {
+        sessionStorage.setItem('cs1_unlocked', '1');
+        gate.classList.add('unlocked');
+      } else {
+        gateInput.classList.add('error');
+        gateError.classList.add('show');
+        gateInput.value = '';
+        gateInput.focus();
+        setTimeout(() => gateInput.classList.remove('error'), 1200);
+      }
+    }
+
+    gateBtn.addEventListener('click', tryUnlock);
+    gateInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+
     // Nav title fade on scroll
     const navTitle = document.getElementById('navTitle');
     window.addEventListener('scroll', () => {
