@@ -110,63 +110,34 @@
       color: var(--ink);
     }
 
-    /* ── OUTCOME ROW ── */
-    .cs-outcome {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 28px 0;
-      margin-top: 36px;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .outcome-label {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--ink-3);
-    }
-
-    .outcome-value {
-      font-size: clamp(22px, 3vw, 32px);
-      font-weight: 700;
-      letter-spacing: -.03em;
-      color: var(--accent);
-    }
-
-    /* ── META ROW ── */
+    /* ── META TABLE ── */
     .cs-meta {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 6px 0;
-      padding: 18px 0;
-      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 10px 20px;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
     }
-
-    .meta-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 0 16px;
-      border-right: 1px solid var(--border);
-    }
-    .meta-item:first-child { padding-left: 0; }
-    .meta-item:last-child  { border-right: none; }
 
     .meta-label {
       font-size: 11px;
       font-weight: 500;
-      letter-spacing: .06em;
+      letter-spacing: .07em;
       text-transform: uppercase;
       color: var(--ink-3);
+      padding-top: 1px;
     }
 
     .meta-value {
-      font-size: 12px;
+      font-size: 13px;
       color: var(--ink-2);
+      line-height: 1.5;
+    }
+
+    .meta-value.accent {
+      color: var(--accent);
+      font-weight: 600;
     }
 
     /* ── OVERVIEW ── */
@@ -409,18 +380,14 @@
       .wrap { padding: 0 24px; }
       .cs-header { padding: 80px 0 40px; }
 
-      .cs-outcome { flex-direction: column; align-items: flex-start; gap: 6px; }
-      .meta-item { padding: 0 12px; }
-      .meta-item:first-child { padding-left: 0; }
+      .cs-meta { grid-template-columns: 72px 1fr; gap: 8px 16px; }
 
       .result-metric { flex-direction: column; gap: 8px; }
       .nav-title { display: none; }
     }
 
     @media (max-width: 480px) {
-      .cs-meta { grid-template-columns: 1fr; }
-      .meta-item:nth-child(odd) { border-right: none; padding-right: 0; }
-      .meta-item:last-child { grid-column: span 1; }
+      .cs-meta { grid-template-columns: 70px 1fr; gap: 6px 12px; }
     }
   </style>
 </head>
@@ -448,30 +415,18 @@
       </div>
       <h1 class="cs-title">Reduced User Complaints by 54% with In-App Instructions</h1>
 
-      <!-- OUTCOME — prominent tier -->
-      <div class="cs-outcome">
-        <span class="outcome-label">Outcome</span>
-        <span class="outcome-value">−54% User Complaints</span>
-      </div>
-
-      <!-- META — secondary tier, inline -->
+      <!-- META -->
       <div class="cs-meta">
-        <div class="meta-item">
-          <span class="meta-label">Company</span>
-          <span class="meta-value">Hangry</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Role</span>
-          <span class="meta-value">Researcher & Designer (Lead)</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Timeline</span>
-          <span class="meta-value">Feb – Mar 2022</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Team</span>
-          <span class="meta-value">1 Designer · 1 Engineer</span>
-        </div>
+        <span class="meta-label">Outcome</span>
+        <span class="meta-value accent">−54% User Complaints</span>
+        <span class="meta-label">Company</span>
+        <span class="meta-value">Hangry</span>
+        <span class="meta-label">Role</span>
+        <span class="meta-value">Researcher & Designer (Lead)</span>
+        <span class="meta-label">Timeline</span>
+        <span class="meta-value">Feb – Mar 2022</span>
+        <span class="meta-label">Team</span>
+        <span class="meta-value">1 Designer, 1 Engineer</span>
       </div>
     </header>
 
