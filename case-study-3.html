@@ -477,6 +477,10 @@
       font-style: italic;
     }
 
+    .chart-combined {
+      margin-top: 16px;
+    }
+
     @media (max-width: 480px) {
       .charts-wrapper { grid-template-columns: 1fr; }
       .result-headline { flex-direction: column; gap: 8px; }
@@ -778,6 +782,25 @@
             </div>
             <p class="chart-note">Maximum of 5 complaints per month</p>
           </div>
+        </div>
+
+        <!-- Combined comparison chart -->
+        <div class="chart-block chart-combined">
+          <div class="chart-title">Before vs After <span style="font-weight:400;color:var(--ink-3)">— 3 months period</span></div>
+          <div class="chart-subtitle">Total complaints compared</div>
+          <div class="chart-bars" style="max-width:200px;">
+            <div class="bar-col">
+              <div class="bar-val" style="color:#C4622D">35</div>
+              <div class="bar" style="height:100%; background:rgba(196,98,45,0.25);"></div>
+              <div class="bar-label">Before</div>
+            </div>
+            <div class="bar-col">
+              <div class="bar-val" style="color:#4A7A4A">16</div>
+              <div class="bar" style="height:46%; background:rgba(74,122,74,0.3);"></div>
+              <div class="bar-label">After</div>
+            </div>
+          </div>
+          <p class="chart-note">Reduced complaints by 54% since feature released Mid March 2022</p>
         </div>
 
       </section>
