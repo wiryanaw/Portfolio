@@ -385,13 +385,8 @@
     const gateBtn   = document.getElementById('gateBtn');
     const gateError = document.getElementById('gateError');
 
-    if (sessionStorage.getItem('cs1_unlocked') === '1') {
-      gate.classList.add('unlocked');
-    }
-
     function tryUnlock() {
       if (gateInput.value === PASSWORD) {
-        sessionStorage.setItem('cs1_unlocked', '1');
         gate.classList.add('unlocked');
       } else {
         gateInput.classList.add('error');
