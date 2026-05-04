@@ -693,10 +693,10 @@
 
     // Live array — replaced by CMS if available
     let previewData = [
-      { bg: 'linear-gradient(140deg,#071533,#1A4BAA,#2B80EC)', tag:'Case Study 01', label:'Cross-border Payment Redesign', img:'' },
-      { bg: 'linear-gradient(140deg,#071A0F,#1A5C3A,#2DA464)', tag:'Case Study 02', label:'Telehealth Platform · SEA',      img:'' },
-      { bg: 'linear-gradient(140deg,#2C0F02,#C03A0C,#EE6A0A)', tag:'Case Study 03', label:'E-Commerce Suite · SMBs',        img:'' },
-      { bg: 'linear-gradient(140deg,#0C0C0C,#2E2E2E,#4C4C4C)', tag:'Case Study 04', label:'Scalable Design System',         img:'' },
+      { bg: 'linear-gradient(140deg,#071533,#1A4BAA,#2B80EC)', tag:'Case Study 01', label:'',                               img:'' },
+      { bg: 'linear-gradient(140deg,#2C1A0F,#7A3010,#C4622D)', tag:'Case Study 02', label:'Menu Management System',         img:'cs2-hero.png' },
+      { bg: 'linear-gradient(140deg,#0D1A0A,#1A3D14,#2E7D32)', tag:'Case Study 03', label:'QR Receipt Flow',                img:'QR Scanner.png' },
+      { bg: 'linear-gradient(140deg,#0C0C0C,#2E2E2E,#4C4C4C)', tag:'Case Study 04', label:'',                               img:'' },
     ];
 
     document.querySelectorAll('.cs-row').forEach(row => {
@@ -704,7 +704,7 @@
         const d = previewData[parseInt(row.dataset.idx, 10)];
         if (!d) return;
         if (d.img) {
-          previewInner.style.background = `url(${d.img}) center/cover no-repeat`;
+          previewInner.style.background = `linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.08) 55%), url(${encodeURI(d.img)}) center/cover no-repeat`;
         } else {
           previewInner.style.background = d.bg;
         }
@@ -807,7 +807,7 @@
           const rows = document.querySelectorAll('.cs-row');
           previewData = works.map((w, i) => ({
             bg:    w.color || previewData[i]?.bg || '',
-            img:   w.image_url || '',
+            img:   w.image_url || previewData[i]?.img || '',
             tag:   `Case Study ${String(i + 1).padStart(2, '0')}`,
             label: w.description || w.title || '',
           }));
