@@ -130,22 +130,31 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      gap: 20px;
     }
 
-    .hero-statement {
-      font-size: clamp(16px, 1.8vw, 24px);
-      font-weight: 400;
-      line-height: 1.5;
-      letter-spacing: -.015em;
+    .hero-heading {
+      font-size: clamp(24px, 2.8vw, 38px);
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -.025em;
       color: var(--ink);
-      max-width: 780px;
+      max-width: 840px;
+      text-wrap: balance;
       opacity: 0;
-      animation: fadeIn 1s ease .15s forwards;
+      animation: fadeIn 1s ease .1s forwards;
     }
 
-    .hero-statement em {
-      font-style: normal;
-      color: var(--ink);
+    .hero-subtext {
+      font-size: clamp(14px, 1.4vw, 18px);
+      font-weight: 400;
+      line-height: 1.6;
+      letter-spacing: -.01em;
+      color: var(--ink-2);
+      max-width: 840px;
+      text-wrap: balance;
+      opacity: 0;
+      animation: fadeIn 1s ease .25s forwards;
     }
 
     @keyframes fadeIn { to { opacity: 1; } }
@@ -400,7 +409,7 @@
       .nav-menu        { display: none; }
 
       /* Hero */
-      .hero            { padding: 120px 24px 72px; }
+      .hero            { padding: 120px 24px 72px; gap: 16px; }
 
       /* Work */
       .work            { padding: 56px 24px 72px; }
@@ -459,10 +468,8 @@
 
   <!-- ── HERO ───────────────────────────────────────────────── -->
   <section class="hero" aria-label="Introduction">
-    <p class="hero-statement">
-      <em>Wiryana</em> is a Product Designer based in Jakarta, focused
-      on building user-centered products that drive business outcomes.
-    </p>
+    <h1 class="hero-heading">Designing digital products that scale with clarity, efficiency, and impact</h1>
+    <p class="hero-subtext">Product designer based in Jakarta delivering end to end solutions from identifying complex problems to building scalable real world systems.</p>
   </section>
 
   <!-- ── WORK ───────────────────────────────────────────────── -->
@@ -729,11 +736,13 @@
 
         // ── 1. Hero ────────────────────────────────────────────
         const heroKV = toKV(heroT);
-        if (heroKV.statement) {
-          const words = heroKV.statement.split(/\s+/);
-          const first = words.shift();
-          document.querySelector('.hero-statement').innerHTML =
-            `<em>${first}</em> ${words.join(' ')}`;
+        if (heroKV.heading) {
+          const el = document.querySelector('.hero-heading');
+          if (el) el.textContent = heroKV.heading;
+        }
+        if (heroKV.subtext) {
+          const el = document.querySelector('.hero-subtext');
+          if (el) el.textContent = heroKV.subtext;
         }
 
         // ── 2. Work ────────────────────────────────────────────
