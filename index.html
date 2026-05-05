@@ -565,6 +565,7 @@
           Previously at startups and agencies across Southeast Asia. I care deeply about systems thinking, design craft, and the details that make a product memorable.
         </p>
         <p class="about-text"></p>
+        <p class="about-text"></p>
         <div class="skills" aria-label="Core skills">
           <span class="skill-tag">Product Design</span>
           <span class="skill-tag">UX Research</span>
@@ -794,6 +795,8 @@
         if (aboutKV.text_2 && aboutTexts[1]) aboutTexts[1].innerHTML = parseAbout(aboutKV.text_2);
         if (aboutKV.text_3 && aboutTexts[2]) aboutTexts[2].innerHTML = parseAbout(aboutKV.text_3);
         else if (aboutTexts[2]) aboutTexts[2].style.display = 'none';
+        if (aboutKV.text_4 && aboutTexts[3]) aboutTexts[3].innerHTML = parseAbout(aboutKV.text_4);
+        else if (aboutTexts[3]) aboutTexts[3].style.display = 'none';
         const skillsEl = document.querySelector('.skills');
         if (skillsEl && 'skills' in aboutKV) {
           const val = aboutKV.skills.replace(/^[-–—]+$/, '').trim();
