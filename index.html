@@ -239,6 +239,79 @@
     .cs-row:hover .cs-arrow { transform: translate(3px,-3px); }
 
 
+    /* ─── IMPACT SECTION ─────────────────────────────────────── */
+    .impact {
+      padding: 80px 48px;
+    }
+
+    .impact-label {
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 40px;
+    }
+
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--border);
+      padding-top: 32px;
+      gap: 0;
+    }
+
+    .impact-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-right: 32px;
+      border-right: 1px solid var(--border);
+    }
+
+    .impact-stat:first-child { padding-left: 0; }
+    .impact-stat:not(:first-child) { padding-left: 32px; }
+    .impact-stat:last-child { border-right: none; padding-right: 0; }
+
+    .impact-number {
+      font-size: clamp(26px, 3vw, 42px);
+      font-weight: 700;
+      letter-spacing: -.035em;
+      line-height: 1;
+      color: var(--accent);
+    }
+
+    .impact-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    .impact-sub {
+      font-size: 12px;
+      color: var(--ink-2);
+      line-height: 1.55;
+      margin-top: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .impact { padding: 56px 24px; }
+      .impact-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .impact-stat,
+      .impact-stat:first-child,
+      .impact-stat:not(:first-child) {
+        padding: 28px 0;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .impact-stat:last-child { border-bottom: none; padding-bottom: 0; }
+      .impact-number { font-size: 32px; }
+    }
+
     /* ─── ABOUT SECTION ───────────────────────────────────────── */
     .about { padding: 80px 48px 100px; }
 
@@ -555,6 +628,38 @@
           <span class="cs-arrow" aria-hidden="true">↗</span>
         </div>
       </article>
+
+    </div>
+  </section>
+
+  <!-- ── IMPACT ────────────────────────────────────────────── -->
+  <section class="impact" aria-labelledby="impact-label">
+    <p class="impact-label" id="impact-label">Impact at scale</p>
+    <div class="impact-grid">
+
+      <div class="impact-stat reveal">
+        <span class="impact-number">IDR 676M</span>
+        <p class="impact-title">Saved annually</p>
+        <p class="impact-sub">Custom HRIS for 2,900+ staff across 246 outlets, shipped in ~3 months</p>
+      </div>
+
+      <div class="impact-stat reveal">
+        <span class="impact-number">54%</span>
+        <p class="impact-title">Fewer user complaints</p>
+        <p class="impact-sub">Contextual instructions removed friction for users struggling to scan QR codes</p>
+      </div>
+
+      <div class="impact-stat reveal">
+        <span class="impact-number">97.8%</span>
+        <p class="impact-title">Efficiency improvement</p>
+        <p class="impact-sub">3 delivery platforms centralised into one interface, cutting IDR 64M in hardware costs</p>
+      </div>
+
+      <div class="impact-stat reveal">
+        <span class="impact-number">IDR 45M</span>
+        <p class="impact-title">Recovered per month</p>
+        <p class="impact-sub">Automated reimbursement flow for cancelled orders across Go-Food, GrabFood & ShopeeFood</p>
+      </div>
 
     </div>
   </section>
