@@ -213,10 +213,10 @@
       font-size: 13px; color: var(--ink-2);
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-    .cs-bottom-row { display: flex; align-items: center; gap: 6px; }
+    .cs-bottom-row { display: flex; align-items: center; }
     .cs-sub  { font-size: 12px; color: var(--ink-3); }
     .cs-year { font-size: 12px; color: var(--ink-3); }
-    .cs-year::before { content: '·'; margin-right: 6px; }
+    .cs-year:not(:empty)::before { content: '\00a0·\00a0'; }
 
     .cs-actions {
       display: flex; align-items: center; gap: 8px;
@@ -493,7 +493,7 @@
         <span class="cs-num">01</span>
         <div class="cs-meta">
           <span class="cs-title"></span>
-          <span class="cs-desc">Loading description...</span>
+          <span class="cs-desc"></span>
           <div class="cs-bottom-row">
             <div class="cs-sub-row">
               <span class="cs-sub"></span>
@@ -504,7 +504,7 @@
                 </svg>
               </span>
             </div>
-            <span class="cs-year"></span>
+            <span class="cs-year">2026</span>
           </div>
         </div>
         <div class="cs-actions">
@@ -516,10 +516,10 @@
         <span class="cs-num">02</span>
         <div class="cs-meta">
           <span class="cs-title"></span>
-          <span class="cs-desc">Loading description...</span>
+          <span class="cs-desc"></span>
           <div class="cs-bottom-row">
             <span class="cs-sub"></span>
-            <span class="cs-year"></span>
+            <span class="cs-year">2022</span>
           </div>
         </div>
         <div class="cs-actions">
@@ -531,10 +531,10 @@
         <span class="cs-num">03</span>
         <div class="cs-meta">
           <span class="cs-title"></span>
-          <span class="cs-desc">Loading description...</span>
+          <span class="cs-desc"></span>
           <div class="cs-bottom-row">
             <span class="cs-sub"></span>
-            <span class="cs-year"></span>
+            <span class="cs-year">2022</span>
           </div>
         </div>
         <div class="cs-actions">
@@ -546,7 +546,7 @@
         <span class="cs-num">04</span>
         <div class="cs-meta">
           <span class="cs-title"></span>
-          <span class="cs-desc">Loading description...</span>
+          <span class="cs-desc"></span>
           <div class="cs-bottom-row">
             <span class="cs-sub"></span>
             <span class="cs-year"></span>
@@ -729,7 +729,10 @@
         .filter(r => r.c?.some(c => c?.v != null))
         .map(r => {
           const obj = {};
-          headers.forEach((h, i) => { obj[h] = String(r.c?.[i]?.v ?? '').trim(); });
+          headers.forEach((h, i) => {
+            const cell = r.c?.[i];
+            obj[h] = String(cell?.v ?? cell?.f ?? '').trim();
+          });
           return obj;
         });
     }
@@ -781,7 +784,7 @@
               row.querySelector('.cs-title').textContent = w.title       || '';
               row.querySelector('.cs-desc').textContent  = w.description || '';
               row.querySelector('.cs-sub').textContent   = w.type        || '';
-              row.querySelector('.cs-year').textContent  = w.year        || '';
+              if (w.year) row.querySelector('.cs-year').textContent = w.year;
               row.querySelector('.cs-num').textContent   = String(i + 1).padStart(2, '0');
               if (w.url) {
                 row.style.cursor = 'pointer';
