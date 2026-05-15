@@ -136,11 +136,31 @@
     }
 
     /* ── RESULTS ── */
-    .result-metrics { margin-top: 28px; display: flex; flex-direction: column; }
-    .result-metric { display: flex; align-items: baseline; gap: 20px; padding: 24px 0; border-bottom: 1px solid var(--border); }
+    .result-metrics { margin-top: 40px; }
+    .result-metric {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 0 64px;
+      padding: 40px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: center;
+    }
     .result-metric:first-child { border-top: 1px solid var(--border); }
-    .metric-value { font-size: clamp(32px, 5vw, 52px); font-weight: 700; letter-spacing: -.04em; color: var(--accent); white-space: nowrap; flex-shrink: 0; min-width: 130px; }
-    .metric-desc { font-size: 14px; line-height: 1.6; color: var(--ink-2); }
+    .metric-value {
+      font-size: clamp(36px, 4.5vw, 60px);
+      font-weight: 700;
+      letter-spacing: -.04em;
+      line-height: 1;
+      color: var(--accent);
+    }
+    .metric-text { display: flex; flex-direction: column; gap: 6px; }
+    .metric-label {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+    .metric-desc { font-size: 13px; line-height: 1.65; color: var(--ink-2); max-width: 560px; }
 
     /* ── LIGHTBOX ── */
     .lightbox { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(13,11,9,0.92); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); cursor: zoom-out; align-items: center; justify-content: center; padding: 24px; }
@@ -167,7 +187,8 @@
       .wrap { padding: 0 24px; }
       .cs-header { padding: 80px 0 0; }
       .cs-meta { grid-template-columns: 80px 1fr; gap: 8px 16px; }
-      .result-metric { flex-direction: column; gap: 6px; }
+      .result-metric { grid-template-columns: 1fr; gap: 8px; padding: 28px 0; }
+      .result-metric:last-child { border-bottom: none; }
       .nav-title { display: none; }
     }
     @media (max-width: 480px) {
@@ -411,15 +432,24 @@
         <div class="result-metrics">
           <div class="result-metric">
             <div class="metric-value">97.78%</div>
-            <div class="metric-desc">Efficiency increase — menu update time reduced from 90 minutes to 2 minutes per day. Outlet staff can now manage all 480 menu items across 8 brands and 3 platforms from a single device</div>
+            <div class="metric-text">
+              <p class="metric-label">Efficiency increase</p>
+              <p class="metric-desc">Menu update time reduced from 90 min to 2 min per day. Staff can manage 480 items across 8 brands and 3 platforms from a single device</p>
+            </div>
           </div>
           <div class="result-metric">
             <div class="metric-value">IDR 64M</div>
-            <div class="metric-desc">Saved in hardware costs — reduced from IDR 72M (45 phones) to IDR 8M (5 phones) across five new outlet locations</div>
+            <div class="metric-text">
+              <p class="metric-label">Saved in hardware costs</p>
+              <p class="metric-desc">Reduced from IDR 72M (45 phones) to IDR 8M (5 phones) across five new outlet locations</p>
+            </div>
           </div>
           <div class="result-metric">
             <div class="metric-value">45 → 5</div>
-            <div class="metric-desc">Phones reduced across five outlets — each outlet previously needed 9 phones (8 brand-specific + 1 operational), now needs just 1</div>
+            <div class="metric-text">
+              <p class="metric-label">Phones per outlet</p>
+              <p class="metric-desc">Each outlet previously needed 9 phones (8 brand-specific + 1 operational), now needs just 1</p>
+            </div>
           </div>
         </div>
       </section>
