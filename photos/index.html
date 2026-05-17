@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Through the Lens · Wiryana</title>
+  <meta name="description" content="Travel photography across Asia by Wiryana.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #F0EDE6;
+      --text:         #0D0B09;
+      --text-muted:   #9B9590;
+      --accent:       #FF5530;
+      --border:       #E2DDD6;
+      --serif:        'Cormorant Garamond', Georgia, serif;
+      --sans:         'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HERO BACK LINK ── */
+    .hero-back {
+      position: absolute;
+      top: 28px;
+      left: 40px;
+      z-index: 10;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(240,234,224,0.55);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .hero-back:hover { color: rgba(240,234,224,0.9); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* ↓ SWAP THIS with your own travel photo URL */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('hero.png');
+      background-size: cover;
+      background-position: center;
+      will-change: transform;
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(13,11,9,.3) 0%,
+        rgba(13,11,9,.1) 40%,
+        rgba(13,11,9,.8) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 0 24px;
+      max-width: 800px;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 24px;
+    }
+
+    .hero-heading {
+      font-family: var(--serif);
+      font-size: clamp(52px, 8vw, 108px);
+      font-weight: 300;
+      line-height: 1.02;
+      letter-spacing: -.01em;
+      color: #F0EAE0;
+      margin-bottom: 28px;
+    }
+
+    .hero-heading em {
+      font-style: italic;
+      color: rgba(240,234,224,0.85);
+    }
+
+    .hero-btn {
+      display: inline-block;
+      margin-top: 16px;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: .01em;
+      color: #0D0B09;
+      background: rgba(255,255,255,0.92);
+      border: none;
+      border-radius: 100px;
+      padding: 12px 28px;
+      text-decoration: none;
+      transition: background .2s;
+    }
+    .hero-btn:hover {
+      background: rgba(255,255,255,1);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero-scroll-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, transparent, rgba(240,234,224,0.35));
+      animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: .4; }
+      50%       { opacity: 1; }
+    }
+
+    /* ── FILTER ── */
+    .filter-section {
+      padding: 56px 40px 36px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .filter-label {
+      font-size: 10px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .filter-pill {
+      padding: 6px 16px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: .05em;
+      color: var(--text-muted);
+      background: transparent;
+      cursor: pointer;
+      transition: color .2s, border-color .2s, background .2s;
+      font-family: var(--sans);
+    }
+
+    .filter-pill:hover {
+      color: var(--text);
+      border-color: #C5BEB5;
+    }
+
+    .filter-pill.active {
+      color: #F0EDE6;
+      background: var(--text);
+      border-color: var(--text);
+    }
+
+    /* ── GALLERY ── */
+    .gallery-section {
+      padding: 36px 40px 80px;
+    }
+
+    .gallery-grid {
+      columns: 3;
+      column-gap: 10px;
+    }
+
+    .photo-item {
+      break-inside: avoid;
+      margin-bottom: 10px;
+      position: relative;
+      cursor: zoom-in;
+      overflow: hidden;
+      border-radius: 8px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+
+    .photo-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .photo-item img {
+      width: 100%;
+      display: block;
+      transition: transform .6s cubic-bezier(.16,1,.3,1);
+    }
+
+    .photo-item:hover img { transform: scale(1.04); }
+
+    .photo-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(13,11,9,.7) 0%, transparent 55%);
+      opacity: 0;
+      transition: opacity .3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 14px 16px;
+    }
+
+    .photo-item:hover .photo-overlay { opacity: 1; }
+
+    .photo-tag {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(240,234,224,0.8);
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(240,237,230,0.97);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s;
+    }
+
+    .lightbox.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lb-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      max-height: 90vh;
+    }
+
+    .lightbox-img {
+      max-width: min(88vw, 1100px);
+      max-height: 68vh;
+      object-fit: contain;
+      border-radius: 6px;
+      box-shadow: 0 24px 80px rgba(13,11,9,.12);
+      transition: opacity .2s;
+      display: block;
+    }
+
+    .lb-close {
+      position: absolute;
+      top: 28px; right: 36px;
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(13,11,9,0.35);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color .2s;
+    }
+    .lb-close:hover { color: rgba(13,11,9,0.85); }
+
+    .lb-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(13,11,9,0.2);
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-family: var(--sans);
+      transition: color .2s;
+      padding: 20px;
+    }
+    .lb-nav:hover { color: rgba(13,11,9,0.7); }
+    .lb-prev { left: 20px; }
+    .lb-next { right: 20px; }
+
+    .lb-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .lb-country {
+      font-family: var(--serif);
+      font-size: 16px;
+      font-style: italic;
+      color: rgba(13,11,9,0.38);
+      white-space: nowrap;
+    }
+
+    .lb-download {
+      padding: 9px 22px;
+      border: 1px solid rgba(13,11,9,0.15);
+      border-radius: 999px;
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(13,11,9,0.4);
+      text-decoration: none;
+      background: none;
+      cursor: pointer;
+      transition: color .2s, border-color .2s;
+    }
+    .lb-download:hover {
+      color: rgba(13,11,9,0.85);
+      border-color: rgba(13,11,9,0.35);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 32px 40px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .footer-back {
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .footer-back:hover { color: var(--text); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .gallery-grid { columns: 2; }
+    }
+
+    @media (max-width: 600px) {
+      .hero-back { top: 20px; left: 24px; }
+      .hero-heading { font-size: 48px; }
+      .filter-section, .gallery-section { padding-left: 20px; padding-right: 20px; }
+      .gallery-grid { columns: 2; column-gap: 6px; }
+      .photo-item { margin-bottom: 6px; }
+      footer { padding: 28px 20px; flex-direction: column; gap: 12px; text-align: center; }
+      .lb-nav { display: none; }
+    }
+
+    @media (max-width: 400px) {
+      .gallery-grid { columns: 1; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <a href="/" class="hero-back">← Portfolio</a>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Travel Photography</p>
+      <h1 class="hero-heading">The world,<br><em>through my lens.</em></h1>
+      <a href="#galleryGrid" class="hero-btn">See all photos</a>
+    </div>
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- FILTER -->
+  <div class="filter-section">
+    <p class="filter-label">Filter by country</p>
+    <div class="filter-pills">
+      <button class="filter-pill active" data-filter="all">All</button>
+      <button class="filter-pill" data-filter="Singapore">Singapore</button>
+      <button class="filter-pill" data-filter="Malaysia">Malaysia</button>
+      <button class="filter-pill" data-filter="Thailand">Thailand</button>
+      <button class="filter-pill" data-filter="Vietnam">Vietnam</button>
+      <button class="filter-pill" data-filter="Macau">Macau</button>
+      <button class="filter-pill" data-filter="Hong Kong">Hong Kong</button>
+      <button class="filter-pill" data-filter="China">China</button>
+      <button class="filter-pill" data-filter="Japan">Japan</button>
+      <button class="filter-pill" data-filter="Indonesia">Indonesia</button>
+    </div>
+  </div>
+
+  <!-- GALLERY -->
+  <section class="gallery-section">
+    <div class="gallery-grid" id="galleryGrid">
+
+      <!-- Singapore -->
+      <div class="photo-item" data-country="Singapore">
+        <img src="Singapore/7A436252-7A71-491D-8027-77FD430A6CAD%201.png" alt="Singapore" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Singapore</span></div>
+      </div>
+
+      <!-- Malaysia -->
+      <div class="photo-item" data-country="Malaysia">
+        <img src="Malaysia/IMG_6483.jpg" alt="Malaysia" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Malaysia</span></div>
+      </div>
+      <div class="photo-item" data-country="Malaysia">
+        <img src="Malaysia/IMG_6484.jpg" alt="Malaysia" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Malaysia</span></div>
+      </div>
+      <div class="photo-item" data-country="Malaysia">
+        <img src="Malaysia/IMG_6485.jpg" alt="Malaysia" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Malaysia</span></div>
+      </div>
+
+      <!-- Thailand -->
+      <div class="photo-item" data-country="Thailand">
+        <img src="Thailand/C02AE77C-7D16-4370-8B5C-1307F405EAF1.JPG" alt="Thailand" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Thailand</span></div>
+      </div>
+      <div class="photo-item" data-country="Thailand">
+        <img src="Thailand/Screenshot%202026-05-17%20at%2020.38.07.png" alt="Thailand" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Thailand</span></div>
+      </div>
+
+      <!-- Vietnam -->
+      <div class="photo-item" data-country="Vietnam">
+        <img src="Vietnam/147201D1-1F6C-4472-BC1F-578AC0E99EAA.JPG" alt="Vietnam" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Vietnam</span></div>
+      </div>
+      <div class="photo-item" data-country="Vietnam">
+        <img src="Vietnam/1963143C-9C5E-434C-A45B-F3AF86E4371F.JPG" alt="Vietnam" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Vietnam</span></div>
+      </div>
+      <div class="photo-item" data-country="Vietnam">
+        <img src="Vietnam/219FB07C-6135-4800-A7C1-9BB4E3466643.JPG" alt="Vietnam" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Vietnam</span></div>
+      </div>
+      <div class="photo-item" data-country="Vietnam">
+        <img src="Vietnam/355721D0-1170-4BD3-81AF-754B73C3C9AF.JPG" alt="Vietnam" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Vietnam</span></div>
+      </div>
+      <div class="photo-item" data-country="Vietnam">
+        <img src="Vietnam/4527E142-349A-4BB6-979C-ABEF235F04C9.JPG" alt="Vietnam" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Vietnam</span></div>
+      </div>
+      <div class="photo-item" data-country="Vietnam">
+        <img src="Vietnam/A9E0D554-24AF-4248-BF67-889664248FDB.JPG" alt="Vietnam" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Vietnam</span></div>
+      </div>
+      <div class="photo-item" data-country="Vietnam">
+        <img src="Vietnam/B8C5AA22-A4E9-4E3A-8AC6-6BCF2FB41D49.JPG" alt="Vietnam" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Vietnam</span></div>
+      </div>
+
+      <!-- Macau -->
+      <div class="photo-item" data-country="Macau">
+        <img src="Macau/IMG_5908.JPG" alt="Macau" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Macau</span></div>
+      </div>
+      <div class="photo-item" data-country="Macau">
+        <img src="Macau/IMG_5923.JPG" alt="Macau" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Macau</span></div>
+      </div>
+
+      <!-- China -->
+      <div class="photo-item" data-country="China">
+        <img src="China/IMG_6276.jpg" alt="China" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">China</span></div>
+      </div>
+      <div class="photo-item" data-country="China">
+        <img src="China/IMG_6369.JPG" alt="China" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">China</span></div>
+      </div>
+      <div class="photo-item" data-country="China">
+        <img src="China/IMG_7767%201.png" alt="China" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">China</span></div>
+      </div>
+      <div class="photo-item" data-country="China">
+        <img src="China/IMG_8052%201.png" alt="China" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">China</span></div>
+      </div>
+
+      <!-- Japan -->
+      <div class="photo-item" data-country="Japan">
+        <img src="Japan/IMG_6475.jpg" alt="Japan" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Japan</span></div>
+      </div>
+      <div class="photo-item" data-country="Japan">
+        <img src="Japan/IMG_6476.jpg" alt="Japan" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Japan</span></div>
+      </div>
+      <div class="photo-item" data-country="Japan">
+        <img src="Japan/IMG_6477.jpg" alt="Japan" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Japan</span></div>
+      </div>
+      <div class="photo-item" data-country="Japan">
+        <img src="Japan/IMG_6478.jpg" alt="Japan" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Japan</span></div>
+      </div>
+      <div class="photo-item" data-country="Japan">
+        <img src="Japan/IMG_6479.jpg" alt="Japan" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Japan</span></div>
+      </div>
+      <div class="photo-item" data-country="Japan">
+        <img src="Japan/IMG_6480.jpg" alt="Japan" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Japan</span></div>
+      </div>
+      <div class="photo-item" data-country="Japan">
+        <img src="Japan/IMG_6481.jpg" alt="Japan" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Japan</span></div>
+      </div>
+      <div class="photo-item" data-country="Japan">
+        <img src="Japan/IMG_6482.jpg" alt="Japan" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Japan</span></div>
+      </div>
+      <div class="photo-item" data-country="Japan">
+        <img src="Japan/507CC10A-19E6-4ABD-8276-E9561C04D15D-10148-0000213DDF1CF0D0%203.png" alt="Japan" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Japan</span></div>
+      </div>
+      <div class="photo-item" data-country="Japan">
+        <img src="Japan/692ABDBC-E821-40CC-BFBF-3E218F674820%201.png" alt="Japan" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Japan</span></div>
+      </div>
+      <div class="photo-item" data-country="Japan">
+        <img src="Japan/88293B31-07E5-4644-9BDF-CAE0E52EF105-10148-0000213E4405063D%201.png" alt="Japan" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Japan</span></div>
+      </div>
+      <div class="photo-item" data-country="Japan">
+        <img src="Japan/B920A96C-0AD5-465D-AA40-9D2396960371-8800-0000211ED40943F5%201.png" alt="Japan" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Japan</span></div>
+      </div>
+
+      <!-- Indonesia -->
+      <div class="photo-item" data-country="Indonesia">
+        <img src="Indonesia/3F4F5EB2-2641-404A-85CF-ABB49FBC17BD-5811-000000C762ED2EF4%201.png" alt="Indonesia" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Indonesia</span></div>
+      </div>
+      <div class="photo-item" data-country="Indonesia">
+        <img src="Indonesia/IMG_0584%201.png" alt="Indonesia" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Indonesia</span></div>
+      </div>
+      <div class="photo-item" data-country="Indonesia">
+        <img src="Indonesia/IMG_0584%202.png" alt="Indonesia" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Indonesia</span></div>
+      </div>
+      <div class="photo-item" data-country="Indonesia">
+        <img src="Indonesia/IMG_0584%203.png" alt="Indonesia" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Indonesia</span></div>
+      </div>
+      <div class="photo-item" data-country="Indonesia">
+        <img src="Indonesia/Rectangle%2022.png" alt="Indonesia" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Indonesia</span></div>
+      </div>
+      <div class="photo-item" data-country="Indonesia">
+        <img src="Indonesia/Rectangle%2023.png" alt="Indonesia" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Indonesia</span></div>
+      </div>
+      <div class="photo-item" data-country="Indonesia">
+        <img src="Indonesia/Rectangle%2027.png" alt="Indonesia" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Indonesia</span></div>
+      </div>
+      <div class="photo-item" data-country="Indonesia">
+        <img src="Indonesia/Ulu.png" alt="Indonesia" loading="lazy">
+        <div class="photo-overlay"><span class="photo-tag">Indonesia</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="lb-close" id="lbClose">Close ✕</button>
+    <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous photo">← Prev</button>
+    <div class="lb-content">
+      <img class="lightbox-img" id="lbImg" src="" alt="">
+      <div class="lb-meta">
+        <p class="lb-country" id="lbCountry"></p>
+        <button class="lb-download" id="lbDownload">↓ Download</button>
+      </div>
+    </div>
+    <button class="lb-nav lb-next" id="lbNext" aria-label="Next photo">Next →</button>
+  </div>
+
+  <footer>
+    <span class="footer-copy">© 2026 Wiryana · All photos taken by me</span>
+    <a href="/" class="footer-back">← Back to portfolio</a>
+  </footer>
+
+  <script>
+    // ── Parallax hero
+    const heroBg = document.getElementById('heroBg');
+    window.addEventListener('scroll', () => {
+      heroBg.style.transform = `translateY(${window.scrollY * 0.28}px)`;
+    }, { passive: true });
+
+    // ── Scroll reveal
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 50);
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.photo-item').forEach(el => revealObserver.observe(el));
+
+    // ── Filter
+    const pills = document.querySelectorAll('.filter-pill');
+    const allItems = document.querySelectorAll('.photo-item');
+
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        pills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        const filter = pill.dataset.filter;
+        allItems.forEach(item => {
+          const show = filter === 'all' || item.dataset.country === filter;
+          item.style.display = show ? '' : 'none';
+        });
+      });
+    });
+
+    // ── Lightbox
+    const lightbox  = document.getElementById('lightbox');
+    const lbImg     = document.getElementById('lbImg');
+    const lbCountry = document.getElementById('lbCountry');
+    const lbDownload = document.getElementById('lbDownload');
+
+    let currentIdx = 0;
+    let visibleItems = [];
+
+    function getVisible() {
+      return [...document.querySelectorAll('.photo-item')]
+        .filter(el => el.style.display !== 'none');
+    }
+
+    function openLightbox(idx) {
+      visibleItems = getVisible();
+      currentIdx = idx;
+      renderLightbox();
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function renderLightbox() {
+      const item = visibleItems[currentIdx];
+      const img  = item.querySelector('img');
+      lbImg.src           = img.src;
+      lbImg.alt           = img.alt;
+      lbCountry.textContent = item.dataset.country;
+    }
+
+    allItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const visible = getVisible();
+        openLightbox(visible.indexOf(item));
+      });
+    });
+
+    document.getElementById('lbClose').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+
+    document.getElementById('lbPrev').addEventListener('click', () => {
+      currentIdx = (currentIdx - 1 + visibleItems.length) % visibleItems.length;
+      renderLightbox();
+    });
+
+    document.getElementById('lbNext').addEventListener('click', () => {
+      currentIdx = (currentIdx + 1) % visibleItems.length;
+      renderLightbox();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape')      closeLightbox();
+      if (e.key === 'ArrowLeft')  { currentIdx = (currentIdx - 1 + visibleItems.length) % visibleItems.length; renderLightbox(); }
+      if (e.key === 'ArrowRight') { currentIdx = (currentIdx + 1) % visibleItems.length; renderLightbox(); }
+    });
+
+    // Download (fetch+blob for cross-origin compatibility)
+    lbDownload.addEventListener('click', async () => {
+      const url = lbImg.src;
+      const country = lbCountry.textContent.toLowerCase().replace(/\s+/g, '-');
+      const filename = `wiryana-${country}-${currentIdx + 1}.jpg`;
+      try {
+        const res  = await fetch(url);
+        const blob = await res.blob();
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = filename;
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+      } catch {
+        window.open(url, '_blank');
+      }
+    });
+  </script>
+
+</body>
+</html>
