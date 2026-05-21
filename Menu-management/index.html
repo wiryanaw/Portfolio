@@ -272,11 +272,18 @@
     @media (max-width: 480px) {
       .cs-meta { grid-template-columns: 70px 1fr; gap: 6px 12px; }
       .terms-grid { grid-template-columns: 1fr; }
-      .tree-branches { flex-wrap: wrap; gap: 8px; padding-top: 16px; }
+      .tree-branches {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        padding-top: 16px;
+        width: 100%;
+      }
       .tree-branches::before,
       .tree-branch::before,
       .tree-trunk::after { display: none; }
-      .tree-branch { flex: none; }
+      .tree-branch { width: 100%; justify-content: stretch; }
+      .tree-node { width: 100%; text-align: center; }
     }
   </style>
 </head>
