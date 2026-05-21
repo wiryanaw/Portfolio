@@ -272,6 +272,11 @@
     @media (max-width: 480px) {
       .cs-meta { grid-template-columns: 70px 1fr; gap: 6px 12px; }
       .terms-grid { grid-template-columns: 1fr; }
+
+      /* 2×2 grid, no lines on mobile */
+      .tree-trunk::after,
+      .tree-branches::before,
+      .tree-branch::before { display: none; }
       .tree-branches {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -279,11 +284,8 @@
         padding-top: 16px;
         width: 100%;
       }
-      .tree-branches::before,
-      .tree-branch::before,
-      .tree-trunk::after { display: none; }
-      .tree-branch { width: 100%; justify-content: stretch; }
-      .tree-node { width: 100%; text-align: center; }
+      .tree-branch { flex: none; width: 100%; justify-content: stretch; }
+      .tree-node { width: 100%; font-size: 12px; padding: 8px 10px; text-align: center; }
     }
   </style>
 </head>
@@ -470,6 +472,15 @@
           </div>
         </div>
 
+      </section>
+
+      <!-- 04 Context -->
+      <section class="cs-section reveal">
+        <div class="section-header">
+          <span class="section-num">04</span>
+          <h2 class="section-title">Context</h2>
+        </div>
+
         <!-- The terms diagram -->
         <div class="diagram-section reveal">
           <span class="diagram-heading">The terms</span>
@@ -513,10 +524,10 @@
 
       </section>
 
-      <!-- 04 Design Explorations -->
+      <!-- 05 Design Explorations -->
       <section class="cs-section reveal">
         <div class="section-header">
-          <span class="section-num">04</span>
+          <span class="section-num">05</span>
           <h2 class="section-title">Design Explorations</h2>
         </div>
 
@@ -551,10 +562,10 @@
         </div>
       </section>
 
-      <!-- 05 Results -->
+      <!-- 06 Results -->
       <section class="cs-section reveal">
         <div class="section-header">
-          <span class="section-num">05</span>
+          <span class="section-num">06</span>
           <h2 class="section-title">Results</h2>
         </div>
         <div class="result-metrics">
