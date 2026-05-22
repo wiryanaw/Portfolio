@@ -373,58 +373,60 @@
 
     .skill-tag:hover { border-color: var(--ink); color: var(--ink); }
 
-    .photos-entry {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-top: 32px;
-      padding: 14px 16px;
-      border-left: 3px solid var(--accent);
-      background: rgba(255,85,48,0.04);
-      border-radius: 0 4px 4px 0;
+    /* ── PHOTOGRAPHY ENTRY — Wide image strip ── */
+    .photo-strip {
+      display: block;
+      margin-top: 8px;
       text-decoration: none;
-      transition: background .2s;
       color: inherit;
+      overflow: hidden;
+      border-radius: 6px;
+      position: relative;
     }
-    .photos-entry:hover { background: rgba(255,85,48,0.08); }
-    .photos-entry-thumb {
-      width: 52px;
-      height: 52px;
-      border-radius: 3px;
+    .photo-strip-img {
+      width: 100%;
+      aspect-ratio: 3 / 1;
       object-fit: cover;
-      flex-shrink: 0;
-      opacity: .92;
+      display: block;
+      transition: transform .6s cubic-bezier(.16,1,.3,1), opacity .3s;
+      opacity: .88;
     }
-    .photos-entry-text {
+    .photo-strip:hover .photo-strip-img {
+      transform: scale(1.03);
+      opacity: 1;
+    }
+    .photo-strip-caption {
+      position: absolute;
+      bottom: 12px;
+      left: 14px;
+      right: 14px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+    .photo-strip-text {
       display: flex;
       flex-direction: column;
-      gap: 3px;
-      flex: 1;
+      gap: 2px;
     }
-    .photos-entry-label {
+    .photo-strip-label {
       font-size: 10px;
-      letter-spacing: .1em;
+      letter-spacing: .12em;
       text-transform: uppercase;
-      color: var(--accent);
-      font-weight: 500;
+      color: rgba(255,255,255,.7);
     }
-    .photos-entry-title {
+    .photo-strip-title {
       font-size: 13px;
       font-weight: 500;
-      color: var(--ink);
+      color: #fff;
     }
-    .photos-entry-sub {
-      font-size: 12px;
-      color: var(--ink-2);
-    }
-    .photos-entry-arrow {
-      font-size: 15px;
-      color: var(--ink-2);
-      margin-left: auto;
-      flex-shrink: 0;
+    .photo-strip-arrow {
+      font-size: 16px;
+      color: rgba(255,255,255,.8);
       transition: transform .3s cubic-bezier(.16,1,.3,1);
     }
-    .photos-entry:hover .photos-entry-arrow { transform: translate(3px,-3px); }
+    .photo-strip:hover .photo-strip-arrow { transform: translate(3px,-3px); }
 
     /* ─── CONTACT / FOOTER ────────────────────────────────────── */
     .contact { padding: 100px 48px 80px; }
@@ -747,14 +749,15 @@
           <span class="skill-tag">Figma</span>
           <span class="skill-tag">Strategy</span>
         </div>
-        <a href="/photos" class="photos-entry reveal">
-          <img class="photos-entry-thumb" src="/photos/Japan/507CC10A-19E6-4ABD-8276-E9561C04D15D-10148-0000213DDF1CF0D0 3.png" alt="Travel photography">
-          <div class="photos-entry-text">
-            <span class="photos-entry-label">Photography</span>
-            <span class="photos-entry-title">The world through my lens</span>
-            <span class="photos-entry-sub">Travel · 40+ photos</span>
+        <a href="/photos" class="photo-strip reveal">
+          <img class="photo-strip-img" src="/photos/Japan/507CC10A-19E6-4ABD-8276-E9561C04D15D-10148-0000213DDF1CF0D0 3.png" alt="Travel photography">
+          <div class="photo-strip-caption">
+            <div class="photo-strip-text">
+              <span class="photo-strip-label">Photography</span>
+              <span class="photo-strip-title">The world through my lens · 40+ photos</span>
+            </div>
+            <span class="photo-strip-arrow" aria-hidden="true">↗</span>
           </div>
-          <span class="photos-entry-arrow" aria-hidden="true">↗</span>
         </a>
       </div>
 
