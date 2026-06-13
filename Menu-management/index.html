@@ -182,6 +182,166 @@
     .reveal { opacity: 0; transform: translateY(12px); transition: opacity 0.5s ease, transform 0.5s ease; }
     .reveal.in { opacity: 1; transform: none; }
 
+    .accent-text { color: var(--accent); }
+    /* ── MATH INLINE BAR ── */
+    .math-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 12px 16px;
+      background: rgba(13,11,9,0.04);
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    .math-bar .mb-step {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+    .math-bar .mb-num {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .math-bar .mb-unit {
+      font-size: 11px;
+      color: var(--ink-2);
+    }
+    .math-bar .mb-op {
+      font-size: 12px;
+      color: var(--ink-3);
+    }
+    .math-bar .mb-step--result .mb-num { color: var(--accent); }
+
+    /* ── SCALE VISUALIZATION ── */
+    .scale-viz { margin: 28px 0 0; }
+    .scale-growth-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 10px;
+      padding: 12px 14px;
+      border: 1px dashed rgba(255,85,48,0.35);
+      border-radius: 8px;
+      background: rgba(255,85,48,0.03);
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--ink-2);
+    }
+    .scale-growth-note svg { flex-shrink: 0; margin-top: 2px; color: var(--accent); }
+    .scale-flow {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-top: 20px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .flow-node {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding: 24px 16px 20px;
+      background: var(--bg);
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+    .flow-node:last-child { border-right: none; }
+    .flow-arrow {
+      flex-shrink: 0;
+      width: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: var(--ink-3);
+      background: var(--bg);
+      align-self: stretch;
+      position: relative;
+      z-index: 1;
+      margin: 0 -1px;
+    }
+    /* brand dots grid */
+    .brand-dots {
+      display: grid;
+      grid-template-columns: repeat(4, 10px);
+      gap: 6px;
+    }
+    .bdot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--ink);
+      opacity: 0.25;
+    }
+    /* phone cluster */
+    .phone-cluster {
+      display: grid;
+      grid-template-columns: repeat(4, 16px);
+      gap: 5px;
+    }
+    .pico {
+      width: 16px; height: 26px;
+      border: 1.5px solid var(--ink-2);
+      border-radius: 3px;
+      position: relative;
+    }
+    .pico::after {
+      content: '';
+      position: absolute;
+      bottom: 2px; left: 50%; transform: translateX(-50%);
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      border: 1px solid var(--ink-2);
+    }
+    /* platform stack */
+    .plat-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      width: 100%;
+    }
+    .plat-pill {
+      font-size: 11px; font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .plat-pill.grab   { background: #E6F5EE; color: #076B35; }
+    .plat-pill.gofood { background: #FDECEA; color: #B52B1C; }
+    .plat-pill.shopee { background: #FEF0E7; color: #B84A00; }
+    /* node labels */
+    .flow-label { text-align: center; }
+    .flow-num {
+      display: block;
+      font-size: 22px; font-weight: 700;
+      color: var(--ink); line-height: 1;
+      margin-bottom: 3px;
+    }
+    .flow-desc { font-size: 11px; color: var(--ink-2); }
+    /* result bar */
+    .flow-result {
+      margin-top: 10px;
+      padding: 14px 20px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--ink-2);
+    }
+    .flow-result-num {
+      font-size: 22px; font-weight: 700;
+      color: var(--accent);
+    }
+
     /* ── TERMS DIAGRAM ── */
     .diagram-section { margin: 32px 0 0; }
     .diagram-heading {
@@ -272,6 +432,10 @@
     @media (max-width: 480px) {
       .cs-meta { grid-template-columns: 70px 1fr; gap: 6px 12px; }
       .terms-grid { grid-template-columns: 1fr; }
+      .scale-flow { flex-direction: column; }
+      .flow-arrow { width: 100%; height: 24px; align-self: auto; }
+      .flow-node { border-right: none; border-bottom: 1px solid var(--border); width: 100%; }
+      .flow-node:last-child { border-bottom: none; }
 
       /* 2×2 grid, no lines on mobile */
       .tree-trunk::after,
@@ -351,12 +515,72 @@
         <div class="subsection">
           <div class="subsection-title">User Problems</div>
           <div class="subsection-body">
-            <p>Every morning before the outlet opens, staff need to update menus based on stock and availability. Hangry has 8 brands, each with approximately 20 menu items, and each brand has its own phone connected to 3 food platforms — GoFood, GrabFood, and ShopeeFood.</p>
-            <p>With 20 menu items × 3 platforms = 60 items per brand, and 60 × 8 brands = <strong>480 menu items</strong> managed by outlet staff every day.</p>
+            <p>Every morning before the outlet opens, staff need to update menus based on stock and availability. Hangry has 8 brands, each with approximately 20 menu items, and each brand has its own phone connected to 3 food platforms: GoFood, GrabFood, and ShopeeFood.</p>
+            <div class="math-bar">
+              <div class="mb-step"><span class="mb-num">20</span><span class="mb-unit">items</span></div>
+              <span class="mb-op">×</span>
+              <div class="mb-step"><span class="mb-num">3</span><span class="mb-unit">platforms</span></div>
+              <span class="mb-op">=</span>
+              <div class="mb-step"><span class="mb-num">60</span><span class="mb-unit">/ brand</span></div>
+              <span class="mb-op">×</span>
+              <div class="mb-step"><span class="mb-num">8</span><span class="mb-unit">brands</span></div>
+              <span class="mb-op">=</span>
+              <div class="mb-step mb-step--result"><span class="mb-num">480</span><span class="mb-unit">items managed daily</span></div>
+            </div>
           </div>
           <div class="bullet-list" style="margin-top: 16px;">
             <div class="bullet-item">It takes 1.5 hours every day to update the menu based on availability</div>
-            <div class="bullet-item">Turning off menus due to availability could happen up to 2 times daily — resulting in 3 non-productive hours for the cashier each day</div>
+            <div class="bullet-item">Turning off menus due to availability could happen up to 2 times daily, resulting in 3 non-productive hours for the cashier each day</div>
+          </div>
+
+          <!-- Scale visualization -->
+          <div class="scale-viz reveal">
+            <span class="diagram-heading">Why it doesn't scale</span>
+            <div class="scale-flow">
+
+              <div class="flow-node">
+                <div class="brand-dots">
+                  <span class="bdot"></span><span class="bdot"></span><span class="bdot"></span><span class="bdot"></span>
+                  <span class="bdot"></span><span class="bdot"></span><span class="bdot"></span><span class="bdot"></span>
+                </div>
+                <div class="flow-label">
+                  <span class="flow-num">8</span>
+                  <span class="flow-desc">brands</span>
+                </div>
+              </div>
+
+              <div class="flow-arrow">→</div>
+
+              <div class="flow-node">
+                <div class="phone-cluster">
+                  <div class="pico"></div><div class="pico"></div><div class="pico"></div><div class="pico"></div>
+                  <div class="pico"></div><div class="pico"></div><div class="pico"></div><div class="pico"></div>
+                </div>
+                <div class="flow-label">
+                  <span class="flow-num">8</span>
+                  <span class="flow-desc">dedicated phones</span>
+                </div>
+              </div>
+
+              <div class="flow-arrow">×</div>
+
+              <div class="flow-node">
+                <div class="plat-stack">
+                  <span class="plat-pill grab">GrabFood</span>
+                  <span class="plat-pill gofood">GoFood</span>
+                  <span class="plat-pill shopee">ShopeeFood</span>
+                </div>
+                <div class="flow-label">
+                  <span class="flow-num">3</span>
+                  <span class="flow-desc">platforms each</span>
+                </div>
+              </div>
+
+            </div>
+            <div class="scale-growth-note">
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1.5v11M1.5 7h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Every new brand requires a new phone. With Hangry expanding into new outlets and adding more brands, hardware costs grow with every launch.
+            </div>
           </div>
         </div>
 
@@ -367,7 +591,7 @@
         <div class="subsection">
           <div class="subsection-title">Business Problem</div>
           <div class="subsection-body">
-            <p>A new phone is required for each new brand at approximately IDR 1,600,000 per outlet. With 5 newly opened outlets and continued expansion across Indonesia, hardware costs were scaling unsustainably alongside business growth.</p>
+            <p>A new phone is required for each new brand at approximately IDR 1,600,000 per outlet. In the first half of 2023, 5 new outlets opened across Indonesia, and with continued expansion planned, hardware costs were scaling unsustainably alongside business growth.</p>
           </div>
         </div>
       </section>
@@ -535,13 +759,13 @@
           <div class="subsection-title">The Design Constraints</div>
           <div class="constraints-list">
             <div class="constraint-item">
-              <div class="constraint-text"><strong>POS screen size</strong> — Limited resolution of 1024 × 768 required a compact, scannable layout</div>
+              <div class="constraint-text"><strong>POS screen size.</strong> Limited resolution of 1024 × 768 required a compact, scannable layout</div>
             </div>
             <div class="constraint-item">
               <div class="constraint-text"><strong>Poor display quality</strong> — Colors needed to be high contrast and clearly visible under poor screen conditions</div>
             </div>
             <div class="constraint-item">
-              <div class="constraint-text"><strong>Familiar terminology</strong> — Used the language outlet staff already knew: Parent menu = Menu, Child menu = Kompleks menu</div>
+              <div class="constraint-text"><strong>Familiar terminology.</strong> Used the language outlet staff already knew: Parent menu = Menu, Child menu = Kompleks menu</div>
             </div>
           </div>
         </div>
@@ -553,7 +777,7 @@
         <div class="subsection">
           <div class="subsection-title">Final UI</div>
           <div class="subsection-body">
-            <p>Here's the final UI of one of the modules in the menu management system — the Child Menu module. We went through several rounds of testing before reaching this version, including internal testing and a trial at one of the outlets. Only after implementing improvements based on feedback were we able to release it to all Hangry outlets.</p>
+            <p>Here's the final UI of one of the modules in the menu management system: the Child Menu module. We went through several rounds of testing before reaching this version, including internal testing and a trial at one of the outlets. Only after implementing improvements based on feedback were we able to release it to all Hangry outlets.</p>
           </div>
         </div>
 
