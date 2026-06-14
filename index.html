@@ -982,9 +982,9 @@
         if (contactKV.heading) {
           const hEl = document.querySelector('.contact-heading');
           if (hEl) {
-            // | = line break, *word* = italic+accent
+            // | = separator, *word* = italic+accent
             hEl.innerHTML = contactKV.heading.split('|')
-              .map(p => parseItalic(p.trim())).join('<br>');
+              .map(p => parseItalic(p.trim())).join(' ');
           }
         }
         if (contactKV.email) {
