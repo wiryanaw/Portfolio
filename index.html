@@ -245,71 +245,64 @@
     }
 
     .impact-label {
-      font-size: 12px;
-      font-weight: 400;
-      letter-spacing: .1em;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .12em;
       text-transform: uppercase;
       color: var(--ink-3);
-      margin-bottom: 40px;
+      margin-bottom: 32px;
     }
 
     .impact-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border-top: 1px solid var(--border);
-      padding-top: 32px;
-      gap: 0;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
     }
 
     .impact-stat {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      padding-right: 32px;
-      border-right: 1px solid var(--border);
+      gap: 8px;
+      padding: 36px 36px 32px;
+      background: var(--bg);
+      transition: background .25s;
+      cursor: default;
     }
-
-    .impact-stat:first-child { padding-left: 0; }
-    .impact-stat:not(:first-child) { padding-left: 32px; }
-    .impact-stat:last-child { border-right: none; padding-right: 0; }
+    .impact-stat:hover { background: rgba(13,11,9,0.03); }
 
     .impact-number {
-      font-size: clamp(26px, 3vw, 42px);
+      font-size: clamp(40px, 5vw, 60px);
       font-weight: 700;
-      letter-spacing: -.035em;
+      letter-spacing: -.04em;
       line-height: 1;
       color: var(--accent);
+      font-variant-numeric: tabular-nums;
     }
 
     .impact-title {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 500;
       color: var(--ink);
       line-height: 1.4;
+      margin-top: 2px;
     }
 
     .impact-sub {
       font-size: 12px;
       color: var(--ink-2);
-      line-height: 1.55;
-      margin-top: 2px;
+      line-height: 1.6;
+      max-width: 26ch;
     }
 
     @media (max-width: 768px) {
       .impact { padding: 56px 24px; }
-      .impact-grid {
-        grid-template-columns: 1fr;
-        gap: 0;
-      }
-      .impact-stat,
-      .impact-stat:first-child,
-      .impact-stat:not(:first-child) {
-        padding: 28px 0;
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-      }
-      .impact-stat:last-child { border-bottom: none; padding-bottom: 0; }
-      .impact-number { font-size: 32px; }
+      .impact-grid { grid-template-columns: 1fr; border-radius: 10px; }
+      .impact-number { font-size: 40px; }
+      .impact-sub { max-width: none; }
     }
 
     /* ─── ABOUT SECTION ───────────────────────────────────────── */
@@ -423,21 +416,21 @@
     }
 
     /* ─── CONTACT / FOOTER ────────────────────────────────────── */
-    .contact { padding: 100px 48px 80px; }
-
+    .contact { padding: 72px 48px 64px; }
 
     .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      margin-bottom: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      margin-bottom: 56px;
     }
 
     .contact-heading {
-      font-size: clamp(48px, 7vw, 96px);
-      font-weight: 700;
-      letter-spacing: -.04em;
-      line-height: .92;
+      font-size: clamp(22px, 2.4vw, 30px);
+      font-weight: 600;
+      letter-spacing: -.025em;
+      line-height: 1;
     }
 
     .contact-heading em {
@@ -447,19 +440,14 @@
 
     .contact-right {
       display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
+      flex-direction: row;
+      align-items: center;
+      gap: 32px;
     }
 
-    .contact-intro {
-      font-size: 12px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--ink-3);
-      margin-bottom: 24px;
-    }
+    .contact-intro { display: none; }
 
-    .contact-links { display: flex; flex-direction: column; gap: 16px; }
+    .contact-links { display: flex; flex-direction: row; gap: 32px; }
 
     .cta-link {
       display: inline-flex;
@@ -556,8 +544,10 @@
 
       /* Contact */
       .contact         { padding: 56px 24px 48px; }
-      .contact-grid    { grid-template-columns: 1fr; gap: 36px; margin-bottom: 48px; }
-      .contact-heading { font-size: 44px; }
+      .contact-grid    { flex-direction: column; align-items: flex-start; gap: 24px; margin-bottom: 40px; }
+      .contact-right   { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .contact-links   { flex-direction: column; gap: 16px; }
+      .contact-heading { font-size: 20px; }
     }
 
     /* ─── ACCESSIBILITY ───────────────────────────────────────── */
@@ -760,9 +750,7 @@
   <footer class="contact" id="contact" role="contentinfo">
     <div class="contact-grid">
 
-      <h2 class="contact-heading reveal">
-        Let's<br><em>work</em><br>together.
-      </h2>
+      <h2 class="contact-heading reveal">Let's <em>work</em> together.</h2>
 
       <div class="contact-right reveal">
         <p class="contact-intro">Get in touch</p>
@@ -1052,6 +1040,50 @@
     ════════════════════════════════════════════════════
     */
 
+  })();
+  </script>
+
+  <script>
+  // ── COUNT-UP ANIMATION ──
+  (() => {
+    const stats = document.querySelectorAll('.impact-number');
+    const ease = t => t < .5 ? 2*t*t : -1+(4-2*t)*t;
+
+    const animate = (el, target, decimals, prefix, suffix, duration) => {
+      const start = performance.now();
+      const tick = now => {
+        const p = Math.min((now - start) / duration, 1);
+        const val = (target * ease(p)).toFixed(decimals);
+        el.textContent = prefix + val + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+
+    const parse = el => {
+      const raw = el.textContent.trim();
+      // IDR 676M, IDR 45M, 54%, 97.8%
+      const m = raw.match(/^(IDR\s)?(\d+\.?\d*)(%|M)?$/);
+      if (!m) return null;
+      return {
+        prefix: m[1] || '',
+        target: parseFloat(m[2]),
+        suffix: m[3] || '',
+        decimals: m[2].includes('.') ? 1 : 0
+      };
+    };
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const data = parse(el);
+        if (data) animate(el, data.target, data.decimals, data.prefix, data.suffix, 1400);
+        observer.unobserve(el);
+      });
+    }, { threshold: 0.4 });
+
+    stats.forEach(el => observer.observe(el));
   })();
   </script>
 
