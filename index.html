@@ -1,1096 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Wiryana — Product Designer based in Jakarta, Indonesia. 5+ years crafting purposeful digital experiences.">
-  <title>Wiryana — Product Designer</title>
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Wiryana — Product Designer">
-  <meta property="og:description" content="Product Designer based in Jakarta, focused on building user-centered products that drive business outcomes.">
-  <meta property="og:image" content="https://wiryanaw.com/og-image-v2.png">
-  <meta property="og:url" content="https://wiryanaw.com">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://wiryanaw.com/og-image-v2.png">
-
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-
-  <!-- Geist Font -->
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css">
-
-
-
-  <style>
-    /* ─── RESET & TOKENS ──────────────────────────────────────── */
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --bg:       #F7F7F4;
-      --ink:      #0D0B09;
-      --ink-2:    #7A7570;
-      --ink-3:    #BEB9B3;
-      --accent:   #FF5530;
-      --border:   #DDD8CF;
-      --font:     'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
-
-      /* z-index scale */
-      --z-grain:   10;
-      --z-nav:    100;
-      --z-preview: 400;
-      --z-cursor:  900;
-      --z-progress: 1000;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--ink);
-      cursor: none;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .page { overflow-x: hidden; }
-
-
-    /* ─── SCROLL PROGRESS ─────────────────────────────────────── */
-    .progress-bar {
-      position: fixed;
-      top: 0; left: 0;
-      height: 1px;
-      background: var(--accent);
-      width: 0;
-      z-index: var(--z-progress);
-      transition: width 0.06s linear;
-    }
-
-    /* ─── CUSTOM CURSOR ───────────────────────────────────────── */
-    .cursor {
-      position: fixed;
-      top: 0; left: 0;
-      width: 8px; height: 8px;
-      background: var(--ink);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: var(--z-cursor);
-      transform: translate(-50%, -50%);
-      transition: width .25s cubic-bezier(.16,1,.3,1),
-                  height .25s cubic-bezier(.16,1,.3,1);
-    }
-
-    body.is-hov .cursor {
-      width: 48px; height: 48px;
-      background: var(--accent);
-      opacity: .7;
-    }
-
-    /* ─── NAVIGATION ──────────────────────────────────────────── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: var(--z-nav);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 24px 48px;
-      background: var(--bg);
-      transition: box-shadow .3s;
-    }
-
-    nav.scrolled { box-shadow: 0 1px 0 var(--border); }
-
-    section[id], footer[id] { scroll-margin-top: 72px; }
-
-    .nav-brand {
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: .01em;
-      color: var(--ink);
-      text-decoration: none;
-    }
-
-    .nav-menu { display: flex; gap: 32px; }
-
-    .nav-menu a {
-      font-size: 13px;
-      font-weight: 400;
-      color: var(--ink-2);
-      text-decoration: none;
-      transition: color .2s;
-    }
-    .nav-menu a:hover { color: var(--ink); }
-
-    /* ─── HERO ────────────────────────────────────────────────── */
-    .hero {
-      padding: 160px 48px 100px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .hero-heading {
-      font-size: clamp(24px, 2.8vw, 38px);
-      font-weight: 600;
-      line-height: 1.3;
-      letter-spacing: -.025em;
-      color: var(--ink);
-      max-width: 840px;
-      text-wrap: balance;
-      opacity: 0;
-      animation: fadeIn 1s ease .1s forwards;
-    }
-
-    .hero-subtext {
-      font-size: clamp(14px, 1.4vw, 18px);
-      font-weight: 400;
-      line-height: 1.6;
-      letter-spacing: -.01em;
-      color: var(--ink-2);
-      max-width: 840px;
-      text-wrap: balance;
-      opacity: 0;
-      animation: fadeIn 1s ease .25s forwards;
-    }
-
-    @keyframes fadeIn { to { opacity: 1; } }
-
-    /* ─── WORK SECTION ────────────────────────────────────────── */
-    .work { padding: 100px 48px 120px; }
-
-    .sec-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 40px;
-    }
-
-    .sec-label {
-      font-size: 12px;
-      font-weight: 400;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--ink-3);
-    }
-
-    .sec-count {
-      font-size: 12px;
-      color: var(--ink-3);
-    }
-
-    /* Case study rows — only these borders remain */
-    .cs-row {
-      position: relative;
-      display: grid;
-      grid-template-columns: 48px 1fr 28px;
-      align-items: center;
-      gap: 20px;
-      padding: 24px 0;
-      border-bottom: 1px solid var(--border);
-      cursor: pointer;
-      overflow: hidden;
-    }
-
-    .cs-row:first-child { border-top: 1px solid var(--border); }
-
-    .cs-num  { font-size: 12px; color: var(--ink-3); }
-    .cs-meta { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-
-    .cs-title {
-      font-size: 18px;
-      font-weight: 500;
-      letter-spacing: -.015em;
-      line-height: 1.3;
-    }
-
-    .cs-desc {
-      display: block;
-      font-size: 13px; color: var(--ink-2);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .cs-bottom-row { display: flex; align-items: center; }
-    .cs-sub  { font-size: 12px; color: var(--ink-3); }
-    .cs-year { font-size: 12px; color: var(--ink-3); }
-    .cs-year:not(:empty)::before { content: '\00a0·\00a0'; }
-
-    .cs-actions {
-      display: flex; align-items: center; gap: 8px;
-    }
-
-    .cs-sub-row {
-      display: flex; align-items: center; gap: 6px;
-    }
-
-    .cs-lock {
-      display: inline-flex; align-items: center;
-      color: var(--ink-3);
-    }
-
-    .cs-arrow {
-      font-size: 15px;
-      color: var(--ink-2);
-      transition: transform .3s cubic-bezier(.16,1,.3,1);
-    }
-
-    .cs-row:hover .cs-arrow { transform: translate(3px,-3px); }
-
-
-    /* ─── IMPACT SECTION ─────────────────────────────────────── */
-    .impact {
-      padding: 100px 48px 120px;
-    }
-
-    .impact-label {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--ink-3);
-      margin-bottom: 32px;
-    }
-
-    .impact-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-    }
-
-    .impact-stat {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      padding: 36px 36px 32px;
-      background: var(--bg);
-      transition: background .25s;
-      cursor: default;
-    }
-    .impact-stat:hover { background: rgba(13,11,9,0.03); }
-
-    .impact-number {
-      font-size: clamp(40px, 5vw, 60px);
-      font-weight: 700;
-      letter-spacing: -.04em;
-      line-height: 1;
-      color: var(--accent);
-      font-variant-numeric: tabular-nums;
-    }
-
-    .impact-title {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--ink);
-      line-height: 1.4;
-      margin-top: 2px;
-    }
-
-    .impact-sub {
-      font-size: 12px;
-      color: var(--ink-2);
-      line-height: 1.6;
-    }
-
-    @media (max-width: 768px) {
-      .impact { padding: 56px 24px; }
-      .impact-grid { grid-template-columns: 1fr; border-radius: 10px; }
-      .impact-number { font-size: 40px; }
-      .impact-sub { max-width: none; }
-    }
-
-    /* ─── ABOUT SECTION ───────────────────────────────────────── */
-    .about { padding: 100px 48px 120px; }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-    }
-
-    .about-statement {
-      font-size: clamp(24px, 3vw, 40px);
-      font-weight: 500;
-      letter-spacing: -.03em;
-      line-height: 1.15;
-    }
-
-    .about-statement em {
-      font-style: italic;
-      color: var(--accent);
-    }
-
-    .about-right { padding-top: 4px; }
-
-    .about-text {
-      font-size: 15px;
-      line-height: 1.7;
-      color: var(--ink-2);
-      margin-bottom: 16px;
-    }
-
-    .inline-link {
-      color: var(--ink);
-      text-decoration: underline;
-      text-underline-offset: 2px;
-      text-decoration-color: var(--border);
-      transition: text-decoration-color 0.2s;
-    }
-    .inline-link:hover {
-      text-decoration-color: var(--ink);
-    }
-
-    .skills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 28px;
-    }
-
-    .skill-tag {
-      font-size: 12px;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      padding: 6px 10px;
-      border: 1px solid var(--border);
-      color: var(--ink-2);
-      border-radius: 2px;
-      transition: border-color .2s, color .2s;
-    }
-
-    .skill-tag:hover { border-color: var(--ink); color: var(--ink); }
-
-    /* ── PHOTOGRAPHY ENTRY ── */
-    .photo-link-inline {
-      position: relative;
-      color: var(--ink);
-      text-decoration: none;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 1px;
-      transition: border-color .2s, color .2s;
-    }
-    .photo-link-inline:hover {
-      color: var(--accent);
-      border-color: var(--accent);
-    }
-    .photo-link-inline .arrow {
-      display: inline-block;
-      font-size: 13px;
-      margin-left: 4px;
-      transition: transform .3s cubic-bezier(.16,1,.3,1);
-    }
-    .photo-link-inline:hover .arrow { transform: translate(3px,-3px); }
-    .about-photo-line { margin-top: 24px; }
-
-    /* hover preview */
-    .photo-hover-preview {
-      position: absolute;
-      bottom: calc(100% + 14px);
-      left: 0;
-      width: 260px;
-      aspect-ratio: 3 / 2;
-      border-radius: 8px;
-      overflow: hidden;
-      pointer-events: none;
-      opacity: 0;
-      transform: translateY(10px) scale(0.96);
-      transition: opacity .35s cubic-bezier(.16,1,.3,1),
-                  transform .35s cubic-bezier(.16,1,.3,1);
-      box-shadow: 0 12px 40px rgba(13,11,9,.18);
-      z-index: 50;
-    }
-    .photo-hover-preview img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .photo-link-inline:hover .photo-hover-preview {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
-    /* ─── CONTACT / FOOTER ────────────────────────────────────── */
-    .contact { padding: 72px 48px 64px; }
-
-    .contact-grid {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 40px;
-      margin-bottom: 56px;
-    }
-
-    .contact-heading {
-      font-size: clamp(22px, 2.4vw, 30px);
-      font-weight: 600;
-      letter-spacing: -.025em;
-      line-height: 1;
-    }
-
-    .contact-heading em {
-      font-style: italic;
-      font-weight: 300;
-    }
-
-    .contact-right {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 32px;
-    }
-
-    .contact-intro { display: none; }
-
-    .contact-links { display: flex; flex-direction: row; gap: 32px; }
-
-    .cta-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 15px;
-      font-weight: 400;
-      letter-spacing: -.01em;
-      color: var(--ink);
-      text-decoration: none;
-      position: relative;
-      width: fit-content;
-      transition: gap .3s cubic-bezier(.16,1,.3,1);
-    }
-
-    .cta-link::after {
-      content: '';
-      position: absolute;
-      bottom: -1px; left: 0;
-      width: 0; height: 1px;
-      background: var(--ink);
-      transition: width .35s cubic-bezier(.16,1,.3,1);
-    }
-
-    .cta-link:hover { gap: 14px; }
-    .cta-link:hover::after { width: 100%; }
-
-    .footer-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 40px;
-      border-top: 1px solid var(--border);
-    }
-
-    .footer-copy {
-      font-size: 12px;
-      color: var(--ink-3);
-    }
-
-    .back-to-top {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      color: var(--ink-3);
-      background: none;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-      font-family: var(--font);
-      transition: color 0.2s;
-    }
-    .back-to-top:hover {
-      color: var(--ink);
-    }
-    .back-to-top:hover svg {
-      transform: translateY(-2px);
-    }
-    .back-to-top svg {
-      transition: transform 0.2s;
-    }
-
-    /* ─── SCROLL REVEAL ───────────────────────────────────────── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(22px);
-      transition: opacity .8s ease, transform .8s cubic-bezier(.16,1,.3,1);
-    }
-
-    .reveal.in { opacity: 1; transform: translateY(0); }
-
-    /* ─── RESPONSIVE ──────────────────────────────────────────── */
-    @media (max-width: 768px) {
-      /* Nav */
-      nav              { padding: 20px 24px; }
-      .nav-menu        { display: none; }
-
-      /* Hero */
-      .hero            { padding: 120px 24px 72px; gap: 16px; }
-
-      /* Work */
-      .work            { padding: 56px 24px 72px; }
-      .cs-row          { grid-template-columns: 36px 1fr 24px; gap: 12px; }
-      .cs-desc         { display: none; }
-      .cs-title        { font-size: 15px; letter-spacing: -.01em; }
-      .cs-sub          { font-size: 11px; }
-      .cs-num          { font-size: 11px; }
-
-      /* About */
-      .about           { padding: 56px 24px 72px; }
-      .about-grid      { grid-template-columns: 1fr; gap: 32px; }
-      .about-statement { font-size: 22px; }
-
-      /* Contact */
-      .contact         { padding: 56px 24px 48px; }
-      .contact-grid    { flex-direction: column; align-items: flex-start; gap: 24px; margin-bottom: 40px; }
-      .contact-right   { flex-direction: column; align-items: flex-start; gap: 16px; }
-      .contact-links   { flex-direction: column; gap: 16px; }
-      .contact-heading { font-size: 20px; }
-    }
-
-    /* ─── ACCESSIBILITY ───────────────────────────────────────── */
-    :focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 4px;
-      border-radius: 2px;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: .001ms !important;
-        transition-duration: .001ms !important;
-      }
-      .hero-name span { transform: translateY(0) !important; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Wiryana — Product Designer based in Jakarta, Indonesia. Designing digital products that scale with clarity and impact.">
+<title>Wiryana — Product Designer</title>
+
+<!-- Open Graph -->
+<meta property="og:title" content="Wiryana — Product Designer">
+<meta property="og:description" content="Product Designer based in Jakarta, focused on building user-centered products that drive business outcomes.">
+<meta property="og:image" content="https://wiryanaw.com/og-image-v2.png">
+<meta property="og:url" content="https://wiryanaw.com">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wiryanaw.com/og-image-v2.png">
+
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #FAFAF8;
+    --ink: #17150F;
+    --ink-2: #7C776F;
+    --ink-3: #A9A49B;
+    --accent: #FF5530;
+    --border: #EAE7DF;
+    --font: 'Geist', -apple-system, sans-serif;
+    --mono: 'Geist Mono', ui-monospace, monospace;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+    font-size: 15px;
+  }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 96px 28px 80px; }
+
+  /* ── INTRO (no hero, straight to about) ── */
+  .avatar {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: radial-gradient(circle at 32% 28%, #FF9A6A, #E8390F 72%);
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.45), inset 0 -4px 8px rgba(150,25,0,0.35), 0 2px 8px rgba(0,0,0,0.07);
+    margin-bottom: 24px;
+    cursor: pointer;
+    position: relative; overflow: hidden;
+    transition: transform .5s cubic-bezier(.22,1,.36,1);
+  }
+  .avatar::after {
+    content: ''; position: absolute; inset: -45%;
+    background:
+      radial-gradient(closest-side at 32% 34%, rgba(255,255,255,0.60), transparent 70%),
+      radial-gradient(closest-side at 66% 56%, rgba(255,246,238,0.45), transparent 66%),
+      radial-gradient(closest-side at 48% 72%, rgba(255,255,255,0.38), transparent 70%),
+      radial-gradient(closest-side at 74% 26%, rgba(255,236,222,0.35), transparent 62%);
+    filter: blur(6px);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    animation: orbNebula 9s linear infinite;
+  }
+  .avatar:hover { animation: orbFloat 2.6s ease-in-out infinite; }
+  @keyframes orbFloat {
+    0%, 100% { transform: translateY(0) scale(1); border-radius: 50%; }
+    30%      { transform: translateY(-5px) scale(1.06); border-radius: 47% 53% 56% 44%; }
+    60%      { transform: translateY(3px) scale(1.03); border-radius: 54% 46% 45% 55%; }
+  }
+  @keyframes orbNebula {
+    0%   { transform: rotate(0deg)   scale(1.08) translate(0, 0); }
+    50%  { transform: rotate(180deg) scale(1.28) translate(4%, -3%); }
+    100% { transform: rotate(360deg) scale(1.08) translate(0, 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .avatar:hover { animation: none; }
+    .avatar::after { animation: none; }
+  }
+  .name { font-size: 16px; font-weight: 600; letter-spacing: -.01em; margin-bottom: 24px; }
+  .bio { font-size: 15px; color: var(--ink-2); line-height: 1.66; max-width: 52ch; }
+  .bio + .bio { margin-top: 14px; }
+  .bio a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--border); transition: border-color .2s; }
+  .bio a:hover { border-color: var(--ink); }
+
+  .actions { margin-top: 28px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 14px; font-weight: 500; color: #fff; background: var(--ink);
+    padding: 9px 16px; border-radius: 8px; text-decoration: none;
+    transition: opacity .2s;
+  }
+  .btn:hover { opacity: .85; }
+
+  .socials { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+  .socials a {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 8px 15px; border-radius: 999px;
+    border: 1px solid var(--border); background: #fff;
+    font-size: 13.5px; font-weight: 500; color: var(--ink-2); text-decoration: none;
+    cursor: pointer; transition: color .2s, border-color .2s, transform .2s;
+  }
+  .socials a:hover { color: var(--ink); border-color: #D9D4CA; transform: translateY(-1px); }
+  .socials a .ext { width: 13px; height: 13px; color: var(--ink-3); transition: transform .2s, color .2s; }
+  .socials a:hover .ext { transform: translate(1px,-1px); color: var(--ink); }
+
+  /* ── SECTIONS ── */
+  hr { border: none; border-top: 1px solid var(--border); margin: 44px 0; }
+  .sec-label {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 11.5px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--ink-3); margin-bottom: 18px;
+  }
+  .sec-label svg { width: 14px; height: 14px; }
+
+  .row {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 20px;
+    padding: 11px 0; text-decoration: none; color: var(--ink);
+    border-radius: 8px; transition: background .18s;
+  }
+  .row:hover { background: rgba(23,21,15,0.025); }
+  .row.wip { pointer-events: none; cursor: default; }
+  .row.wip .row-name { color: var(--ink-3); }
+  .row.wip .row-meta { color: #C4BFB6; }
+  .row.wip .ext { display: none; }
+  .wip-badge {
+    display: inline-block; margin-left: 8px; vertical-align: middle;
+    font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: .08em;
+    color: var(--ink-3); background: #EFEDE7; border-radius: 5px; padding: 2px 6px;
+  }
+  .row-name { font-size: 15px; font-weight: 500; letter-spacing: -.005em; white-space: nowrap; }
+
+  /* ── WORK ITEMS (title / desc / metrics) ── */
+  .witem { display: block; padding: 22px 0; text-decoration: none; color: var(--ink); border-radius: 10px; }
+  .witem + .witem { border-top: 1px solid var(--border); }
+  .witem-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+  .witem-title { font-size: 15.5px; font-weight: 600; letter-spacing: -.01em; }
+  .witem-lock { display: inline-flex; vertical-align: middle; margin-left: 7px; color: var(--ink-3); }
+  .witem-lock svg { width: 12px; height: 12px; }
+  .witem-arrow { width: 15px; height: 15px; color: var(--ink-3); flex-shrink: 0; transition: transform .2s, color .2s; }
+  .witem:hover .witem-arrow { color: var(--accent); transform: translate(1px,-1px); }
+  .witem-desc { font-size: 14px; color: var(--ink-2); line-height: 1.62; margin-top: 9px; max-width: 58ch; }
+  .witem-metrics {
+    font-family: var(--mono); font-size: 12.5px; color: var(--ink-3);
+    margin-top: 13px; display: flex; flex-wrap: wrap; gap: 6px 4px; align-items: center;
+  }
+  .witem-metrics .m-val { color: inherit; }
+  .witem-metrics .dot { opacity: .6; }
+  .row-meta {
+    font-family: var(--mono); font-size: 12.5px; color: var(--ink-3);
+    display: inline-flex; align-items: center; gap: 6px; text-align: right;
+  }
+  .row-meta .ext { width: 12px; height: 12px; opacity: .7; flex-shrink: 0; transition: transform .2s, opacity .2s, color .2s; }
+  .row:hover .row-meta .ext { opacity: 1; transform: translate(1px,-1px); color: var(--accent); }
+
+  /* ── FOOTER ── */
+  footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; }
+  footer span { font-size: 12px; color: var(--ink-3); font-family: var(--mono); }
+  .back-to-top {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--mono); font-size: 12px; color: var(--ink-3);
+    background: none; border: none; padding: 0; cursor: pointer;
+    transition: color .2s;
+  }
+  .back-to-top svg { width: 13px; height: 13px; transition: transform .2s; }
+  .back-to-top:hover { color: var(--ink); }
+  .back-to-top:hover svg { transform: translateY(-2px); }
+
+  @media (max-width: 520px) {
+    .wrap { padding: 64px 22px 64px; }
+    .row-name { white-space: normal; }
+  }
+</style>
 </head>
 <body>
+  <main class="wrap">
 
-  <!-- Scroll progress -->
-  <div class="progress-bar" id="progressBar" role="progressbar" aria-hidden="true"></div>
+    <!-- INTRO -->
+    <div class="avatar" aria-hidden="true"></div>
+    <div class="name">Wiryana</div>
 
-  <!-- Custom cursor -->
-  <div class="cursor" id="cursor" aria-hidden="true"></div>
+    <p class="bio">A product designer based in Jakarta focused on designing digital products that scale with clarity and impact.</p>
+    <p class="bio">I work on complex problem spaces, turning ambiguity into structured and effective solutions. My approach balances user needs, business goals, and real world constraints. I'm as comfortable defining the problem as I am shipping the solution.</p>
 
-  <div class="page">
-
-  <!-- ── NAVIGATION ─────────────────────────────────────────── -->
-  <nav role="navigation" aria-label="Main navigation">
-    <a href="#" class="nav-brand">Wiryana</a>
-    <div class="nav-menu">
-      <a href="#work">Work</a>
-      <a href="#impact">Impact</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </nav>
-
-  <!-- ── HERO ───────────────────────────────────────────────── -->
-  <section class="hero" aria-label="Introduction">
-    <h1 class="hero-heading">Designing digital products that scale with clarity, efficiency, and impact</h1>
-    <p class="hero-subtext" style="display:none;"></p>
-  </section>
-
-  <!-- ── WORK ───────────────────────────────────────────────── -->
-  <section class="work" id="work" aria-labelledby="work-label">
-    <div class="sec-head reveal">
-      <span class="sec-label" id="work-label">Selected Work</span>
-      <span class="sec-count">04</span>
+    <div class="socials">
+      <a href="mailto:wiryanaw@gmail.com">Email <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <a href="https://www.linkedin.com/in/wiryana" target="_blank" rel="noopener noreferrer">LinkedIn <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <a href="https://dribbble.com/wiryanaw" target="_blank" rel="noopener noreferrer">Dribbble <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
     </div>
 
-    <div class="cs-list" role="list" style="opacity:0;transition:opacity 0.3s ease;">
+    <hr>
 
-      <article class="cs-row reveal" role="listitem" tabindex="0" data-idx="0">
-        <span class="cs-num">01</span>
-        <div class="cs-meta">
-          <span class="cs-title"></span>
-          <span class="cs-desc"></span>
-          <div class="cs-bottom-row">
-            <div class="cs-sub-row">
-              <span class="cs-sub"></span>
-              <span class="cs-lock" aria-label="Password protected" title="Password protected">
-                <svg width="10" height="10" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="1.5" y="5" width="9" height="6.5" rx="1.5" stroke="currentColor" stroke-width="1.2"/>
-                  <path d="M3.5 5V3.5a2.5 2.5 0 0 1 5 0V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                </svg>
-              </span>
-            </div>
-            <span class="cs-year">2026</span>
-          </div>
-        </div>
-        <div class="cs-actions">
-          <span class="cs-arrow" aria-hidden="true">↗</span>
-        </div>
-      </article>
-
-      <article class="cs-row reveal" role="listitem" tabindex="0" data-idx="1">
-        <span class="cs-num">02</span>
-        <div class="cs-meta">
-          <span class="cs-title"></span>
-          <span class="cs-desc"></span>
-          <div class="cs-bottom-row">
-            <span class="cs-sub"></span>
-            <span class="cs-year">2022</span>
-          </div>
-        </div>
-        <div class="cs-actions">
-          <span class="cs-arrow" aria-hidden="true">↗</span>
-        </div>
-      </article>
-
-      <article class="cs-row reveal" role="listitem" tabindex="0" data-idx="2">
-        <span class="cs-num">03</span>
-        <div class="cs-meta">
-          <span class="cs-title"></span>
-          <span class="cs-desc"></span>
-          <div class="cs-bottom-row">
-            <span class="cs-sub"></span>
-            <span class="cs-year">2022</span>
-          </div>
-        </div>
-        <div class="cs-actions">
-          <span class="cs-arrow" aria-hidden="true">↗</span>
-        </div>
-      </article>
-
-      <article class="cs-row reveal" role="listitem" tabindex="0" data-idx="3">
-        <span class="cs-num">04</span>
-        <div class="cs-meta">
-          <span class="cs-title"></span>
-          <span class="cs-desc"></span>
-          <div class="cs-bottom-row">
-            <span class="cs-sub"></span>
-            <span class="cs-year"></span>
-          </div>
-        </div>
-        <div class="cs-actions">
-          <span class="cs-arrow" aria-hidden="true">↗</span>
-        </div>
-      </article>
-
-    </div>
-  </section>
-
-  <!-- ── IMPACT ────────────────────────────────────────────── -->
-  <section class="impact" id="impact" aria-labelledby="impact-label">
-    <p class="impact-label" id="impact-label">Impact at scale</p>
-    <div class="impact-grid">
-
-      <div class="impact-stat reveal">
-        <span class="impact-number">IDR 676M</span>
-        <p class="impact-title">Saved annually</p>
-        <p class="impact-sub">Custom HRIS for 2,900+ staff across 246 outlets, shipped in ~3 months</p>
+    <!-- PRODUCTS -->
+    <section id="products">
+      <div class="sec-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>
+        Products
       </div>
+      <div class="row wip"><span class="row-name">Cabinet<span class="wip-badge">WIP</span></span><span class="row-meta">macOS app <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></div>
+    </section>
 
-      <div class="impact-stat reveal">
-        <span class="impact-number">54%</span>
-        <p class="impact-title">Fewer user complaints</p>
-        <p class="impact-sub">Contextual instructions removed friction for users struggling to scan QR codes</p>
+    <hr>
+
+    <!-- WORK -->
+    <section id="work">
+      <div class="sec-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg>
+        Work
       </div>
+      <a href="/HRIS/" class="witem">
+        <div class="witem-head"><span class="witem-title">Pantry — HRIS<span class="witem-lock" title="Private project" aria-label="Private project"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span></span><svg class="witem-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></div>
+        <p class="witem-desc">A custom HRIS built end-to-end for Hangry's operational structure, streamlining requests, attendance, payslips, and shift management.</p>
+        <div class="witem-metrics"><span class="m-val">IDR 676M</span> saved annually <span class="dot">·</span> 1000+ staff <span class="dot">·</span> 165+ outlets <span class="dot">·</span> ~3 months</div>
+      </a>
+      <a href="/Menu-management/" class="witem">
+        <div class="witem-head"><span class="witem-title">Menu Management</span><svg class="witem-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></div>
+        <p class="witem-desc">Centralised three delivery platforms into a single interface, replacing per-brand phones and cutting hardware overhead as Hangry scaled to new outlets.</p>
+        <div class="witem-metrics"><span class="m-val">97.8%</span> efficiency improvement <span class="dot">·</span> <span class="m-val">IDR 64M</span> hardware saved <span class="dot">·</span> 8 brands</div>
+      </a>
+      <a href="/Loyalty/" class="witem">
+        <div class="witem-head"><span class="witem-title">QR Instructions</span><svg class="witem-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></div>
+        <p class="witem-desc">Contextual in-app guidance for scanning delivery-receipt QR codes to earn loyalty points, removing the friction behind most user complaints.</p>
+        <div class="witem-metrics"><span class="m-val">54%</span> fewer user complaints</div>
+      </a>
+    </section>
 
-      <div class="impact-stat reveal">
-        <span class="impact-number">97.8%</span>
-        <p class="impact-title">Efficiency improvement</p>
-        <p class="impact-sub">3 delivery platforms centralised into one interface, cutting IDR 64M in hardware costs</p>
+    <hr>
+
+    <!-- BEYOND DESIGN -->
+    <section id="beyond">
+      <div class="sec-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.2"/><path d="M8 6l1.5-2h5L16 6"/></svg>
+        Beyond Design
       </div>
+      <a href="/photos" class="row"><span class="row-name">Photography</span><span class="row-meta">See the world through my lens <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+    </section>
 
-      <div class="impact-stat reveal">
-        <span class="impact-number">IDR 45M</span>
-        <p class="impact-title">Recovered per month</p>
-        <p class="impact-sub">Automated reimbursement flow for cancelled orders across Go-Food, GrabFood & ShopeeFood</p>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ── ABOUT ──────────────────────────────────────────────── -->
-  <section class="about" id="about" aria-labelledby="about-label">
-    <div class="about-grid">
-
-      <div class="reveal">
-        <p class="sec-label" id="about-label" style="margin-bottom: 28px;">About</p>
-        <p class="about-statement">
-          I design products that <em>feel</em> as good as they work.
-        </p>
-      </div>
-
-      <div class="about-right reveal">
-        <p class="about-text">
-          Based in Jakarta, Indonesia, I've spent 5+ years working at the intersection of design strategy and execution. I partner with teams to solve complex problems through clear, intentional design — from early concepts to shipped products.
-        </p>
-        <p class="about-text">
-          Previously at startups and agencies across Southeast Asia. I care deeply about systems thinking, design craft, and the details that make a product memorable.
-        </p>
-        <p class="about-text"></p>
-        <p class="about-text"></p>
-        <div class="skills" aria-label="Core skills">
-          <span class="skill-tag">Product Design</span>
-          <span class="skill-tag">UX Research</span>
-          <span class="skill-tag">Design Systems</span>
-          <span class="skill-tag">Prototyping</span>
-          <span class="skill-tag">Figma</span>
-          <span class="skill-tag">Strategy</span>
-        </div>
-        <p class="about-text about-photo-line reveal">
-          <a href="/photos" class="photo-link-inline">
-            See the world through my lens<span class="arrow">↗</span>
-            <span class="photo-hover-preview" aria-hidden="true">
-              <img src="/photos/Japan/507CC10A-19E6-4ABD-8276-E9561C04D15D-10148-0000213DDF1CF0D0 3.png" alt="">
-            </span>
-          </a>
-        </p>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ── CONTACT ────────────────────────────────────────────── -->
-  <footer class="contact" id="contact" role="contentinfo">
-    <div class="contact-grid">
-
-      <h2 class="contact-heading reveal">Let's <em>work</em> together.</h2>
-
-      <div class="contact-right reveal">
-        <p class="contact-intro">Get in touch</p>
-        <div class="contact-links">
-          <a href="mailto:wiryanaw@gmail.com" class="cta-link"
-             aria-label="Send email to Wiryana">
-            wiryanaw@gmail.com
-            <span aria-hidden="true">↗</span>
-          </a>
-          <a href="https://www.linkedin.com/in/wiryana" target="_blank"
-             rel="noopener noreferrer" class="cta-link"
-             aria-label="View Wiryana's LinkedIn profile (opens in new tab)">
-            LinkedIn
-            <span aria-hidden="true">↗</span>
-          </a>
-          <a href="https://dribbble.com/wiryanaw" target="_blank"
-             rel="noopener noreferrer" class="cta-link"
-             aria-label="View Wiryana's Dribbble profile (opens in new tab)">
-            Dribbble
-            <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="footer-bar">
-      <span class="footer-copy">© 2026 Wiryana</span>
+    <footer>
+      <span>© 2026 Wiryana</span>
       <button class="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M7 11V3M7 3L3.5 6.5M7 3L10.5 6.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M12 5l-6 6M12 5l6 6"/></svg>
         Back to top
       </button>
-    </div>
-  </footer>
+    </footer>
 
-  </div><!-- /.page -->
-
-  <script>
-  (() => {
-    'use strict';
-
-    // ════════════════════════════════════════════════════
-    // GOOGLE SHEETS CMS
-    // 1. Make your Google Sheet public (Anyone with link → Viewer)
-    // 2. Paste your Sheet ID below (from the URL)
-    // 3. Create 4 tabs: hero | work | about | contact
-    //    See structure at the bottom of this script.
-    // ════════════════════════════════════════════════════
-    const SHEET_ID = '1cX3FyFbhibPWQiCcbXcJ7nEt7ZrOp9fy0gf9gnGScwU';
-
-    // ── Custom cursor ──────────────────────────────────────────
-    const cursor = document.getElementById('cursor');
-
-    document.addEventListener('mousemove', e => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top  = e.clientY + 'px';
-    }, { passive: true });
-
-    document.querySelectorAll('a, .cs-row, button').forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('is-hov'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('is-hov'));
-    });
-
-    // ── Scroll progress + nav border ──────────────────────────
-    const bar   = document.getElementById('progressBar');
-    const navEl = document.querySelector('nav');
-    window.addEventListener('scroll', () => {
-      const ratio = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-      bar.style.width = (ratio * 100) + '%';
-      navEl.classList.toggle('scrolled', window.scrollY > 10);
-    }, { passive: true });
-
-    // ── Scroll reveal ──────────────────────────────────────────
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-      });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-    document.querySelectorAll('.cs-row').forEach((el, i) => {
-      el.style.transitionDelay = (i * 0.07) + 's';
-    });
-
-    document.querySelectorAll('.cs-row').forEach(row => {
-      row.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); row.click(); }
-      });
-    });
-
-    // ── Nav anchor scroll ──────────────────────────────────────
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
-      link.addEventListener('click', e => {
-        const target = document.getElementById(link.getAttribute('href').slice(1));
-        if (!target) return;
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    });
-
-    // ════════════════════════════════════════════════════
-    // GOOGLE SHEETS CMS LOADER
-    // ════════════════════════════════════════════════════
-
-    async function fetchSheet(name) {
-      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(name)}`;
-      const res  = await fetch(url);
-      const text = await res.text();
-      const raw  = text.match(/setResponse\(([\s\S]*)\)/);
-      if (!raw) throw new Error(`Bad response for sheet "${name}"`);
-      return JSON.parse(raw[1]).table;
-    }
-
-    // Parse a two-column key→value sheet
-    function toKV(table) {
-      const obj = {};
-      (table.rows || []).forEach(r => {
-        const k = r.c?.[0]?.v;
-        const v = r.c?.[1]?.v ?? '';
-        if (k != null) obj[String(k).trim()] = String(v).trim();
-      });
-      return obj;
-    }
-
-    // Parse a header-row table into array of objects
-    function toRows(table) {
-      const headers = (table.cols || []).map(c =>
-        (c.label || '').toLowerCase().replace(/\s+/g, '_').trim()
-      );
-      return (table.rows || [])
-        .filter(r => r.c?.some(c => c?.v != null))
-        .map(r => {
-          const obj = {};
-          headers.forEach((h, i) => {
-            const cell = r.c?.[i];
-            obj[h] = String(cell?.v ?? cell?.f ?? '').trim();
-          });
-          return obj;
-        });
-    }
-
-    // *word* → <em>word</em> (italic + accent color)
-    function parseItalic(text) {
-      return text.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-    }
-
-    function parseAbout(text) {
-      return parseItalic(text)
-        .replace(/\bHangry\b/g, '<a href="https://www.ishangry.com/" target="_blank" rel="noopener" class="inline-link">Hangry</a>');
-    }
-
-    async function loadCMS() {
-      if (SHEET_ID === 'YOUR_GOOGLE_SHEET_ID') return;
-
-      try {
-        const [heroT, workT, aboutT, contactT] = await Promise.all([
-          fetchSheet('hero'),
-          fetchSheet('work'),
-          fetchSheet('about'),
-          fetchSheet('contact'),
-        ]);
-
-        // ── 1. Hero ────────────────────────────────────────────
-        const heroKV = toKV(heroT);
-        if (heroKV.heading) {
-          const el = document.querySelector('.hero-heading');
-          if (el) el.textContent = heroKV.heading;
-        }
-        const subtextEl = document.querySelector('.hero-subtext');
-        if (subtextEl) {
-          if (heroKV.subtext) {
-            subtextEl.textContent = heroKV.subtext;
-            subtextEl.style.display = '';
-          } else {
-            subtextEl.style.display = 'none';
-          }
-        }
-
-        // ── 2. Work ────────────────────────────────────────────
-        const works = toRows(workT);
-        if (works.length) {
-          const rows = document.querySelectorAll('.cs-row');
-          rows.forEach((row, i) => {
-            if (i < works.length) {
-              const w = works[i];
-              row.querySelector('.cs-title').textContent = w.title       || '';
-              row.querySelector('.cs-desc').textContent  = w.description || '';
-              row.querySelector('.cs-sub').textContent   = w.type        || '';
-              if (w.year) row.querySelector('.cs-year').textContent = w.year;
-              row.querySelector('.cs-num').textContent   = String(i + 1).padStart(2, '0');
-              if (w.url) {
-                row.style.cursor = 'pointer';
-                row.addEventListener('click', () => { window.location.href = w.url; });
-              }
-            } else {
-              row.style.display = 'none';
-            }
-          });
-          // Update count label
-          const countEl = document.querySelector('.sec-count');
-          if (countEl) countEl.textContent = String(works.length).padStart(2, '0');
-          // Fade in list after data is loaded
-          const csList = document.querySelector('.cs-list');
-          if (csList) csList.style.opacity = '1';
-        }
-
-        // ── 3. About ───────────────────────────────────────────
-        const aboutKV    = toKV(aboutT);
-        if (aboutKV.heading) {
-          const el = document.querySelector('.about-statement');
-          if (el) el.innerHTML = parseItalic(aboutKV.heading);
-        }
-        const aboutTexts = document.querySelectorAll('.about-text');
-        if (aboutKV.text_1 && aboutTexts[0]) aboutTexts[0].innerHTML = parseAbout(aboutKV.text_1);
-        if (aboutKV.text_2 && aboutTexts[1]) aboutTexts[1].innerHTML = parseAbout(aboutKV.text_2);
-        if (aboutKV.text_3 && aboutTexts[2]) aboutTexts[2].innerHTML = parseAbout(aboutKV.text_3);
-        else if (aboutTexts[2]) aboutTexts[2].style.display = 'none';
-        if (aboutKV.text_4 && aboutTexts[3]) aboutTexts[3].innerHTML = parseAbout(aboutKV.text_4);
-        else if (aboutTexts[3]) aboutTexts[3].style.display = 'none';
-        const skillsEl = document.querySelector('.skills');
-        if (skillsEl && 'skills' in aboutKV) {
-          const val = aboutKV.skills.replace(/^[-–—]+$/, '').trim();
-          if (!val) {
-            skillsEl.style.display = 'none';
-          } else {
-            skillsEl.innerHTML = val.split(',')
-              .map(s => `<span class="skill-tag">${s.trim()}</span>`).join('');
-          }
-        }
-
-        // ── 4. Contact ─────────────────────────────────────────
-        const contactKV = toKV(contactT);
-        if (contactKV.heading) {
-          const hEl = document.querySelector('.contact-heading');
-          if (hEl) {
-            // | = separator, *word* = italic+accent
-            hEl.innerHTML = contactKV.heading.split('|')
-              .map(p => parseItalic(p.trim())).join(' ');
-          }
-        }
-        if (contactKV.email) {
-          const el = document.querySelector('a[href^="mailto"]');
-          if (el) { el.href = `mailto:${contactKV.email}`; el.firstChild.textContent = contactKV.email + ' '; }
-        }
-        if (contactKV.linkedin_url) {
-          const el = document.querySelector('a[href*="linkedin"]');
-          if (el) {
-            el.href = contactKV.linkedin_url;
-            el.firstChild.textContent = (contactKV.linkedin_label || 'LinkedIn') + ' ';
-          }
-        }
-
-      } catch (err) {
-        console.warn('[CMS] Failed to load, showing static fallback.', err.message);
-      }
-    }
-
-    loadCMS();
-
-    /*
-    ════════════════════════════════════════════════════
-    GOOGLE SHEET STRUCTURE
-
-    Tab "hero"  (2 columns: key | value)
-    ─────────────────────────────────────────
-    statement | Wiryana is a Product Designer based in Jakarta...
-
-    Tab "work"  (header row + 4 data rows)
-    ─────────────────────────────────────────
-    title | type | year | description | image_url | color
-    Paysend | FinTech · Mobile App | 2024 | Cross-border payment redesign | https://... |
-    Klinik  | HealthTech · Web+Mobile | 2023 | Telehealth platform for SEA | https://... |
-    Toko    | E-Commerce · Web | 2023 | E-commerce suite for SMBs | https://... |
-    Atlas DS | Design System | 2022 | Scalable design system | https://... |
-
-    Tab "about"  (2 columns: key | value)
-    ─────────────────────────────────────────
-    heading | I design products that *feel* as good as they work.
-    text_1  | Based in Jakarta, Indonesia...
-    text_2  | Previously at startups...
-    skills  | Product Design, UX Research, Design Systems, Prototyping, Figma, Strategy
-
-    Tab "contact"  (2 columns: key | value)
-    ─────────────────────────────────────────
-    heading       | Let's|*work*|together.
-    email         | wiryanaw@gmail.com
-    linkedin_url  | https://linkedin.com/in/wiryana
-    linkedin_label| LinkedIn
-
-    NOTE: *word* = italic + accent color. | = line break (contact heading only).
-    ════════════════════════════════════════════════════
-    */
-
-  })();
-  </script>
-
-  <script>
-  // ── COUNT-UP ANIMATION ──
-  (() => {
-    const stats = document.querySelectorAll('.impact-number');
-    const ease = t => t < .5 ? 2*t*t : -1+(4-2*t)*t;
-
-    const animate = (el, target, decimals, prefix, suffix, duration) => {
-      const start = performance.now();
-      const tick = now => {
-        const p = Math.min((now - start) / duration, 1);
-        const val = (target * ease(p)).toFixed(decimals);
-        el.textContent = prefix + val + suffix;
-        if (p < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-    };
-
-    const parse = el => {
-      const raw = el.textContent.trim();
-      // IDR 676M, IDR 45M, 54%, 97.8%
-      const m = raw.match(/^(IDR\s)?(\d+\.?\d*)(%|M)?$/);
-      if (!m) return null;
-      return {
-        prefix: m[1] || '',
-        target: parseFloat(m[2]),
-        suffix: m[3] || '',
-        decimals: m[2].includes('.') ? 1 : 0
-      };
-    };
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const el = entry.target;
-        const data = parse(el);
-        if (data) animate(el, data.target, data.decimals, data.prefix, data.suffix, 1400);
-        observer.unobserve(el);
-      });
-    }, { threshold: 0.4 });
-
-    stats.forEach(el => observer.observe(el));
-  })();
-  </script>
-
+  </main>
 </body>
 </html>
