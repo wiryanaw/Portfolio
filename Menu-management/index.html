@@ -819,7 +819,7 @@
         </div>
 
         <div class="subsection">
-          <div class="subsection-title">Flows in action</div>
+          <div class="subsection-title">Key flows</div>
           <div class="subsection-body">
             <p>Beyond the module screens, here are two of the core flows end to end. Step through each one using the arrows or thumbnails.</p>
           </div>
@@ -947,8 +947,7 @@
     function render(){
       var m=MODULES[mod], s=m.steps[step], n=m.steps.length;
       document.getElementById('fsTabs').innerHTML =
-        MODULES.map(function(x,i){ return '<button class="fs-tab'+(i===mod?' on':'')+'" data-mod="'+i+'">'+x.name+'</button>'; }).join('')
-        + '<span class="fs-surface">'+m.surface+'</span>';
+        MODULES.map(function(x,i){ return '<button class="fs-tab'+(i===mod?' on':'')+'" data-mod="'+i+'">'+x.name+'</button>'; }).join('');
       document.getElementById('fsLabel').innerHTML = m.label ? m.label : '';
       document.getElementById('fsLabel').style.display = m.label ? 'block' : 'none';
       var dots='',film='';
