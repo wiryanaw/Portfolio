@@ -455,6 +455,35 @@
       .tree-branch { flex: none; width: 100%; justify-content: stretch; }
       .tree-node { width: 100%; font-size: 12px; padding: 8px 10px; text-align: center; }
     }
+
+    /* ── FLOW SHOWCASE ───────────────────────────────────────── */
+    .fs { --fs-card:#fff; --fs-b2:#EAE7DF; --fs-mono:ui-monospace,SFMono-Regular,Menlo,monospace; margin: 30px 0 8px; }
+    .fs-tabs { display:flex; gap:24px; border-bottom:1px solid var(--border); margin-bottom:22px; flex-wrap:wrap; }
+    .fs-tab { font-family:inherit; font-size:14.5px; font-weight:500; color:var(--ink-3); background:none; border:none; padding:0 0 12px; cursor:pointer; position:relative; transition:color .18s; }
+    .fs-tab.on { color:var(--ink); }
+    .fs-tab.on::after { content:''; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:var(--accent); }
+    .fs-surface { font-family:var(--fs-mono); font-size:11px; color:var(--ink-3); margin-left:auto; align-self:center; padding-bottom:12px; }
+    .fs-label { font-family:var(--fs-mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); margin-bottom:20px; }
+    .fs-carousel { display:flex; flex-direction:column; align-items:center; gap:20px; }
+    .fs-frame { width:100%; max-width:880px; background:var(--fs-card); border:1px solid var(--fs-b2); border-radius:14px; overflow:hidden; box-shadow:0 1px 2px rgba(13,11,9,.03),0 16px 40px rgba(13,11,9,.06); }
+    .fs-frame img { width:100%; display:block; }
+    .fs-meta { text-align:center; max-width:52ch; }
+    .fs-num { font-family:var(--fs-mono); font-size:11px; color:var(--accent); font-weight:600; letter-spacing:.06em; }
+    .fs-name { font-size:18px; font-weight:600; margin-top:5px; letter-spacing:-.01em; color:var(--ink); }
+    .fs-cap { font-size:13.5px; color:var(--ink-2); margin-top:9px; line-height:1.55; }
+    .fs-ctrl { display:flex; align-items:center; gap:22px; }
+    .fs-btn { width:42px; height:42px; border-radius:50%; border:1px solid var(--border); background:var(--fs-card); display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--ink-2); transition:all .18s; }
+    .fs-btn:hover { border-color:var(--accent); color:var(--accent); }
+    .fs-dots { display:flex; gap:8px; }
+    .fs-dots span { width:7px; height:7px; border-radius:50%; background:var(--border); cursor:pointer; transition:all .18s; }
+    .fs-dots span.on { background:var(--accent); width:22px; border-radius:4px; }
+    .fs-film { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; max-width:640px; }
+    .fs-thumb { width:90px; height:58px; border:1.5px solid var(--border); border-radius:8px; background:var(--fs-card); cursor:pointer; overflow:hidden; transition:all .18s; position:relative; flex-shrink:0; padding:0; }
+    .fs-thumb:hover { border-color:#CFC9BE; }
+    .fs-thumb.on { border-color:var(--accent); box-shadow:0 4px 12px rgba(255,85,48,.15); }
+    .fs-thumb img { width:100%; height:100%; object-fit:cover; object-position:top; }
+    .fs-thumb span { position:absolute; top:4px; left:6px; font-family:var(--fs-mono); font-size:10px; color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.4); }
+    @media (max-width:600px){ .fs-tabs{gap:16px} }
   </style>
 </head>
 
@@ -788,6 +817,19 @@
         <div class="img-slot">
           <img src="/cs2-final-ui.png" alt="Final UI — child menu module" loading="lazy">
         </div>
+
+        <div class="subsection">
+          <div class="subsection-title">Flows in action</div>
+          <div class="subsection-body">
+            <p>Beyond the module screens, here are two of the core flows end to end. Step through each one using the arrows or thumbnails.</p>
+          </div>
+        </div>
+
+        <div class="fs" id="flowShow">
+          <div class="fs-tabs" id="fsTabs"></div>
+          <div class="fs-label" id="fsLabel"></div>
+          <div class="fs-carousel" id="fsCarousel"></div>
+        </div>
       </section>
 
       <!-- 06 Results -->
@@ -877,6 +919,57 @@
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
   </script>
   <script src="/toc.js"></script>
+
+  <!-- Flow showcase -->
+  <script>
+  (function(){
+    var BASE='screens/';
+    var MODULES=[
+      { key:'material', name:'Material', surface:'Back-office · web', label:'Turn off material', steps:[
+        {name:'Default view', img:'material-matikan-1.png', cap:'The top material is selected by default. Its linked items split into active and inactive, each grouped into menu and kompleks menu.'},
+        {name:'Choose to turn off', img:'material-matikan-2.png', cap:'Tapping Matikan opens a confirmation that asks the user to pick a reason before anything is turned off.'},
+        {name:'Select a reason', img:'material-matikan-3.png', cap:'A reason is required, so every deactivation stays accountable and traceable.'},
+        {name:'Turning off', img:'material-matikan-4.png', cap:'The button locks with a spinner while each linked item is deactivated, preventing double submits.'},
+        {name:'All turned off', img:'material-matikan-5.png', cap:'The active column empties out, confirming every linked item is now inactive.'}
+      ]},
+      { key:'status', name:'Status Request', surface:'Back-office · web', steps:[
+        {name:'Request queue', img:'status-request-1.png', cap:'Every material, menu, and kompleks request from the last 24 hours in one queue. Request 005 shows four items that failed.'},
+        {name:'Request details', img:'status-request-2.png', cap:'Opening a request breaks it into Gagal, Diproses, and Sukses tabs, with the failed items ready to re-process in bulk.'},
+        {name:'Re-processing', img:'status-request-3.png', cap:'Tapping Proses Request Gagal moves the failed items into Diproses and locks the button while they run.'},
+        {name:'Re-processed', img:'status-request-4.png', cap:'Once done, the items land in Sukses and the request reads 4 Sukses back on the queue.'}
+      ]}
+    ];
+    var mod=0, step=0;
+    var LArrow='<svg viewBox="0 0 24 24" width="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>';
+    var RArrow='<svg viewBox="0 0 24 24" width="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
+
+    function pad(n){ return n<10?'0'+n:''+n; }
+    function render(){
+      var m=MODULES[mod], s=m.steps[step], n=m.steps.length;
+      document.getElementById('fsTabs').innerHTML =
+        MODULES.map(function(x,i){ return '<button class="fs-tab'+(i===mod?' on':'')+'" data-mod="'+i+'">'+x.name+'</button>'; }).join('')
+        + '<span class="fs-surface">'+m.surface+'</span>';
+      document.getElementById('fsLabel').innerHTML = m.label ? m.label : '';
+      document.getElementById('fsLabel').style.display = m.label ? 'block' : 'none';
+      var dots='',film='';
+      m.steps.forEach(function(st,i){
+        dots += '<span class="'+(i===step?'on':'')+'" data-step="'+i+'"></span>';
+        film += '<button class="fs-thumb'+(i===step?' on':'')+'" data-step="'+i+'"><span>'+(i+1)+'</span><img src="'+BASE+st.img+'" alt=""></button>';
+      });
+      document.getElementById('fsCarousel').innerHTML =
+        '<div class="fs-frame"><img src="'+BASE+s.img+'" alt="'+s.name+'"></div>'
+        + '<div class="fs-meta"><div class="fs-num">STEP '+pad(step+1)+' / '+pad(n)+'</div><div class="fs-name">'+s.name+'</div><div class="fs-cap">'+s.cap+'</div></div>'
+        + '<div class="fs-ctrl"><button class="fs-btn" data-nav="-1">'+LArrow+'</button><div class="fs-dots">'+dots+'</div><button class="fs-btn" data-nav="1">'+RArrow+'</button></div>'
+        + '<div class="fs-film">'+film+'</div>';
+    }
+    document.getElementById('flowShow').addEventListener('click', function(e){
+      var t=e.target.closest('[data-mod]'); if(t){ mod=+t.dataset.mod; step=0; render(); return; }
+      var st=e.target.closest('[data-step]'); if(st){ step=+st.dataset.step; render(); return; }
+      var nv=e.target.closest('[data-nav]'); if(nv){ var n=MODULES[mod].steps.length; step=(step + +nv.dataset.nav + n)%n; render(); return; }
+    });
+    render();
+  })();
+  </script>
 
 </body>
 </html>
