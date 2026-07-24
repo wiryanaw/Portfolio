@@ -467,6 +467,10 @@
     .fs-carousel { display:flex; flex-direction:column; align-items:center; gap:20px; }
     .fs-frame { width:100%; max-width:880px; background:var(--fs-card); border:1px solid var(--fs-b2); border-radius:14px; overflow:hidden; box-shadow:0 1px 2px rgba(13,11,9,.03),0 16px 40px rgba(13,11,9,.06); }
     .fs-frame img { width:100%; display:block; }
+    .fs-shot { position:relative; width:100%; }
+    .fs-missing { display:none; flex-direction:column; align-items:center; justify-content:center; gap:8px; aspect-ratio:16/10; background:repeating-linear-gradient(45deg,#F4F1EA,#F4F1EA 12px,#EFEBE3 12px,#EFEBE3 24px); color:var(--ink-3); text-align:center; padding:24px; }
+    .fs-mn { font-family:var(--fs-mono); font-size:13px; color:var(--ink-2); font-weight:500; }
+    .fs-mh { font-family:var(--fs-mono); font-size:11px; color:var(--ink-3); }
     .fs-meta { text-align:center; max-width:52ch; }
     .fs-num { font-family:var(--fs-mono); font-size:11px; color:var(--accent); font-weight:600; letter-spacing:.06em; }
     .fs-name { font-size:18px; font-weight:600; margin-top:5px; letter-spacing:-.01em; color:var(--ink); }
@@ -925,6 +929,13 @@
   (function(){
     var BASE='screens/';
     var MODULES=[
+      { key:'kompleks', name:'Kompleks Menu', surface:'Back-office · web', steps:[
+        {name:'Default view', img:'kompleks-menu-1.png', cap:'The Kompleks Menu list for the outlet, showing active bundles and how many menus each is linked to.'},
+        {name:'Select a bundle', img:'kompleks-menu-2.png', cap:'Selecting a bundle turns on the bulk action; the CTA reflects how many are selected.'},
+        {name:'Review linked menus', img:'kompleks-menu-3.png', cap:'Before anything is turned off, a modal lists every menu the bundle is linked to, across brands and platforms.'},
+        {name:'Select a reason', img:'kompleks-menu-4.png', cap:'A reason is required, picked from a fixed list, so every change stays accountable.'},
+        {name:'Reason selected', img:'kompleks-menu-5.png', cap:'With the reason set, the bundle and its linked menus are turned off in one action.'}
+      ]},
       { key:'material', name:'Material', surface:'Back-office · web', label:'Turn off material', steps:[
         {name:'Default view', img:'material-matikan-1.png', cap:'The top material is selected by default. Its linked items split into active and inactive, each grouped into menu and kompleks menu.'},
         {name:'Choose to turn off', img:'material-matikan-2.png', cap:'Tapping Matikan opens a confirmation that asks the user to pick a reason before anything is turned off.'},
@@ -953,10 +964,10 @@
       var dots='',film='';
       m.steps.forEach(function(st,i){
         dots += '<span class="'+(i===step?'on':'')+'" data-step="'+i+'"></span>';
-        film += '<button class="fs-thumb'+(i===step?' on':'')+'" data-step="'+i+'"><span>'+(i+1)+'</span><img src="'+BASE+st.img+'" alt=""></button>';
+        film += '<button class="fs-thumb'+(i===step?' on':'')+'" data-step="'+i+'"><span>'+(i+1)+'</span><img src="'+BASE+st.img+'" alt="" onerror="this.style.display=\'none\'"></button>';
       });
       document.getElementById('fsCarousel').innerHTML =
-        '<div class="fs-frame"><img src="'+BASE+s.img+'" alt="'+s.name+'"></div>'
+        '<div class="fs-frame"><div class="fs-shot"><img src="'+BASE+s.img+'" alt="'+s.name+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><div class="fs-missing"><span class="fs-mn">'+s.img+'</span><span class="fs-mh">export this screen into /Menu-management/screens/</span></div></div></div>'
         + '<div class="fs-meta"><div class="fs-num">STEP '+pad(step+1)+' / '+pad(n)+'</div><div class="fs-name">'+s.name+'</div><div class="fs-cap">'+s.cap+'</div></div>'
         + '<div class="fs-ctrl"><button class="fs-btn" data-nav="-1">'+LArrow+'</button><div class="fs-dots">'+dots+'</div><button class="fs-btn" data-nav="1">'+RArrow+'</button></div>'
         + '<div class="fs-film">'+film+'</div>';
