@@ -96,13 +96,13 @@
   .socials a {
     display: inline-flex; align-items: center; gap: 7px;
     padding: 8px 15px; border-radius: 999px;
-    border: 1px solid var(--border); background: #fff;
+    border: 1px solid var(--border); background: var(--bg);
     font-size: 13.5px; font-weight: 500; color: var(--ink-2); text-decoration: none;
     cursor: pointer; transition: color .2s, border-color .2s, transform .2s;
   }
-  .socials a:hover { color: var(--ink); border-color: #D9D4CA; transform: translateY(-1px); }
+  .socials a:hover { color: var(--accent); border-color: rgba(255,85,48,0.45); transform: translateY(-1px); }
   .socials a .ext { width: 13px; height: 13px; color: var(--ink-3); transition: transform .2s, color .2s; }
-  .socials a:hover .ext { transform: translate(1px,-1px); color: var(--ink); }
+  .socials a:hover .ext { transform: translate(1px,-1px); color: var(--accent); }
 
   /* ── SECTIONS ── */
   hr { border: none; border-top: 1px solid var(--border); margin: 44px 0; }
