@@ -228,6 +228,82 @@
       transition: color 0.2s, text-decoration-color 0.2s;
     }
     .gate-back:hover { color: var(--ink); text-decoration-color: var(--ink); }
+
+    /* ── CONTEXT FLOW (helicopter · scope · cost · tradeoff · roadmap) ── */
+    .ctx{ --teal:#7FC6B8; --tealbg:#E7F4F0; margin-top:8px; }
+    .ctx .block{ padding:44px 0; border-top:1px solid var(--border); }
+    .ctx .block:first-child{ border-top:none; padding-top:8px; }
+    .ctx .num{ font-size:11px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); }
+    .ctx .h{ font-size:18px; font-weight:600; letter-spacing:-.02em; margin:6px 0 12px; color:var(--ink); }
+    .ctx .lead{ font-size:15px; line-height:1.75; color:var(--ink-2); max-width:70ch; }
+    .ctx .lead strong{ color:var(--ink); font-weight:600; }
+
+    .ctx .hv{ display:grid; grid-template-columns:180px 40px 1fr; align-items:center; margin-top:26px; }
+    .ctx .hv-src{ background:var(--tealbg); border:1px solid var(--teal); border-radius:12px; padding:20px 16px; text-align:center; }
+    .ctx .hv-src .t{ font-size:14px; font-weight:600; }
+    .ctx .hv-src .s{ font-size:11.5px; color:var(--ink-2); margin-top:4px; }
+    .ctx .hv-arrow{ display:flex; align-items:center; justify-content:center; color:var(--teal); font-size:20px; }
+    .ctx .hv-surfaces{ display:flex; flex-direction:column; gap:14px; }
+    .ctx .surface{ border:1px solid var(--border); border-radius:12px; background:#fff; padding:16px 18px; display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+    .ctx .surface .lead-col{ min-width:180px; }
+    .ctx .surface .st{ font-size:14.5px; font-weight:600; }
+    .ctx .surface .ss{ font-size:12px; color:var(--ink-3); margin-top:2px; }
+    .ctx .surface .desc{ font-size:13px; color:var(--ink-2); }
+    .ctx .sub{ display:flex; gap:8px; flex-wrap:wrap; }
+    .ctx .sub .chip{ font-size:12px; font-weight:500; color:var(--ink); background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:6px 12px; }
+
+    .ctx .tiers{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:24px; }
+    .ctx .tier{ border:1px solid var(--border); border-radius:12px; background:#fff; padding:16px; }
+    .ctx .tier-h{ font-size:12px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-3); margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+    .ctx .tier-grp{ margin-bottom:12px; }
+    .ctx .tier-grp:last-child{ margin-bottom:0; }
+    .ctx .tier-grp .g{ font-size:13px; font-weight:600; margin-bottom:5px; }
+    .ctx .tier-grp .f{ font-size:12px; color:var(--ink-2); line-height:1.55; }
+    .ctx .count{ margin-top:20px; font-size:13px; color:var(--ink-2); }
+    .ctx .count b{ color:var(--accent); font-weight:600; }
+
+    .ctx .cost{ margin-top:24px; display:flex; flex-direction:column; gap:18px; }
+    .ctx .cost-row{ display:grid; grid-template-columns:150px 1fr 120px; align-items:center; gap:16px; }
+    .ctx .cost-lbl{ font-size:13.5px; font-weight:600; }
+    .ctx .cost-lbl span{ display:block; font-size:11.5px; color:var(--ink-3); font-weight:400; }
+    .ctx .cost-bar{ height:34px; border-radius:8px; position:relative; background:var(--border); }
+    .ctx .cost-bar .fill{ height:100%; border-radius:8px; }
+    .ctx .cost-bar .fill.op{ background:var(--accent); width:100%; }
+    .ctx .cost-bar .fill.hq{ background:#C9C3B8; width:12.6%; }
+    .ctx .cost-val{ font-size:15px; font-weight:600; text-align:right; font-variant-numeric:tabular-nums; }
+    .ctx .cost-val span{ display:block; font-size:11px; color:var(--ink-3); font-weight:400; }
+    .ctx .cost-note{ margin-top:14px; font-size:13px; color:var(--ink-2); }
+    .ctx .cost-note b{ color:var(--accent); }
+
+    .ctx .decision{ margin-top:24px; border:1px solid var(--border); border-radius:12px; background:#fff; padding:22px 24px; }
+    .ctx .decision .d-h{ font-size:15px; font-weight:600; margin-bottom:4px; }
+    .ctx .decision .d-focus{ display:flex; gap:10px; margin:14px 0 18px; flex-wrap:wrap; }
+    .ctx .decision .d-focus .pill{ font-size:13px; font-weight:600; color:#fff; background:var(--accent); border-radius:999px; padding:8px 16px; }
+    .ctx .reasons{ display:flex; flex-direction:column; gap:10px; }
+    .ctx .reason{ display:flex; gap:12px; font-size:14px; line-height:1.55; color:var(--ink-2); }
+    .ctx .reason::before{ content:''; width:6px; height:6px; border-radius:50%; background:var(--accent); flex-shrink:0; margin-top:8px; }
+    .ctx .reason b{ color:var(--ink); font-weight:600; }
+
+    .ctx .stagelabels{ display:flex; gap:8px; margin-top:24px; margin-bottom:8px; }
+    .ctx .stagelabels span{ font-size:10.5px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); }
+    .ctx .flow{ display:flex; flex-wrap:wrap; gap:8px; }
+    .ctx .step{ border:1px solid var(--border); border-radius:10px; background:#fff; padding:10px 13px; min-width:150px; flex:1 1 150px; }
+    .ctx .step .n{ font-size:10px; font-weight:600; letter-spacing:.06em; color:var(--ink-3); }
+    .ctx .step .sn{ font-size:13px; font-weight:600; margin-top:3px; letter-spacing:-.01em; }
+    .ctx .step .sd{ font-size:11.5px; color:var(--ink-3); margin-top:2px; line-height:1.4; }
+    .ctx .step--live{ background:var(--accent); border-color:var(--accent); }
+    .ctx .step--live .n, .ctx .step--live .sn, .ctx .step--live .sd{ color:#fff; }
+    .ctx .step--live .n{ opacity:.85; }
+    .ctx .roadmap-cap{ margin-top:18px; font-size:13px; line-height:1.7; color:var(--ink-2); padding-left:14px; border-left:2px solid var(--accent); }
+    .ctx .roadmap-cap b{ color:var(--ink); font-weight:600; }
+
+    @media(max-width:760px){
+      .ctx .hv{ grid-template-columns:1fr; }
+      .ctx .hv-arrow{ transform:rotate(90deg); height:30px; }
+      .ctx .tiers{ grid-template-columns:1fr; }
+      .ctx .cost-row{ grid-template-columns:1fr; }
+      .ctx .step{ flex-basis:100%; }
+    }
   </style>
 </head>
 
@@ -373,10 +449,132 @@
         </div>
       </section>
 
-      <!-- 04 Results -->
+      <!-- 04 The Approach -->
       <section class="cs-section reveal">
         <div class="section-header">
           <span class="section-num">04</span>
+          <span class="section-title">The Approach</span>
+        </div>
+        <div class="ctx">
+
+          <div class="block">
+            <div class="num">The platform we replaced</div>
+            <h3 class="h">One platform, three surfaces</h3>
+            <p class="lead">Before Pantry, Hangry ran on a third party HRIS (Mekari Talenta) that fanned out across three separate surfaces and two very different audiences. Understanding its full shape came first, so the scope of what we would rebuild in house was clear.</p>
+            <div class="hv">
+              <div class="hv-src"><div class="t">3rd party HRIS</div><div class="s">Mekari Talenta</div></div>
+              <div class="hv-arrow">&rarr;</div>
+              <div class="hv-surfaces">
+                <div class="surface">
+                  <div class="lead-col"><div class="st">Consumer (User) App</div><div class="ss">Two audiences</div></div>
+                  <div class="sub"><span class="chip">HQ</span><span class="chip">Operational</span></div>
+                </div>
+                <div class="surface">
+                  <div class="lead-col"><div class="st">Portal (Outlet) App</div><div class="ss">Shared outlet device</div></div>
+                  <div class="desc">Outlet live attendance</div>
+                </div>
+                <div class="surface">
+                  <div class="lead-col"><div class="st">Admin (Web)</div><div class="ss">Back office</div></div>
+                  <div class="desc">HR and operational PIC teams</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="block">
+            <div class="num">The scope</div>
+            <h3 class="h">Dozens of features across the stack</h3>
+            <p class="lead">The platform spanned three layers of HR, from day to day core operations to strategic tooling. Rebuilding all of it in house was never realistic in the time we had, which made auditing the full surface area essential.</p>
+            <div class="tiers">
+              <div class="tier">
+                <div class="tier-h">Core HR</div>
+                <div class="tier-grp"><div class="g">HRIS</div><div class="f">Employee database, multi branch transfer, announcements, files, document template</div></div>
+                <div class="tier-grp"><div class="g">Attendance</div><div class="f">Live attendance, time off administration, overtime management</div></div>
+                <div class="tier-grp"><div class="g">Payroll</div><div class="f">Calculation, report, disbursement, benefit reimbursement, employee loan</div></div>
+                <div class="tier-grp"><div class="g">Self service</div><div class="f">Payslip, request time off, overtime, and reimbursement</div></div>
+              </div>
+              <div class="tier">
+                <div class="tier-h">Employee experience</div>
+                <div class="tier-grp"><div class="g">Recruitment</div><div class="f">Manpower planning, applicant tracking</div></div>
+                <div class="tier-grp"><div class="g">Employee mobility</div><div class="f">Portal, liveness, on call management</div></div>
+                <div class="tier-grp"><div class="g">Expense management</div><div class="f">Reimbursement, cash advance, business trip planning</div></div>
+                <div class="tier-grp"><div class="g">Employee benefits</div><div class="f">Earned wage access, flexible benefit, flexible installments</div></div>
+              </div>
+              <div class="tier">
+                <div class="tier-h">Strategic HR</div>
+                <div class="tier-grp"><div class="g">Talent management</div><div class="f">Performance review, individual development plan, succession planning</div></div>
+                <div class="tier-grp"><div class="g">Analytics</div><div class="f">Forms+, report builder, Talenta Insight+</div></div>
+              </div>
+            </div>
+            <p class="count"><b>40+ features</b> across 3 HR layers, 3 surfaces, and 2 audiences.</p>
+          </div>
+
+          <div class="block">
+            <div class="num">The deciding variable</div>
+            <h3 class="h">Where the subscription cost actually sat</h3>
+            <p class="lead">The clearest signal for what to prioritize was the third party subscription bill. Operational accounts and the outlet portal dominated the annual cost, while HQ was a rounding error by comparison.</p>
+            <div class="cost">
+              <div class="cost-row">
+                <div class="cost-lbl">Operational<span>Portal and Ops accounts</span></div>
+                <div class="cost-bar"><div class="fill op"></div></div>
+                <div class="cost-val">IDR 676M<span>per year</span></div>
+              </div>
+              <div class="cost-row">
+                <div class="cost-lbl">HQ<span>HQ accounts</span></div>
+                <div class="cost-bar"><div class="fill hq"></div></div>
+                <div class="cost-val">IDR 85M<span>per year</span></div>
+              </div>
+            </div>
+            <p class="cost-note">Operational cost <b>~8&times; more</b> than HQ, and carried the heavier day to day reliance.</p>
+          </div>
+
+          <div class="block">
+            <div class="num">The tradeoff</div>
+            <h3 class="h">Operational first</h3>
+            <p class="lead">With cost and reliance both pointing the same way, I made the call: build the operational surfaces and the admin back office first, and defer only the HQ user app to after launch.</p>
+            <div class="decision">
+              <div class="d-h">Build for go live</div>
+              <div class="d-focus"><span class="pill">Portal App</span><span class="pill">Operational User App</span><span class="pill">Admin (Web)</span></div>
+              <div class="reasons">
+                <div class="reason"><span><b>Highest cost.</b> Operational drove ~IDR 676M per year of the subscription, the bulk of the savings opportunity.</span></div>
+                <div class="reason"><span><b>Heaviest reliance.</b> Operational staff depend on the platform daily for live attendance, overtime, and requests.</span></div>
+                <div class="reason"><span><b>HQ could wait.</b> HQ users only checked payslips and requested leave, nothing operationally critical, and only ~IDR 85M per year.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="block">
+            <div class="num">The plan to go live</div>
+            <h3 class="h">From requirement to live, then improve</h3>
+            <p class="lead">With scope set to operational first, this was the P0 plan to reach go live before April. Everything here shipped for launch. The HQ app and deferred features became P1 and P2 after live.</p>
+            <div class="stagelabels"><span>Build</span></div>
+            <div class="flow">
+              <div class="step"><div class="n">01</div><div class="sn">Requirement gathering</div><div class="sd">Portal, Admin, and Operational user app</div></div>
+              <div class="step"><div class="n">02</div><div class="sn">Concept and design</div><div class="sd">Including reviews with design team and stakeholders</div></div>
+              <div class="step"><div class="n">03</div><div class="sn">Testing</div><div class="sd">Internal tech testing and user testing</div></div>
+            </div>
+            <div class="stagelabels" style="margin-top:14px"><span>Pre launch</span></div>
+            <div class="flow">
+              <div class="step"><div class="n">04</div><div class="sn">Outlet trial</div><div class="sd">5 outlets, 7 days in the live environment</div></div>
+              <div class="step"><div class="n">05</div><div class="sn">Socialization</div><div class="sd">All outlets, walkthrough and QnA over Google Meet</div></div>
+              <div class="step"><div class="n">06</div><div class="sn">Live preparation</div><div class="sd">Validate and migrate all employee data</div></div>
+            </div>
+            <div class="stagelabels" style="margin-top:14px"><span>Launch and stabilize</span></div>
+            <div class="flow">
+              <div class="step step--live"><div class="n">07</div><div class="sn">Go live</div><div class="sd">Migrated to our own HRIS</div></div>
+              <div class="step"><div class="n">08</div><div class="sn">After live monitoring</div><div class="sd">Watch the live environment closely</div></div>
+              <div class="step"><div class="n">09</div><div class="sn">Improvement and report</div><div class="sd">Fixes, learnings, and a wrap up report</div></div>
+            </div>
+            <p class="roadmap-cap">Every step above was <b>P0</b>, delivered before and around go live. The HQ app and the features we deferred became the <b>P1 and P2</b> roadmap after launch.</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 05 Results -->
+      <section class="cs-section reveal">
+        <div class="section-header">
+          <span class="section-num">05</span>
           <span class="section-title">Results</span>
         </div>
         <div class="section-body">
