@@ -304,6 +304,35 @@
       .ctx .cost-row{ grid-template-columns:1fr; }
       .ctx .step{ flex-basis:100%; }
     }
+
+    /* ── PORTAL APP FLOW (phone carousel) ── */
+    .pflow{ --mono:ui-monospace,SFMono-Regular,Menlo,monospace; }
+    .pflow .pf{ display:flex; flex-direction:column; align-items:center; gap:20px; margin-top:28px; }
+    .pflow .phone{ width:260px; background:#17150f; border-radius:38px; padding:9px; box-shadow:0 24px 60px rgba(13,11,9,.18); }
+    .pflow .phone-screen{ border-radius:30px; overflow:hidden; background:#fff; position:relative; }
+    .pflow .phone-screen img{ width:100%; display:block; }
+    .pflow .meta{ text-align:center; max-width:46ch; }
+    .pflow .m-num{ font-family:var(--mono); font-size:11px; color:var(--accent); font-weight:600; letter-spacing:.06em; }
+    .pflow .m-name{ font-size:17px; font-weight:600; margin-top:4px; }
+    .pflow .m-cap{ font-size:13.5px; color:var(--ink-2); margin-top:8px; line-height:1.55; }
+    .pflow .ctrl{ display:flex; align-items:center; gap:20px; }
+    .pflow .cbtn{ width:42px; height:42px; border-radius:50%; border:1px solid var(--border); background:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--ink-2); transition:all .18s; }
+    .pflow .cbtn:hover{ border-color:var(--accent); color:var(--accent); }
+    .pflow .dots{ display:flex; gap:8px; }
+    .pflow .dots span{ width:7px; height:7px; border-radius:50%; background:var(--border); cursor:pointer; transition:all .18s; }
+    .pflow .dots span.on{ background:var(--accent); width:22px; border-radius:4px; }
+    .pflow .film{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
+    .pflow .thumb{ width:42px; height:84px; border:1.5px solid var(--border); border-radius:8px; background:#fff; cursor:pointer; overflow:hidden; position:relative; transition:all .18s; padding:0; }
+    .pflow .thumb.on{ border-color:var(--accent); }
+    .pflow .thumb img{ width:100%; height:100%; object-fit:cover; object-position:top; }
+    .pflow .thumb .tn{ position:absolute; top:3px; left:5px; font-family:var(--mono); font-size:9px; color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.5); }
+    .pflow .feats{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:22px; }
+    .pflow .feat{ border:1px solid var(--border); border-radius:12px; background:#fff; padding:20px; }
+    .pflow .feat-ic{ width:38px; height:38px; border-radius:10px; background:#FDECE7; display:flex; align-items:center; justify-content:center; color:var(--accent); margin-bottom:14px; }
+    .pflow .feat-ic svg{ width:20px; height:20px; }
+    .pflow .feat-t{ font-size:14.5px; font-weight:600; letter-spacing:-.01em; }
+    .pflow .feat-d{ font-size:13px; color:var(--ink-2); margin-top:7px; line-height:1.6; }
+    @media(max-width:760px){ .pflow .feats{ grid-template-columns:1fr; } }
   </style>
 </head>
 
@@ -423,6 +452,38 @@
             <div class="feature-item">
               <span class="feature-num">03</span>
               <div class="feature-text"><strong>Administrative platform</strong>: Centralized management of shifts, approvals, and workforce data across all locations</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-title">Portal App · Live attendance</div>
+          <div class="subsection-body">
+            <p>The Portal App runs on one shared device per outlet. Any staff member finds their name, confirms their shift, and clocks in with a face scan. It is the most safeguarded surface in the system, because attendance ties directly to payroll.</p>
+          </div>
+        </div>
+
+        <div class="pflow">
+          <div class="pf" id="portalPf"></div>
+
+          <div class="subsection" style="margin-top:44px">
+            <div class="subsection-title">Built to prevent abuse</div>
+          </div>
+          <div class="feats">
+            <div class="feat">
+              <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 15c1 1.3 2.4 2 4 2s3-.7 4-2M9 10h.01M15 10h.01"/></svg></div>
+              <div class="feat-t">Face matching</div>
+              <div class="feat-d">Verifies the person clocking in is who they claim to be, closing the door on buddy punching.</div>
+            </div>
+            <div class="feat">
+              <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+              <div class="feat-t">Location range</div>
+              <div class="feat-d">Clock-in only works within 100m of the outlet, including a GPS buffer for outlets inside shopping malls.</div>
+            </div>
+            <div class="feat">
+              <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+              <div class="feat-t">No clock tricks</div>
+              <div class="feat-d">Staff sometimes change the device clock to hide a late clock-in. Attendance runs on server time, so it has no effect, and tampering is detected and blocked.</div>
             </div>
           </div>
         </div>
@@ -670,6 +731,43 @@
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
   </script>
   <script src="/toc.js"></script>
+
+  <!-- Portal App flow carousel -->
+  <script>
+  (function(){
+    var el=document.getElementById('portalPf'); if(!el) return;
+    var BASE='screens/';
+    var STEPS=[
+      {name:'Portal home', img:'portal-1.png', cap:'Staff open the portal on the shared outlet device and see the full roster.'},
+      {name:'Search', img:'portal-2.png', cap:'Search by name or ID to find yourself in seconds.'},
+      {name:'Employee details', img:'portal-3.png', cap:'Two entry points from the profile: start a Working shift or a Training shift.'},
+      {name:'Confirmation', img:'portal-4.png', cap:'A confirmation step guards against accidental taps before the face scan.'},
+      {name:'Face scan', img:'portal-5.png', cap:'Face matching verifies the right person is clocking in, with a brightness helper for dim outlets.'},
+      {name:'Clocked in', img:'portal-6.png', cap:'The shift starts, timestamped against server time, with a clear clock-out.'}
+    ];
+    var i=0;
+    var L='<svg viewBox="0 0 24 24" width="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>';
+    var R='<svg viewBox="0 0 24 24" width="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
+    function pad(n){return n<10?'0'+n:''+n;}
+    function render(){
+      var s=STEPS[i],n=STEPS.length,dots='',film='';
+      STEPS.forEach(function(st,j){
+        dots+='<span class="'+(j===i?'on':'')+'" data-step="'+j+'"></span>';
+        film+='<button class="thumb'+(j===i?' on':'')+'" data-step="'+j+'"><span class="tn">'+(j+1)+'</span><img src="'+BASE+st.img+'" alt="" onerror="this.style.display=\'none\'"></button>';
+      });
+      el.innerHTML=
+        '<div class="phone"><div class="phone-screen"><img src="'+BASE+s.img+'" alt="'+s.name+'"></div></div>'
+        +'<div class="meta"><div class="m-num">STEP '+pad(i+1)+' / '+pad(n)+'</div><div class="m-name">'+s.name+'</div><div class="m-cap">'+s.cap+'</div></div>'
+        +'<div class="ctrl"><button class="cbtn" data-nav="-1">'+L+'</button><div class="dots">'+dots+'</div><button class="cbtn" data-nav="1">'+R+'</button></div>'
+        +'<div class="film">'+film+'</div>';
+    }
+    el.addEventListener('click',function(e){
+      var st=e.target.closest('[data-step]'); if(st){i=+st.dataset.step;render();return;}
+      var nv=e.target.closest('[data-nav]'); if(nv){i=(i + +nv.dataset.nav + STEPS.length)%STEPS.length;render();return;}
+    });
+    render();
+  })();
+  </script>
 
 </body>
 </html>
