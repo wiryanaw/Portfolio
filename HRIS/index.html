@@ -333,6 +333,17 @@
     .pflow .feat-t{ font-size:14.5px; font-weight:600; letter-spacing:-.01em; }
     .pflow .feat-d{ font-size:13px; color:var(--ink-2); margin-top:7px; line-height:1.6; }
     @media(max-width:760px){ .pflow .feats{ grid-template-columns:1fr; } }
+    .pflow .nda{ margin-top:16px; font-family:var(--mono); font-size:11.5px; color:var(--ink-3); text-align:center; }
+    .pflow .stat-card{ display:grid; grid-template-columns:200px 1fr; gap:28px; align-items:center; border:1px solid var(--border); border-radius:14px; background:#fff; padding:28px 30px; margin-top:22px; }
+    .pflow .stat-big{ font-size:clamp(44px,6vw,60px); font-weight:700; letter-spacing:-.04em; color:var(--accent); line-height:1; }
+    .pflow .stat-sub{ font-size:13px; color:var(--ink-3); margin-top:6px; line-height:1.5; }
+    .pflow .stat-txt{ font-size:14.5px; color:var(--ink-2); line-height:1.7; }
+    .pflow .stat-txt b{ color:var(--ink); font-weight:600; }
+    .pflow .notes{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:16px; }
+    .pflow .note{ border:1px solid var(--border); border-radius:12px; background:#fff; padding:18px 20px; }
+    .pflow .note-t{ font-size:14px; font-weight:600; }
+    .pflow .note-d{ font-size:13px; color:var(--ink-2); margin-top:6px; line-height:1.6; }
+    @media(max-width:760px){ .pflow .stat-card{ grid-template-columns:1fr; } .pflow .notes{ grid-template-columns:1fr; } }
   </style>
 </head>
 
@@ -635,10 +646,46 @@
         </div>
       </section>
 
-      <!-- 06 Results -->
+      <!-- 06 The Operational User App -->
       <section class="cs-section reveal">
         <div class="section-header">
           <span class="section-num">06</span>
+          <span class="section-title">The Operational User App</span>
+        </div>
+        <div class="section-body">
+          <p>Operational staff use their own phone to request overtime and leave, check payslips, and keep their profile current. The design leaned into the two things they do most, and cut every step we did not have time to build.</p>
+        </div>
+        <div class="pflow">
+          <div class="pf" id="opsPf"></div>
+          <p class="nda">A limited selection of screens is shown. The full app is under NDA.</p>
+
+          <div class="subsection" style="margin-top:44px">
+            <div class="subsection-title">A design decision, backed by data</div>
+          </div>
+          <div class="stat-card">
+            <div>
+              <div class="stat-big">99.99%</div>
+              <div class="stat-sub">of 3,941 new joiners<br>Feb 2023 to Nov 2025</div>
+            </div>
+            <div class="stat-txt">Nearly every new joiner already onboarded with a Gmail account. With no time to build user account provisioning before the deadline, <b>Continue with Google</b> removed an entire onboarding step and matched how staff already signed in. One tap, no passwords to manage.</div>
+          </div>
+          <div class="notes">
+            <div class="note">
+              <div class="note-t">Requests, front and center</div>
+              <div class="note-d">Overtime and leave are what staff open the app for, so both sit at the top of the home screen as prominent cards with a direct New Request action.</div>
+            </div>
+            <div class="note">
+              <div class="note-t">Self-service profile</div>
+              <div class="note-d">Staff view and edit their own personal, employment, and payroll details, cutting the back and forth with HR and keeping data current at the source.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 07 Results -->
+      <section class="cs-section reveal">
+        <div class="section-header">
+          <span class="section-num">07</span>
           <span class="section-title">Results</span>
         </div>
         <div class="section-body">
@@ -747,6 +794,40 @@
       {name:'Confirmation', img:'portal-4.png', cap:'A confirmation step guards against accidental taps before the face scan.'},
       {name:'Face scan', img:'portal-5.png', cap:'Face matching verifies the right person is clocking in, with a brightness helper for dim outlets.'},
       {name:'Clocked in', img:'portal-6.png', cap:'The shift starts, timestamped against server time, with a clear clock-out.'}
+    ];
+    var i=0;
+    var L='<svg viewBox="0 0 24 24" width="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>';
+    var R='<svg viewBox="0 0 24 24" width="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
+    function pad(n){return n<10?'0'+n:''+n;}
+    function render(){
+      var s=STEPS[i],n=STEPS.length,dots='',film='';
+      STEPS.forEach(function(st,j){
+        dots+='<span class="'+(j===i?'on':'')+'" data-step="'+j+'"></span>';
+        film+='<button class="thumb'+(j===i?' on':'')+'" data-step="'+j+'"><span class="tn">'+(j+1)+'</span><img src="'+BASE+st.img+'" alt="" onerror="this.style.display=\'none\'"></button>';
+      });
+      el.innerHTML=
+        '<div class="phone"><div class="phone-screen"><img src="'+BASE+s.img+'" alt="'+s.name+'"></div></div>'
+        +'<div class="meta"><div class="m-num">STEP '+pad(i+1)+' / '+pad(n)+'</div><div class="m-name">'+s.name+'</div><div class="m-cap">'+s.cap+'</div></div>'
+        +'<div class="ctrl"><button class="cbtn" data-nav="-1">'+L+'</button><div class="dots">'+dots+'</div><button class="cbtn" data-nav="1">'+R+'</button></div>'
+        +'<div class="film">'+film+'</div>';
+    }
+    el.addEventListener('click',function(e){
+      var st=e.target.closest('[data-step]'); if(st){i=+st.dataset.step;render();return;}
+      var nv=e.target.closest('[data-nav]'); if(nv){i=(i + +nv.dataset.nav + STEPS.length)%STEPS.length;render();return;}
+    });
+    render();
+  })();
+  </script>
+
+  <!-- Operational User App flow carousel -->
+  <script>
+  (function(){
+    var el=document.getElementById('opsPf'); if(!el) return;
+    var BASE='screens/';
+    var STEPS=[
+      {name:'Sign in', img:'ops-app-1.png', cap:'One-tap Google sign in for new joiners, no account provisioning needed.'},
+      {name:'Home', img:'ops-app-2.png', cap:'Overtime and leave requests lead the home screen; payslip, attendance, and announcements sit below.'},
+      {name:'My data', img:'ops-app-3.png', cap:'Staff view and edit their own personal, employment, and payroll details.'}
     ];
     var i=0;
     var L='<svg viewBox="0 0 24 24" width="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>';
