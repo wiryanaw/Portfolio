@@ -344,6 +344,58 @@
     .pflow .note-t{ font-size:14px; font-weight:600; }
     .pflow .note-d{ font-size:13px; color:var(--ink-2); margin-top:6px; line-height:1.6; }
     @media(max-width:760px){ .pflow .stat-card{ grid-template-columns:1fr; } .pflow .notes{ grid-template-columns:1fr; } }
+
+    /* ── TRIAL SECTION ── */
+    .trial{ --ok:#4E7A56; --ok-bg:#E7F0E2; --warn:#B37A1E; --warn-bg:#FBEEDC; --bad:#C0503C; --bad-bg:#F8E1DC; --card:#fff; }
+    .trial .sub{ font-size:13px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-3); margin:40px 0 14px; padding-bottom:10px; border-bottom:1px solid var(--border); }
+    .trial .lead{ font-size:15px; line-height:1.75; color:var(--ink-2); max-width:72ch; }
+    /* setup */
+    .trial .setup{ display:flex; gap:16px; align-items:stretch; margin-top:24px; flex-wrap:wrap; }
+    .trial .ts-stat{ border:1px solid var(--border); border-radius:12px; background:var(--card); padding:18px 22px; min-width:150px; }
+    .trial .ts-stat b{ font-size:30px; font-weight:700; letter-spacing:-.03em; display:block; }
+    .trial .ts-stat span{ font-size:12.5px; color:var(--ink-3); }
+    .trial .ts-chips{ display:flex; flex-direction:column; gap:10px; justify-content:center; }
+    .trial .ts-chip{ font-size:13px; border:1px solid var(--border); border-radius:10px; padding:10px 14px; background:var(--card); }
+    .trial .ts-chip b{ font-weight:600; }
+    .trial .ts-chip.ghost{ color:var(--ink-2); background:var(--bg); border-style:dashed; }
+    /* problem */
+    .trial .problem{ border:1px solid #EBCFC8; border-radius:14px; background:var(--bad-bg); padding:26px 28px; margin-top:8px; }
+    .trial .p-head{ display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; margin-bottom:18px; padding-bottom:18px; border-bottom:1px solid #EBCFC8; }
+    .trial .p-stat{ font-size:clamp(40px,6vw,54px); font-weight:700; letter-spacing:-.04em; color:var(--bad); line-height:1; }
+    .trial .p-stat-sub{ font-size:13px; font-weight:500; color:var(--bad); line-height:1.5; }
+    .trial .p-list{ list-style:none; display:flex; flex-direction:column; gap:12px; }
+    .trial .p-list li{ position:relative; padding-left:20px; font-size:14px; color:var(--ink); line-height:1.55; }
+    .trial .p-list li::before{ content:''; position:absolute; left:2px; top:8px; width:6px; height:6px; border-radius:50%; background:var(--bad); }
+    .trial .p-list li b{ font-weight:600; }
+    .trial .scale-risk{ margin-top:14px; font-size:13.5px; color:var(--ink-2); padding-left:14px; border-left:2px solid var(--bad); }
+    .trial .scale-risk b{ color:var(--ink); font-weight:600; }
+    /* gps tiers */
+    .trial .tiers{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+    .trial .tier{ border:1px solid var(--border); border-radius:12px; background:var(--card); padding:18px; display:flex; flex-direction:column; gap:12px; }
+    .trial .tier-name{ font-size:14px; font-weight:600; }
+    .trial .tier-loc{ font-size:12px; color:var(--ink-3); font-style:italic; }
+    .trial .tier-badge{ border-radius:9px; padding:9px 12px; font-size:12.5px; font-weight:500; }
+    .trial .tier-badge b{ font-weight:700; }
+    .trial .tier-note{ font-size:12.5px; color:var(--ink-2); line-height:1.55; margin-top:2px; }
+    .trial .g .tier-badge{ background:var(--ok-bg); color:var(--ok); }
+    .trial .a .tier-badge{ background:var(--warn-bg); color:var(--warn); }
+    .trial .r .tier-badge{ background:var(--bad-bg); color:var(--bad); }
+    /* fix */
+    .trial .fix-cards{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:8px; align-items:stretch; }
+    .trial .fix-card{ border:1px solid var(--border); border-radius:12px; background:var(--card); padding:22px 24px; display:flex; flex-direction:column; }
+    .trial .fix-tag{ font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); }
+    .trial .fix-h{ font-size:15px; font-weight:600; margin-top:8px; }
+    .trial .fix-big{ font-size:44px; font-weight:700; letter-spacing:-.04em; color:var(--accent); line-height:1; margin:14px 0 2px; }
+    .trial .fix-big span{ display:block; font-size:12px; font-weight:400; color:var(--ink-3); letter-spacing:0; margin-top:4px; }
+    .trial .fix-body{ font-size:13.5px; color:var(--ink-2); line-height:1.65; margin-top:10px; }
+    .trial .fix-body b{ color:var(--ink); font-weight:600; }
+    .trial .proof{ margin-top:16px; border:1px solid #CFE0C8; border-radius:12px; background:var(--ok-bg); padding:20px 24px; }
+    .trial .proof-t{ font-size:13px; font-weight:600; color:var(--ok); letter-spacing:.03em; text-transform:uppercase; }
+    .trial .proof-list{ list-style:none; display:flex; flex-direction:column; gap:11px; margin-top:12px; }
+    .trial .proof-list li{ position:relative; padding-left:20px; font-size:14px; color:var(--ink); line-height:1.55; }
+    .trial .proof-list li::before{ content:''; position:absolute; left:2px; top:8px; width:6px; height:6px; border-radius:50%; background:var(--ok); }
+    .trial .proof-list li b{ font-weight:600; }
+    @media(max-width:760px){ .trial .tiers{ grid-template-columns:1fr; } .trial .fix-cards{ grid-template-columns:1fr; } }
   </style>
 </head>
 
@@ -682,10 +734,91 @@
         </div>
       </section>
 
-      <!-- 07 Results -->
+      <!-- 07 The Trial -->
       <section class="cs-section reveal">
         <div class="section-header">
           <span class="section-num">07</span>
+          <span class="section-title">The Trial</span>
+        </div>
+        <div class="section-body">
+          <p>Before rolling out to 165 outlets, we trialed live attendance at 5 outlets over 5 days, 6 to 10 March. Three ran with geo-fence restrictions, and two warehouses ran without, since warehouse staff are highly mobile.</p>
+        </div>
+        <div class="trial">
+          <div class="setup">
+            <div class="ts-stat"><b>5</b><span>outlets · 5-day trial (6 to 10 March)</span></div>
+            <div class="ts-chips">
+              <div class="ts-chip"><b>3 outlets</b> · geo-fence on</div>
+              <div class="ts-chip ghost"><b>2 warehouses</b> · geo-fence off (mobile staff)</div>
+            </div>
+          </div>
+
+          <div class="sub">What went wrong</div>
+          <div class="problem">
+            <div class="p-head">
+              <div class="p-stat">76.7%</div>
+              <div class="p-stat-sub">of valid check-ins out of range<br>174 of 227 · first two trial days (6 to 7 March)</div>
+            </div>
+            <ul class="p-list">
+              <li>The <b>Operations team</b> had initially defined both the range and the stored coordinates for every outlet.</li>
+              <li>Some ranges were set as low as <b>1.9 to 2.5m</b>, below what phone GPS can achieve.</li>
+              <li>Several outlet <b>coordinates were themselves inaccurate</b>.</li>
+              <li>With natural GPS drift of <b>15 to 30m</b> in malls and shophouses, staff standing at the counter were rejected.</li>
+            </ul>
+          </div>
+          <p class="scale-risk">Scale risk: with <b>165 outlets going live end of March</b>, the same misconfiguration would not stay in the trial. It would multiply platform-wide.</p>
+
+          <div class="sub">Why: GPS accuracy is not fixed</div>
+          <p class="lead">I dug into GPS accuracy and found the error depends heavily on the environment, so a single tiny threshold could never work everywhere.</p>
+          <div class="tiers">
+            <div class="tier g">
+              <div><div class="tier-name">Open sky / street facing</div><div class="tier-loc">Street kiosks, open car parks, outdoor counters</div></div>
+              <div class="tier-badge">Typical GPS error <b>3 to 10m</b></div>
+              <div class="tier-badge">Recommended threshold <b>15 to 25m</b></div>
+              <div class="tier-note">Clean signal with good satellite visibility. A 15 to 25m threshold absorbs natural drift while keeping the boundary tight.</div>
+            </div>
+            <div class="tier a">
+              <div><div class="tier-name">Mall / urban block</div><div class="tier-loc">Ground floor retail, shophouse, dense city block</div></div>
+              <div class="tier-badge">Typical GPS error <b>15 to 30m</b></div>
+              <div class="tier-badge">Recommended threshold <b>25 to 50m</b></div>
+              <div class="tier-note">Concrete walls and nearby buildings cause multipath reflection. Drift of 20 to 30m is common even inside the outlet.</div>
+            </div>
+            <div class="tier r">
+              <div><div class="tier-name">Indoor / basement / upper floor</div><div class="tier-loc">Mall basement, upper-floor units, enclosed offices</div></div>
+              <div class="tier-badge">Typical GPS error <b>30 to 100m</b></div>
+              <div class="tier-badge">Recommended threshold <b>50 to 100m</b></div>
+              <div class="tier-note">GPS often fails to penetrate fully indoors. Accuracy degrades sharply, needing a larger threshold or Wi-Fi assisted location.</div>
+            </div>
+          </div>
+
+          <div class="sub">The fix</div>
+          <p class="lead">The rejections had two root causes, so the fix had two parts.</p>
+          <div class="fix-cards">
+            <div class="fix-card">
+              <div class="fix-tag">Fix 1 · Data</div>
+              <div class="fix-h">Correct the coordinates</div>
+              <div class="fix-body">Rather than relying on the Operations team's data, we asked each outlet to share their live location, then updated the invalid longitude and latitude so the geo-fence centred on the real spot.</div>
+            </div>
+            <div class="fix-card">
+              <div class="fix-tag">Fix 2 · Range</div>
+              <div class="fix-h">Set a universal range</div>
+              <div class="fix-big">50m<span>GPS buffer included</span></div>
+              <div class="fix-body">One standard for every outlet, applied as a single admin config change. <b>No development, no manager workload.</b> It covers real GPS drift while still requiring staff to be at the outlet.</div>
+            </div>
+          </div>
+          <div class="proof">
+            <div class="proof-t">Validated in the trial</div>
+            <ul class="proof-list">
+              <li>With the coordinates corrected, no further complaints about inaccurate locations, and staff could check in successfully <b>100% of the time</b>.</li>
+              <li>With the 50m range applied, every clock-in fell within range. Of <b>22 records</b> on 9 March (15:40 to 23:19), the mean was <b>7.20m</b>, with a minimum of <b>1.22m</b> and a maximum of <b>15.19m</b>, all well under the 50m boundary.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 08 Results -->
+      <section class="cs-section reveal">
+        <div class="section-header">
+          <span class="section-num">08</span>
           <span class="section-title">Results</span>
         </div>
         <div class="section-body">
