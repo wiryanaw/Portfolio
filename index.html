@@ -30,7 +30,7 @@
     --mono: 'Geist Mono', ui-monospace, monospace;
   }
   ::selection { background: rgba(255,85,48,0.15); }
-  html { -webkit-text-size-adjust: 100%; }
+  html { -webkit-text-size-adjust: 100%; overflow-x: hidden; }
   body { background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; font-size: 15px; line-height: 1.5; }
   a { color: inherit; text-decoration: none; }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
@@ -100,12 +100,21 @@
   .rv.in { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) { .rv{opacity:1;transform:none;transition:none} .orb::after,.clock .dot{animation:none} .row:hover .thumb img{transform:none} }
 
-  @media (max-width: 480px) {
-    .page { padding: 60px 22px 64px; }
-    .row { grid-template-columns: 1fr 48px; }
-    .row-metric { grid-column: 1; grid-row: auto; text-align: left; margin-top: 2px; }
-    .row-main { grid-row: span 3; }
-    .thumb { grid-row: span 3; }
+  @media (max-width: 540px) {
+    .page { padding: 58px 20px 60px; }
+
+    /* work & product rows: content top-left, thumb right, metric below */
+    .row:not(.brow) { grid-template-columns: 1fr 56px; column-gap: 16px; }
+    .row:not(.brow) .row-main { grid-column: 1; grid-row: 1; }
+    .row:not(.brow) .thumb { grid-column: 2; grid-row: 1 / span 2; align-self: start; }
+    .row:not(.brow) .row-metric { grid-column: 1; grid-row: 2; text-align: left; margin-top: 5px; }
+
+    /* let descriptions wrap to use the full width */
+    .row-desc { white-space: normal; overflow: visible; text-overflow: clip; }
+
+    /* beyond rows: keep title + meta on one line, allow shrink */
+    .brow { grid-template-columns: minmax(0,1fr) auto; column-gap: 12px; }
+    .brow .row-meta { grid-row: span 2; }
   }
 </style>
 </head>
@@ -185,7 +194,7 @@
         <div class="row-meta">33 mentees <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></div>
       </a>
       <a href="https://careerfoundry.com/" target="_blank" rel="noopener noreferrer" class="row brow rv">
-        <div class="row-main"><div class="row-nm"><span class="t">UX Design Tutor</span></div><div class="row-desc">Tutored UX students across APAC</div></div>
+        <div class="row-main"><div class="row-nm"><span class="t">UX Design Tutor</span></div><div class="row-desc">UX tutor for APAC</div></div>
         <div class="row-meta">CareerFoundry · 3 yrs <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></div>
       </a>
       <a href="/photos" class="row brow rv">
