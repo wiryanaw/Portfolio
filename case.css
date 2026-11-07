@@ -1,0 +1,110 @@
+/* ============================================================
+   Pixel / game re-skin for the case-study pages.
+   Loaded AFTER each page's inline <style>, so these override.
+   Pixelify Sans for word-based chrome only; numbers stay in Geist
+   (readable). No highlight bars. Gold + red accents, chunky frames.
+   ============================================================ */
+
+:root {
+  --ink:    #1B1C2E;
+  --ink-2:  #3E3F50;
+  --ink-3:  #8F8F8A;
+  --accent: #E9A91E;   /* gold, for small chrome accents */
+  --red:    #D2453A;   /* readable pop for numbers / key stats */
+  --border: #E6E4DD;
+  --pixel:  "Pixelify Sans", "Courier New", monospace;
+  --shadow: rgba(27, 28, 46, .18);
+}
+
+body { color: var(--ink-2); }
+
+/* ---- Nav ---- */
+nav { background: rgba(255,255,255,.92); border-bottom: 2px solid var(--ink); }
+.nav-back { font-family: var(--pixel); font-size: 15px; color: var(--ink); }
+.nav-title { color: var(--ink-3); }
+
+/* ---- Header / eyebrow chips ---- */
+.cs-tag, .cs-year {
+  font-family: var(--pixel); font-size: 13px; font-weight: 500;
+  letter-spacing: 0; text-transform: none; color: var(--ink);
+  border: 2px solid var(--ink); border-radius: 0; padding: 2px 10px;
+  background: #fff; box-shadow: 2px 2px 0 var(--ink);
+}
+.cs-year { background: var(--accent); }
+.cs-title { font-family: var(--pixel); font-weight: 600; letter-spacing: 0; color: var(--ink); }
+
+/* ---- Section + subsection headings (words → pixel) ---- */
+.section-title { font-family: var(--pixel); font-weight: 500; letter-spacing: 0; color: var(--ink); }
+.subsection-title { font-family: var(--pixel); font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--ink); border-bottom: 2px solid var(--border); }
+.diagram-heading { font-family: var(--pixel); letter-spacing: 0; text-transform: none; color: var(--accent); }
+.meta-label { font-family: var(--pixel); letter-spacing: 0; text-transform: none; color: var(--ink-3); }
+/* section numbers stay in Geist so 01–06 read cleanly */
+.section-num { color: var(--accent); font-weight: 600; }
+
+/* ---- Dividers: chunkier ---- */
+.cs-section { border-top: 2px solid var(--border); }
+.cs-meta { border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); }
+.cs-footer { border-top: 2px solid var(--ink); }
+
+/* ---- Outcome line: match the other meta rows (no special colour) ---- */
+.meta-value.accent { color: var(--ink-2); font-weight: 400; background: none; }
+
+/* ---- Framed media / diagrams: pixel frame ---- */
+.cs-hero-img { border: 2px solid var(--ink); border-radius: 0; box-shadow: 6px 6px 0 var(--shadow); }
+.img-slot, .terms-grid, .scale-flow, .constraint-item, .math-bar, .fs-frame {
+  border: 2px solid var(--ink); border-radius: 0; box-shadow: 4px 4px 0 var(--shadow);
+}
+.img-slot img, .cs-hero-img img { border-radius: 0; }
+
+/* ---- Bullets: gold squares ---- */
+.bullet-item::before { border-radius: 0; background: var(--accent); width: 7px; height: 7px; margin-top: 8px; }
+
+/* ---- Math bar (numbers stay Geist) ---- */
+.math-bar { background: #fff; }
+.math-bar .mb-step--result .mb-num { color: var(--accent); }
+
+/* ---- Scale-viz flow ---- */
+.flow-result { border: 2px solid var(--ink); border-radius: 0; }
+.flow-result-num { color: var(--accent); }
+.plat-pill { border-radius: 0; }
+.scale-growth-note { border-radius: 0; border: 2px dashed rgba(233,169,30,.55); background: rgba(233,169,30,.06); }
+
+/* ---- Terms + modules tree (words → pixel) ---- */
+.term-chip { font-family: var(--pixel); border-radius: 0; background: #fff; border: 2px solid var(--ink); box-shadow: 2px 2px 0 var(--shadow); }
+.tree-node { border: 2px solid var(--ink); border-radius: 0; }
+.tree-node--root { font-family: var(--pixel); background: var(--accent); color: var(--ink); }
+
+/* ---- Constraints ---- */
+.constraint-item { background: #fff; }
+.constraint-text strong { color: var(--ink); }
+
+/* ---- Results metrics: big, readable, red. No highlight. ---- */
+.result-metric { border-bottom: 2px solid var(--border); }
+.result-metric:first-child { border-top: 2px solid var(--ink); }
+.metric-value { color: var(--accent); font-weight: 700; letter-spacing: -.03em; background: none; }
+.metric-label { font-weight: 500; color: var(--ink); }
+
+/* ---- Flow showcase (labels/words → pixel, numbers Geist) ---- */
+.fs-tab { font-family: var(--pixel); }
+.fs-tab.on::after { background: var(--accent); height: 3px; }
+.fs-label { font-family: var(--pixel); }
+.fs-name { font-family: var(--pixel); font-weight: 500; }
+.fs-num { color: var(--accent); }
+.fs-frame { box-shadow: 4px 4px 0 var(--shadow); }
+.fs-btn { border: 2px solid var(--ink); border-radius: 0; color: var(--ink); }
+.fs-btn:hover { border-color: var(--accent); color: var(--accent); }
+.fs-thumb { border: 2px solid var(--border); border-radius: 0; }
+.fs-thumb.on { border-color: var(--accent); box-shadow: 3px 3px 0 var(--shadow); }
+.fs-dots span { border-radius: 0; }
+.fs-dots span.on { background: var(--accent); }
+
+/* ---- Footer ---- */
+.footer-copy, .back-to-top { font-family: var(--pixel); }
+
+/* ---- Flow showcase: fade each auto-advancing step in (video-like) ---- */
+.fs-shot img { animation: fsfade .5s var(--ease, ease); }
+@keyframes fsfade { from { opacity: .25; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .fs-shot img { animation: none; } }
+
+/* ---- Lightbox close: squared ---- */
+.lightbox-close { border-radius: 0; border: 2px solid #fff; }

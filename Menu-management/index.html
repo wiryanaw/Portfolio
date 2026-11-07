@@ -7,7 +7,7 @@
 
   <!-- Open Graph -->
   <meta property="og:title" content="Streamlined Menu Management Across 3 Platforms — Wiryana">
-  <meta property="og:description" content="Unified menu control across 8 brands and 3 platforms into a single interface, increasing operational efficiency by 97.78% and saving IDR 64M in hardware costs.">
+  <meta property="og:description" content="Unified menu control across 8 brands and 3 platforms into a single interface, increasing operational efficiency by 97.78% and saving USD 4K in hardware costs.">
   <meta property="og:image" content="https://wiryanaw.com/og-image-v3.png">
   <meta property="og:url" content="https://wiryanaw.com/Menu-management/">
   <meta property="og:type" content="website">
@@ -489,6 +489,9 @@
     .fs-thumb span { position:absolute; top:4px; left:6px; font-family:var(--fs-mono); font-size:10px; color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.4); }
     @media (max-width:600px){ .fs-tabs{gap:16px} }
   </style>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="/case.css">
 </head>
 
 <body>
@@ -522,7 +525,7 @@
 
     <!-- OVERVIEW -->
     <div class="cs-overview reveal">
-      <p class="overview-text">I led the design of the menu management project, one of the key initiatives aimed at helping the company reduce costs. By unifying menu control across 8 brands and 3 platforms into a single interface, the tool increased operational efficiency by 97.78% and saved IDR 64 million in hardware costs.</p>
+      <p class="overview-text">I led the design of the menu management project, one of the key initiatives aimed at helping the company reduce costs. By unifying menu control across 8 brands and 3 platforms into a single interface, the tool increased operational efficiency by 97.78% and saved USD 4K in hardware costs.</p>
     </div>
 
     <!-- META -->
@@ -628,7 +631,7 @@
         <div class="subsection">
           <div class="subsection-title">Business Problem</div>
           <div class="subsection-body">
-            <p>A new phone is required for each new brand at approximately IDR 1,600,000 per outlet. In the first half of 2023, 5 new outlets opened across Indonesia, and with continued expansion planned, hardware costs were scaling unsustainably alongside business growth.</p>
+            <p>A new phone is required for each new brand at approximately USD 100 per outlet. In the first half of 2023, 5 new outlets opened across Indonesia, and with continued expansion planned, hardware costs were scaling unsustainably alongside business growth.</p>
           </div>
         </div>
       </section>
@@ -825,7 +828,7 @@
         <div class="subsection">
           <div class="subsection-title">Key flows</div>
           <div class="subsection-body">
-            <p>Beyond the module screens, here are two of the core flows end to end. Step through each one using the arrows or thumbnails.</p>
+            <p>Beyond the module screens, here are the core flows end to end. Each one plays through on its own, hover to pause, or scrub with the arrows and thumbnails.</p>
           </div>
         </div>
 
@@ -851,10 +854,10 @@
             </div>
           </div>
           <div class="result-metric">
-            <div class="metric-value">IDR 64M</div>
+            <div class="metric-value">USD 4K</div>
             <div class="metric-text">
               <p class="metric-label">Saved in hardware costs</p>
-              <p class="metric-desc">Reduced from IDR 72M (45 phones) to IDR 8M (5 phones) across 5 newly opened outlets in the first half of 2023</p>
+              <p class="metric-desc">Reduced from USD 4.6K (45 phones) to USD 500 (5 phones) across 5 newly opened outlets in the first half of 2023</p>
             </div>
           </div>
           <div class="result-metric">
@@ -972,12 +975,29 @@
         + '<div class="fs-ctrl"><button class="fs-btn" data-nav="-1">'+LArrow+'</button><div class="fs-dots">'+dots+'</div><button class="fs-btn" data-nav="1">'+RArrow+'</button></div>'
         + '<div class="fs-film">'+film+'</div>';
     }
-    document.getElementById('flowShow').addEventListener('click', function(e){
-      var t=e.target.closest('[data-mod]'); if(t){ mod=+t.dataset.mod; step=0; render(); return; }
-      var st=e.target.closest('[data-step]'); if(st){ step=+st.dataset.step; render(); return; }
-      var nv=e.target.closest('[data-nav]'); if(nv){ var n=MODULES[mod].steps.length; step=(step + +nv.dataset.nav + n)%n; render(); return; }
+    // ── auto-play: each flow plays through on its own, like a video ──
+    var STEP_MS = 3000, timer = null;
+    var AUTO = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var SHOW = document.getElementById('flowShow');
+    function play(){ if(!AUTO) return; clearInterval(timer); timer=setInterval(advance, STEP_MS); }
+    function stop(){ clearInterval(timer); }
+    function advance(){ var n=MODULES[mod].steps.length; step=(step+1)%n; render(); }
+
+    SHOW.addEventListener('click', function(e){
+      var t=e.target.closest('[data-mod]'); if(t){ mod=+t.dataset.mod; step=0; render(); play(); return; }
+      var st=e.target.closest('[data-step]'); if(st){ step=+st.dataset.step; render(); play(); return; }
+      var nv=e.target.closest('[data-nav]'); if(nv){ var n=MODULES[mod].steps.length; step=(step + +nv.dataset.nav + n)%n; render(); play(); return; }
     });
+    // pause while hovering (so people can read), resume on leave
+    SHOW.addEventListener('mouseenter', stop);
+    SHOW.addEventListener('mouseleave', play);
+    // pause when the showcase is off-screen
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function(es){ es.forEach(function(e){ e.isIntersecting ? play() : stop(); }); }, { threshold: 0.2 }).observe(SHOW);
+    }
+
     render();
+    play();
   })();
   </script>
 
