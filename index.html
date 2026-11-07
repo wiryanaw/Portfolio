@@ -229,7 +229,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
             <span class="kick">Hangry · Work 1 of 3</span>
             <h2>Pantry HRIS</h2>
             <div class="big"><b>USD 60K</b><span>saved</span></div>
-            <p>An in house HR system for every outlet and the head office. Fewer tools to pay for, less admin for the people running the stores.</p>
+            <p>An in-house HRIS, built to support our operations across every outlet and the head office.</p>
             <div class="chips"><a class="chip" href="/HRIS/">See the case ↗</a></div>
           </div>
         </div>
@@ -242,7 +242,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
             <span class="kick">Hangry · Work 2 of 3</span>
             <h2>Menu Management</h2>
             <div class="big"><b>97.78%</b><span>efficiency</span></div>
-            <p>One place to change a menu across brands, outlets and ordering channels, instead of editing each one by hand.</p>
+            <p>A centralized menu management tool. Read the project details for the full story.</p>
             <div class="chips"><a class="chip" href="/Menu-management/">See the case ↗</a></div>
           </div>
         </div>
@@ -255,7 +255,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
             <span class="kick">Hangry · Work 3 of 3</span>
             <h2>QR Instructions</h2>
             <div class="big"><b>54%</b><span>fewer complaints</span></div>
-            <p>Clearer guidance for guests ordering by QR at the table, so fewer orders go wrong before they start.</p>
+            <p>In-app instructions to help users scan their receipt QR and collect Hangry points.</p>
             <div class="chips"><a class="chip" href="/Loyalty/">See the case ↗</a></div>
           </div>
         </div>
@@ -267,7 +267,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
           <div class="dlg-body">
             <span class="kick">Product · Garmin</span>
             <h2>Splitface</h2>
-            <p>Free Garmin watch faces. The ones that show two cities on one dial, like the tower over there, run on live Jakarta and Paris time.</p>
+            <p>Free Garmin watch faces I designed and built.</p>
             <div class="chips"><a class="chip pri" href="https://trysplitface.com" target="_blank" rel="noopener">Visit trysplitface.com ↗</a></div>
           </div>
         </div>
@@ -279,7 +279,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
           <div class="dlg-body">
             <span class="kick">Product · macOS</span>
             <h2>Drawer</h2>
-            <p>A notes app for Mac that keeps your writing private and makes it a pleasure to come back to. Yes, the building is a chest of drawers.</p>
+            <p>A notes app for Mac that keeps your writing private and makes it a pleasure to come back to.</p>
             <div class="chips"><a class="chip" href="https://wiryanaw.github.io/drawer-site/landing/" target="_blank" rel="noopener">See Drawer ↗</a></div>
           </div>
         </div>
@@ -336,9 +336,9 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
     <div>
       <h3>Selected work at Hangry</h3>
       <ul class="rows">
-        <li><div><strong><a href="/HRIS/">Pantry HRIS</a></strong><br><span>In house HR system for every outlet</span></div><em>USD 60K saved</em></li>
+        <li><div><strong><a href="/HRIS/">Pantry HRIS</a></strong><br><span>In-house HRIS to support operations</span></div><em>USD 60K saved</em></li>
         <li><div><strong><a href="/Menu-management/">Menu Management</a></strong><br><span>One menu across brands and channels</span></div><em>97.78% efficiency</em></li>
-        <li><div><strong><a href="/Loyalty/">QR Instructions</a></strong><br><span>Clearer ordering at the table</span></div><em>54% fewer complaints</em></li>
+        <li><div><strong><a href="/Loyalty/">QR Instructions</a></strong><br><span>Scan receipts in-app for Hangry points</span></div><em>54% fewer complaints</em></li>
       </ul>
     </div>
     <div>
@@ -659,11 +659,10 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
       if (d <= (r + 2) * (r + 2)) P(wx + x, cy + y, ink);
       if (d <= r * r) P(wx + x, cy + y, x < 0 ? (night > .5 ? "#0E0E10" : "#1A1A19") : (night > .5 ? "#FFF6DC" : "#F3F3F1"));
     }
-    var a = now("Asia/Jakarta"), b = now("Europe/Paris");
-    text(a[0], wx - 12, cy - 6, night > .5 ? "#FFD98A" : "#F3F3F1");
-    text(a[1], wx - 12, cy + 1, night > .5 ? "#FFD98A" : "#F3F3F1");
-    text(b[0], wx + 5, cy - 6, "#1A1A19");
-    text(b[1], wx + 5, cy + 1, "#1A1A19");
+    var a = now("Asia/Jakarta");
+    // one Jakarta time, split across the two-tone face: hours on the dark half, minutes on the light half
+    text(a[0], wx - 11, cy - 3, night > .5 ? "#FFD98A" : "#F3F3F1");
+    text(a[1], wx + 4, cy - 3, "#1A1A19");
     // blinking dot under each half
     if (Math.floor(f / 30) % 2 || reduce) { P(wx - 9, cy + 9, "#E9A91E"); P(wx + 8, cy + 9, "#E9A91E"); }
   }
