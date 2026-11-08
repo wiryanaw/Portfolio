@@ -163,14 +163,14 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .short p { margin: 0; max-width: 62ch; color: #3E3F50; }
 .short p + p { margin-top: 12px; }
 .rows { list-style: none; margin: 0; padding: 0; }
-.rows li { display: grid; grid-template-columns: 1fr auto; gap: 16px; padding: 10px 0; border-top: 2px solid var(--soft); align-items: baseline; }
-.rows li:last-child { border-bottom: 2px solid var(--soft); }
+.rows li { display: grid; grid-template-columns: 1fr auto; gap: 16px; padding: 12px 0; border-top: 1px solid var(--soft); align-items: baseline; }
+.rows li:first-child { border-top: none; }
 .rows strong { font-weight: 500; }
-.rows strong a { text-decoration: none; border-bottom: 1px solid #C9C8D0; }
+.rows strong a { text-decoration: none; color: inherit; border-bottom: 1px solid transparent; transition: border-color .15s; }
 .rows strong a:hover { border-bottom-color: var(--ink); }
 .rows span { color: var(--muted); font-size: 13px; }
 .rows em { font-style: normal; font-family: var(--sans); font-weight: 500; font-size: 14px; white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--text); }
-.foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--muted); border-top: 2px solid var(--soft); padding-top: 16px; }
+.foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--soft); padding-top: 20px; margin-top: 8px; }
 .foot a { text-decoration: none; border-bottom: 1px solid currentColor; }
 
 @media (max-width: 700px) {
@@ -242,7 +242,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
             <span class="kick">Hangry · Work 2 of 3</span>
             <h2>Menu Management</h2>
             <div class="big"><b>97.78%</b><span>efficiency</span></div>
-            <p>A centralized menu management tool. Read the project details for the full story.</p>
+            <p>One place to manage every menu across 8 brands and 3 platforms.</p>
             <div class="chips"><a class="chip" href="/Menu-management/">See the case ↗</a></div>
           </div>
         </div>
