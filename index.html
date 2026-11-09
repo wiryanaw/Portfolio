@@ -170,8 +170,29 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .rows strong a:hover { border-bottom-color: var(--ink); }
 .rows span { color: var(--muted); font-size: 13px; }
 .rows em { font-style: normal; font-family: var(--sans); font-weight: 500; font-size: 14px; white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--text); }
-.foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--soft); padding-top: 20px; margin-top: 8px; }
-.foot a { text-decoration: none; border-bottom: 1px solid currentColor; }
+/* Footer: the rider parks at the curb; the bubble answers whichever link you point at, and Ride again sends the bike off */
+.foot { display: flex; flex-direction: column; gap: 14px; font-size: 12px; color: var(--muted); margin-top: 8px; }
+.park { position: relative; height: 60px; border-bottom: 2px solid var(--ink); }
+.park::after { content: ""; position: absolute; left: 0; right: 0; bottom: -8px; height: 2px; background: repeating-linear-gradient(90deg, #D9D8E0 0 12px, transparent 12px 22px); }
+#parked { position: absolute; left: 4px; bottom: 0; width: 56px; height: 48px; image-rendering: pixelated; image-rendering: crisp-edges; }
+.park.rev #parked { animation: idle .16s steps(2) infinite; }
+@keyframes idle { 50% { transform: translateY(-2px); } }
+.park.go #parked { animation: none; transform: translateX(var(--go, 600px)); transition: transform .75s cubic-bezier(.55, 0, .9, .45); }
+.puff { position: absolute; bottom: 8px; width: 6px; height: 4px; background: #D9D8E0; animation: puff .6s steps(5) forwards; pointer-events: none; }
+@keyframes puff { to { transform: translate(-22px, -10px); opacity: 0; } }
+.bubble {
+  position: absolute; left: 70px; bottom: 34px;
+  font-family: var(--pixel); font-size: 13px; color: var(--ink); white-space: nowrap;
+  background: var(--paper); border: 2px solid var(--ink); padding: 1px 8px; box-shadow: 2px 2px 0 var(--ink);
+  transition: opacity .2s;
+}
+.bubble::after { content: ""; position: absolute; left: -2px; bottom: -8px; width: 8px; height: 6px; background: var(--ink); clip-path: polygon(0 0, 100% 0, 0 100%); }
+.bubble.pop { animation: pop .3s var(--ease); }
+@keyframes pop { from { transform: translateY(4px) scale(.94); } }
+.park.go .bubble { opacity: 0; }
+.foot-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+.foot-links { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip.sm { height: 26px; padding: 0 10px; font-size: 13px; box-shadow: 2px 2px 0 var(--ink); }
 
 @media (max-width: 700px) {
   .route button { width: 16px; }
@@ -358,8 +379,18 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
       </ul>
     </div>
     <div class="foot">
-      <span>© 2026 Wiryana · Made in Jakarta</span>
-      <span><a href="mailto:wiryanaw@gmail.com">Email</a> &nbsp; <a href="https://www.linkedin.com/in/wiryanaw/" target="_blank" rel="noopener">LinkedIn</a> &nbsp; <a href="#top" id="again">Ride again ↑</a></span>
+      <div class="park" id="park" aria-hidden="true">
+        <canvas id="parked" width="14" height="12"></canvas>
+        <span class="bubble" id="bubble">Parked. Thanks for riding!</span>
+      </div>
+      <div class="foot-row">
+        <span>© 2026 Wiryana · Made in Jakarta<span id="footclock"></span></span>
+        <span class="foot-links">
+          <a class="chip sm" href="mailto:wiryanaw@gmail.com" data-say="My inbox is open.">Email</a>
+          <a class="chip sm" href="https://www.linkedin.com/in/wiryanaw/" target="_blank" rel="noopener" data-say="Let's connect!">LinkedIn</a>
+          <a class="chip sm pri" href="#top" id="again" data-say="Vroom. Hop on!">Ride again ↑</a>
+        </span>
+      </div>
     </div>
   </div>
 </section>
@@ -815,6 +846,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   function tickClock() {
     var t = new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", hour12: true, timeZone: "Asia/Jakarta" }).format(new Date());
     document.getElementById("clock").textContent = t.replace(" ", "").toLowerCase() + " in Jakarta";
+    document.getElementById("footclock").textContent = ", where it's " + t.replace(" ", "").toLowerCase();
   }
 
   /* ---------- scroll to camera ---------- */
@@ -854,7 +886,51 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   });
   routeBtns[0].classList.add("on");
   document.getElementById("brand").addEventListener("click", function (e) { e.preventDefault(); goTo(0); });
-  document.getElementById("again").addEventListener("click", function (e) { e.preventDefault(); goTo(0); });
+  /* footer: the parked rider */
+  var park = document.getElementById("park"), parked = document.getElementById("parked"), bubble = document.getElementById("bubble");
+  var pctx = parked.getContext("2d"), revTimer = null, revFrame = 0;
+  var PARKED_PAL = { G: "#E9A91E", D: "#2A2F45", S: "#C98E62", N: "#2E4374", P: "#2A2A33", L: "#8A8F99", R: "#D2453A", K: "#141418", h: "#B9BDC4", Y: "#F4D27A" };
+  function drawParked(rows) {
+    pctx.clearRect(0, 0, 14, 12);
+    for (var r = 0; r < 12; r++) for (var c = 0; c < 14; c++) { var k = rows[r][c]; if (PARKED_PAL[k]) { pctx.fillStyle = PARKED_PAL[k]; pctx.fillRect(c, r, 1, 1); } }
+  }
+  drawParked(OJEK);
+  var QUIET = bubble.textContent;
+  function say(s) { if (bubble.textContent === s) return; bubble.textContent = s; bubble.classList.remove("pop"); void bubble.offsetWidth; bubble.classList.add("pop"); }
+  function puff() {
+    var p = document.createElement("span"); p.className = "puff"; p.style.left = "0px";
+    park.appendChild(p); setTimeout(function () { p.remove(); }, 700);
+  }
+  function rev(on) {
+    if (reduce || park.classList.contains("go")) return;
+    park.classList.toggle("rev", on);
+    clearInterval(revTimer);
+    if (on) revTimer = setInterval(function () { revFrame++; drawParked(revFrame % 2 ? OJEK_B : OJEK); if (revFrame % 3 === 0) puff(); }, 90);
+    else drawParked(OJEK);
+  }
+  document.querySelectorAll(".foot-links a").forEach(function (a) {
+    var isAgain = a.id === "again";
+    function enter() { say(a.dataset.say); if (isAgain) rev(true); }
+    function leave() { if (!park.classList.contains("go")) say(QUIET); if (isAgain) rev(false); }
+    a.addEventListener("mouseenter", enter); a.addEventListener("focus", enter);
+    a.addEventListener("mouseleave", leave); a.addEventListener("blur", leave);
+  });
+  document.getElementById("again").addEventListener("click", function (e) {
+    e.preventDefault();
+    if (reduce) { goTo(0); return; }
+    clearInterval(revTimer);
+    revTimer = setInterval(function () { revFrame++; drawParked(revFrame % 2 ? OJEK_B : OJEK); }, 60);
+    park.style.setProperty("--go", (park.clientWidth + 20) + "px");
+    park.classList.remove("rev"); park.classList.add("go");
+    for (var i = 0; i < 4; i++) setTimeout(puff, i * 60);
+    setTimeout(function () { goTo(0); }, 650);
+    // back at the curb once the page has scrolled away
+    setTimeout(function () {
+      clearInterval(revTimer); drawParked(OJEK);
+      parked.style.transition = "none"; park.classList.remove("go"); void parked.offsetWidth; parked.style.transition = "";
+      bubble.textContent = QUIET;
+    }, 1800);
+  });
   var skipBtn = document.querySelector(".skip");
   if (skipBtn) skipBtn.addEventListener("click", function (e) { e.preventDefault(); document.getElementById("short").scrollIntoView({ behavior: "auto", block: "start" }); });
   window.addEventListener("keydown", function (e) {
