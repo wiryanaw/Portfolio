@@ -456,38 +456,12 @@
       .tree-node { width: 100%; font-size: 12px; padding: 8px 10px; text-align: center; }
     }
 
-    /* ── FLOW SHOWCASE ───────────────────────────────────────── */
-    .fs { --fs-card:#fff; --fs-b2:#EAE7DF; --fs-mono:ui-monospace,SFMono-Regular,Menlo,monospace; margin: 30px 0 8px; }
-    .fs-tabs { display:flex; gap:24px; border-bottom:1px solid var(--border); margin-bottom:22px; flex-wrap:wrap; }
-    .fs-tab { font-family:inherit; font-size:14.5px; font-weight:500; color:var(--ink-3); background:none; border:none; padding:0 0 12px; cursor:pointer; position:relative; transition:color .18s; }
-    .fs-tab.on { color:var(--ink); }
-    .fs-tab.on::after { content:''; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:var(--accent); }
-    .fs-surface { font-family:var(--fs-mono); font-size:11px; color:var(--ink-3); margin-left:auto; align-self:center; padding-bottom:12px; }
-    .fs-label { font-family:var(--fs-mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); margin-bottom:20px; }
-    .fs-carousel { display:flex; flex-direction:column; align-items:center; gap:20px; }
-    .fs-frame { width:100%; max-width:880px; background:var(--fs-card); border:1px solid var(--fs-b2); border-radius:14px; overflow:hidden; box-shadow:0 1px 2px rgba(13,11,9,.03),0 16px 40px rgba(13,11,9,.06); }
-    .fs-frame img { width:100%; display:block; }
-    .fs-shot { position:relative; width:100%; }
-    .fs-missing { display:none; flex-direction:column; align-items:center; justify-content:center; gap:8px; aspect-ratio:16/10; background:repeating-linear-gradient(45deg,#F4F1EA,#F4F1EA 12px,#EFEBE3 12px,#EFEBE3 24px); color:var(--ink-3); text-align:center; padding:24px; }
-    .fs-mn { font-family:var(--fs-mono); font-size:13px; color:var(--ink-2); font-weight:500; }
-    .fs-mh { font-family:var(--fs-mono); font-size:11px; color:var(--ink-3); }
-    .fs-meta { text-align:center; max-width:52ch; }
-    .fs-num { font-family:var(--fs-mono); font-size:11px; color:var(--accent); font-weight:600; letter-spacing:.06em; }
-    .fs-name { font-size:18px; font-weight:600; margin-top:5px; letter-spacing:-.01em; color:var(--ink); }
-    .fs-cap { font-size:13.5px; color:var(--ink-2); margin-top:9px; line-height:1.55; }
-    .fs-ctrl { display:flex; align-items:center; gap:22px; }
-    .fs-btn { width:42px; height:42px; border-radius:50%; border:1px solid var(--border); background:var(--fs-card); display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--ink-2); transition:all .18s; }
-    .fs-btn:hover { border-color:var(--accent); color:var(--accent); }
-    .fs-dots { display:flex; gap:8px; }
-    .fs-dots span { width:7px; height:7px; border-radius:50%; background:var(--border); cursor:pointer; transition:all .18s; }
-    .fs-dots span.on { background:var(--accent); width:22px; border-radius:4px; }
-    .fs-film { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; max-width:640px; }
-    .fs-thumb { width:90px; height:58px; border:1.5px solid var(--border); border-radius:8px; background:var(--fs-card); cursor:pointer; overflow:hidden; transition:all .18s; position:relative; flex-shrink:0; padding:0; }
-    .fs-thumb:hover { border-color:#CFC9BE; }
-    .fs-thumb.on { border-color:var(--accent); box-shadow:0 4px 12px rgba(255,85,48,.15); }
-    .fs-thumb img { width:100%; height:100%; object-fit:cover; object-position:top; }
-    .fs-thumb span { position:absolute; top:4px; left:6px; font-family:var(--fs-mono); font-size:10px; color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.4); }
-    @media (max-width:600px){ .fs-tabs{gap:16px} }
+    /* ── FLOW VIDEOS ─────────────────────────────────────────── */
+    .fv { margin: 32px 0 8px; display: flex; flex-direction: column; gap: 56px; }
+    .fv-name { font-size: 15px; font-weight: 600; color: var(--ink); }
+    .fv-cap { font-size: 14px; color: var(--ink-2); margin-top: 4px; line-height: 1.55; max-width: 60ch; }
+    .fv-stage { margin-top: 18px; background: #F2F1EE; border-radius: 12px; padding: clamp(16px, 4vw, 48px); }
+    .fv-stage video { display: block; width: 100%; aspect-ratio: 16 / 10; border-radius: 8px; background: #fff; box-shadow: 0 1px 2px rgba(13,11,9,.04), 0 12px 32px rgba(13,11,9,.08); }
   </style>
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600&display=swap">
@@ -520,7 +494,7 @@
 
     <!-- HERO IMAGE -->
     <div class="cs-hero-img reveal">
-      <img src="/cs2-hero.png" alt="Menu Management System — Hero" style="width:100%;height:auto;display:block;border-radius:8px;cursor:zoom-in;" class="lightbox-trigger">
+      <img src="/thumb-menu.jpg" alt="Menu Management System — Hero" style="width:100%;height:auto;display:block;border-radius:8px;cursor:zoom-in;" class="lightbox-trigger">
     </div>
 
     <!-- OVERVIEW -->
@@ -828,14 +802,26 @@
         <div class="subsection">
           <div class="subsection-title">Key flows</div>
           <div class="subsection-body">
-            <p>Beyond the module screens, here are the core flows end to end. Each one plays through on its own, hover to pause, or scrub with the arrows and thumbnails.</p>
+            <p>Beyond the module screens, here are the core flows end to end.</p>
           </div>
         </div>
 
-        <div class="fs" id="flowShow">
-          <div class="fs-tabs" id="fsTabs"></div>
-          <div class="fs-label" id="fsLabel"></div>
-          <div class="fs-carousel" id="fsCarousel"></div>
+        <div class="fv">
+          <div class="fv-item">
+            <div class="fv-name">Kompleks Menu</div>
+            <p class="fv-cap">Turning off a bundle: review every linked menu, pick a reason, done in one action.</p>
+            <div class="fv-stage"><video src="flows/kompleks-menu.mp4" poster="screens/kompleks-menu-1.png" autoplay muted loop playsinline preload="metadata" aria-label="Kompleks Menu flow"></video></div>
+          </div>
+          <div class="fv-item">
+            <div class="fv-name">Material</div>
+            <p class="fv-cap">Turning off a material switches off every menu and bundle that uses it.</p>
+            <div class="fv-stage"><video src="flows/material.mp4" poster="screens/material-matikan-1.png" autoplay muted loop playsinline preload="metadata" aria-label="Material flow"></video></div>
+          </div>
+          <div class="fv-item">
+            <div class="fv-name">Status Request</div>
+            <p class="fv-cap">Failed items are re-processed in bulk and land back in Sukses.</p>
+            <div class="fv-stage"><video src="flows/status-request.mp4" poster="screens/status-request-1.png" autoplay muted loop playsinline preload="metadata" aria-label="Status Request flow"></video></div>
+          </div>
         </div>
       </section>
 
@@ -927,77 +913,13 @@
   </script>
   <script src="/toc.js"></script>
 
-  <!-- Flow showcase -->
+  <!-- Flow videos: play only while on screen -->
   <script>
   (function(){
-    var BASE='screens/';
-    var MODULES=[
-      { key:'kompleks', name:'Kompleks Menu', surface:'Back-office · web', steps:[
-        {name:'Default view', img:'kompleks-menu-1.png', cap:'The Kompleks Menu list for the outlet, showing active bundles and how many menus each is linked to.'},
-        {name:'Select a bundle', img:'kompleks-menu-2.png', cap:'Selecting a bundle turns on the bulk action; the CTA reflects how many are selected.'},
-        {name:'Review linked menus', img:'kompleks-menu-3.png', cap:'Before anything is turned off, a modal lists every menu the bundle is linked to, across brands and platforms.'},
-        {name:'Select a reason', img:'kompleks-menu-4.png', cap:'A reason is required, picked from a fixed list, so every change stays accountable.'},
-        {name:'Reason selected', img:'kompleks-menu-5.png', cap:'With the reason set, the bundle and its linked menus are turned off in one action.'}
-      ]},
-      { key:'material', name:'Material', surface:'Back-office · web', label:'Turn off material', steps:[
-        {name:'Default view', img:'material-matikan-1.png', cap:'The top material is selected by default. Its linked items split into active and inactive, each grouped into menu and kompleks menu.'},
-        {name:'Choose to turn off', img:'material-matikan-2.png', cap:'Tapping Matikan opens a confirmation that asks the user to pick a reason before anything is turned off.'},
-        {name:'Select a reason', img:'material-matikan-3.png', cap:'A reason is required, so every deactivation stays accountable and traceable.'},
-        {name:'Turning off', img:'material-matikan-4.png', cap:'The button locks with a spinner while each linked item is deactivated, preventing double submits.'},
-        {name:'All turned off', img:'material-matikan-5.png', cap:'The active column empties out, confirming every linked item is now inactive.'}
-      ]},
-      { key:'status', name:'Status Request', surface:'Back-office · web', steps:[
-        {name:'Request queue', img:'status-request-1.png', cap:'Every material, menu, and kompleks request from the last 24 hours in one queue. Request 005 shows four items that failed.'},
-        {name:'Request details', img:'status-request-2.png', cap:'Opening a request breaks it into Gagal, Diproses, and Sukses tabs, with the failed items ready to re-process in bulk.'},
-        {name:'Re-processing', img:'status-request-3.png', cap:'Tapping Proses Request Gagal moves the failed items into Diproses and locks the button while they run.'},
-        {name:'Re-processed', img:'status-request-4.png', cap:'Once done, the items land in Sukses and the request reads 4 Sukses back on the queue.'}
-      ]}
-    ];
-    var mod=0, step=0;
-    var LArrow='<svg viewBox="0 0 24 24" width="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>';
-    var RArrow='<svg viewBox="0 0 24 24" width="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
-
-    function pad(n){ return n<10?'0'+n:''+n; }
-    function render(){
-      var m=MODULES[mod], s=m.steps[step], n=m.steps.length;
-      document.getElementById('fsTabs').innerHTML =
-        MODULES.map(function(x,i){ return '<button class="fs-tab'+(i===mod?' on':'')+'" data-mod="'+i+'">'+x.name+'</button>'; }).join('');
-      document.getElementById('fsLabel').innerHTML = m.label ? m.label : '';
-      document.getElementById('fsLabel').style.display = m.label ? 'block' : 'none';
-      var dots='',film='';
-      m.steps.forEach(function(st,i){
-        dots += '<span class="'+(i===step?'on':'')+'" data-step="'+i+'"></span>';
-        film += '<button class="fs-thumb'+(i===step?' on':'')+'" data-step="'+i+'"><span>'+(i+1)+'</span><img src="'+BASE+st.img+'" alt="" onerror="this.style.display=\'none\'"></button>';
-      });
-      document.getElementById('fsCarousel').innerHTML =
-        '<div class="fs-frame"><div class="fs-shot"><img src="'+BASE+s.img+'" alt="'+s.name+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><div class="fs-missing"><span class="fs-mn">'+s.img+'</span><span class="fs-mh">export this screen into /Menu-management/screens/</span></div></div></div>'
-        + '<div class="fs-meta"><div class="fs-num">STEP '+pad(step+1)+' / '+pad(n)+'</div><div class="fs-name">'+s.name+'</div><div class="fs-cap">'+s.cap+'</div></div>'
-        + '<div class="fs-ctrl"><button class="fs-btn" data-nav="-1">'+LArrow+'</button><div class="fs-dots">'+dots+'</div><button class="fs-btn" data-nav="1">'+RArrow+'</button></div>'
-        + '<div class="fs-film">'+film+'</div>';
-    }
-    // ── auto-play: each flow plays through on its own, like a video ──
-    var STEP_MS = 3000, timer = null;
-    var AUTO = !matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var SHOW = document.getElementById('flowShow');
-    function play(){ if(!AUTO) return; clearInterval(timer); timer=setInterval(advance, STEP_MS); }
-    function stop(){ clearInterval(timer); }
-    function advance(){ var n=MODULES[mod].steps.length; step=(step+1)%n; render(); }
-
-    SHOW.addEventListener('click', function(e){
-      var t=e.target.closest('[data-mod]'); if(t){ mod=+t.dataset.mod; step=0; render(); play(); return; }
-      var st=e.target.closest('[data-step]'); if(st){ step=+st.dataset.step; render(); play(); return; }
-      var nv=e.target.closest('[data-nav]'); if(nv){ var n=MODULES[mod].steps.length; step=(step + +nv.dataset.nav + n)%n; render(); play(); return; }
-    });
-    // pause while hovering (so people can read), resume on leave
-    SHOW.addEventListener('mouseenter', stop);
-    SHOW.addEventListener('mouseleave', play);
-    // pause when the showcase is off-screen
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function(es){ es.forEach(function(e){ e.isIntersecting ? play() : stop(); }); }, { threshold: 0.2 }).observe(SHOW);
-    }
-
-    render();
-    play();
+    var vids=document.querySelectorAll('.fv video');
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { vids.forEach(function(v){ v.removeAttribute('autoplay'); v.pause(); v.controls=true; }); return; }
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ e.isIntersecting ? e.target.play().catch(function(){}) : e.target.pause(); }); }, { threshold: 0.25 });
+    vids.forEach(function(v){ io.observe(v); });
   })();
   </script>
 
