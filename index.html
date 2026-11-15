@@ -218,7 +218,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 <div class="ride" id="ride">
   <div class="stage" id="stage">
-    <canvas id="world" role="img" aria-label="A pixel street in Jakarta. Wiryana rides a motorbike past Monas, three Hangry shopfronts, the Splitface clock tower, a building shaped like a chest of drawers, a street food stall, and a bus stop. The sky turns from dawn to night as you scroll."></canvas>
+    <canvas id="world" role="img" aria-label="A pixel street in Jakarta. Wiryana rides a motorbike past Monas, three Hangry shopfronts, the Splitface clock tower, the Abby Sans type shop, a building shaped like a chest of drawers, a street food stall, and a bus stop. The sky turns from dawn to night as you scroll."></canvas>
 
     <div class="hud">
       <a class="pill brand" href="#top" id="brand"><i></i>Wiryana</a>
@@ -298,6 +298,18 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
         <div class="dlg-in">
           <canvas class="ava" width="12" height="12"></canvas>
           <div class="dlg-body">
+            <span class="kick">Product · Typeface</span>
+            <h2>Abby Sans</h2>
+            <p>A free typeface built on Geist, in nine weights with true italics.</p>
+            <div class="chips"><a class="chip" href="/abby-sans/" target="_blank" rel="noopener">See Abby Sans ↗</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dlg" data-stop="6">
+        <div class="dlg-in">
+          <canvas class="ava" width="12" height="12"></canvas>
+          <div class="dlg-body">
             <span class="kick">Product · macOS</span>
             <h2>Drawer</h2>
             <p>A notes app for Mac that keeps your writing private and makes it a pleasure to come back to.</p>
@@ -306,7 +318,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
         </div>
       </div>
 
-      <div class="dlg" data-stop="6">
+      <div class="dlg" data-stop="7">
         <div class="dlg-in">
           <canvas class="ava" width="12" height="12"></canvas>
           <div class="dlg-body">
@@ -322,7 +334,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
         </div>
       </div>
 
-      <div class="dlg" data-stop="7">
+      <div class="dlg" data-stop="8">
         <div class="dlg-in">
           <canvas class="ava" width="12" height="12"></canvas>
           <div class="dlg-body">
@@ -366,6 +378,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
       <h3>Products</h3>
       <ul class="rows">
         <li><div><strong><a href="https://trysplitface.com" target="_blank" rel="noopener">Splitface</a></strong><br><span>Free Garmin watch faces</span></div><em>Garmin</em></li>
+        <li><div><strong><a href="/abby-sans/" target="_blank" rel="noopener">Abby Sans</a></strong><br><span>A free typeface built on Geist</span></div><em>Typeface</em></li>
         <li><div><strong><a href="https://wiryanaw.github.io/drawer-site/landing/" target="_blank" rel="noopener">Drawer</a></strong><br><span>Private, beautiful notes</span></div><em>macOS</em></li>
       </ul>
     </div>
@@ -398,8 +411,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 <script>
 (function () {
   var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var STOPS = [70, 250, 340, 430, 585, 705, 835, 965];
-  var NAMES = ["Hi", "Pantry HRIS", "Menu", "QR", "Splitface", "Drawer", "Warung", "Halte"];
+  var STOPS = [70, 250, 340, 430, 585, 705, 830, 960, 1090];
+  var NAMES = ["Hi", "Pantry HRIS", "Menu", "QR", "Splitface", "Abby Sans", "Drawer", "Warung", "Halte"];
   var N = STOPS.length;
 
   // ── arcade blips on arrival at a stop ──
@@ -526,12 +539,12 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   }
 
   /* ---------- world layout ---------- */
-  var ZONES = [[70, 30], [250, 31], [340, 31], [430, 31], [585, 22], [705, 27], [835, 26], [965, 32]];
+  var ZONES = [[70, 30], [250, 31], [340, 31], [430, 31], [585, 22], [705, 29], [830, 27], [960, 26], [1090, 32]];
   var PASTEL = ["#E8C9A0", "#B9D4C8", "#E6B3A3", "#C7C2E0", "#EDE1B5", "#A9C3DA", "#D9B8C9", "#C4D6A4"];
   var blocks = [];
   (function () {
     var x = -260, k = 0;
-    while (x < 1300) {
+    while (x < 1430) {
       var h = hash(k * 7 + 3), w = 13 + h % 9;
       var clash = ZONES.some(function (z) { return x + w > z[0] - z[1] && x < z[0] + z[1]; });
       if (!clash) blocks.push({ x: x, w: w, h: 15 + (h >>> 5) % 22, c: PASTEL[(h >>> 9) % PASTEL.length], k: k, tank: (h >>> 13) % 3 === 0, ac: (h >>> 15) % 2 === 0 });
@@ -696,6 +709,35 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
     text(a[1], wx + 4, cy - 3, "#1A1A19");
     // blinking dot under each half
     if (Math.floor(f / 30) % 2 || reduce) { P(wx - 9, cy + 9, "#E9A91E"); P(wx + 8, cy + 9, "#E9A91E"); }
+  }
+
+  function typeShop(wx, f) {
+    var w = 52, x0 = wx - 26, h = 30, top = B - h;
+    var ink = T("#1B1C2E"), paper = night > .5 ? "#FFF8E6" : T("#FDFDFB");
+    W(x0, top, w, h, T("#EFEBE2"));
+    W(x0, top, w, 2, ink);
+    // nine weights, thin to black
+    var sx = x0 + 6;
+    [1, 1, 1, 2, 2, 2, 3, 3, 4].forEach(function (t) { W(sx, top + 5, t, 6, ink); sx += t + 2; });
+    // awning
+    var aw = top + 14;
+    for (var i = 0; i < w + 2; i++) W(x0 - 1 + i, aw, 1, 3, Math.floor(i / 3) % 2 ? T("#FFFFFF") : ink);
+    for (var j = 0; j < w + 2; j += 3) W(x0 - 1 + j, aw + 3, 2, 1, Math.floor(j / 3) % 2 ? T("#FFFFFF") : ink);
+    // window and door
+    W(x0 + 3, aw + 5, w - 18, B - aw - 6, night > .4 ? "#FFE2A0" : T("#3D4C60"));
+    W(x0 + 3, aw + 5, w - 18, 1, T("#2A3442"));
+    if (night <= .4) { W(x0 + 6, aw + 7, 1, 3, T("#7E92AA")); W(x0 + 8, aw + 7, 1, 2, T("#7E92AA")); }
+    W(x0 + w - 13, aw + 5, 9, B - aw - 5, T("#4A3A30"));
+    P(x0 + w - 6, B - 6, T("#E9A91E"));
+    // rooftop specimen board: a big Aa and a blinking cursor
+    var bw = 28, bh = 15, bx = wx - 14, by = top - bh - 6;
+    W(bx + 4, top - 6, 1, 6, T("#3A3D45")); W(bx + bw - 5, top - 6, 1, 6, T("#3A3D45"));
+    W(bx - 1, by - 1, bw + 2, bh + 2, T("#2A2B3A"));
+    W(bx, by, bw, bh, paper);
+    sprite(["..####..", ".######.", ".##..##.", ".##..##.", ".######.", ".######.", ".##..##.", ".##..##.", ".##..##."], { "#": "#1B1C2E" }, bx + 3, by + 3);
+    sprite([".####.", "....##", ".#####", "##..##", "##..##", ".#####"], { "#": "#1B1C2E" }, bx + 13, by + 6);
+    if (Math.floor(f / 30) % 2 || reduce) W(bx + 21, by + 3, 2, 9, night > .5 ? "#F6C445" : T("#E9A91E"));
+    if (night > .5) W(bx, by + bh + 1, bw, 1, "rgba(255,230,160,.35)");
   }
 
   var drawerOpen = 0;
@@ -971,13 +1013,14 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
     if (near(STOPS[2])) shop(STOPS[2], "#F2B8A0", "#D2453A", "97.78%", function () {}, frame);
     if (near(STOPS[3])) shop(STOPS[3], "#B8C4F0", "#2E6FD8", "54%", function () {}, frame);
     if (near(STOPS[4])) splitTower(STOPS[4], frame);
-    drawerOpen += (((active === 5) || (frame % 240 < 90 && near(STOPS[5]) && !reduce) ? 6 : 0) - drawerOpen) * 0.12;
-    if (near(STOPS[5])) drawerHouse(STOPS[5], frame);
-    if (near(STOPS[6])) warung(STOPS[6], frame);
+    if (near(STOPS[5])) typeShop(STOPS[5], frame);
+    drawerOpen += (((active === 6) || (frame % 240 < 90 && near(STOPS[6]) && !reduce) ? 6 : 0) - drawerOpen) * 0.12;
+    if (near(STOPS[6])) drawerHouse(STOPS[6], frame);
+    if (near(STOPS[7])) warung(STOPS[7], frame);
 
     street();
     lamps();
-    halte(STOPS[7], frame, active === 7 || progress > 0.97);
+    halte(STOPS[8], frame, active === 8 || progress > 0.97);
 
     // oncoming bajaj in the far lane
     if (!reduce) bajajX -= 0.55;

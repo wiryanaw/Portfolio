@@ -1,0 +1,858 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Abby Sans, a typeface built on Geist: nine weights with true italics, 362 languages, free under the SIL Open Font License.">
+</head>
+<body>
+<title>Abby Sans</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: a plain specimen sheet on a 1200px measure, black on white.
+     No chrome and no accent colour: the typeface is the only thing on show. */
+  :root {
+    --bg: #FFFFFF;
+    --surface: #F5F5F5;
+    --ink: #0A0A0A;
+    --muted: #6F6F6F;
+    --line: #E8E8E8;
+    --soft: #D6D6D6;
+    --font-sans: "Abby Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --measure: 1200px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0A0A0A; --surface: #161616; --ink: #EDEDED; --muted: #8F8F8F; --line: #262626; --soft: #3A3A3A;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0A0A0A; --surface: #161616; --ink: #EDEDED; --muted: #8F8F8F; --line: #262626; --soft: #3A3A3A;
+    color-scheme: dark;
+  }
+
+  @font-face { font-family: "Abby Sans"; src: url("fonts/AbbySans-Variable.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Abby Sans"; src: url("fonts/AbbySans-Italic-Variable.woff2") format("woff2"); font-weight: 100 900; font-style: italic; font-display: swap; }
+  @font-face { font-family: "Geist Compare"; src: url("fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Geist Compare"; src: url("fonts/Geist-Italic-Variable.woff2") format("woff2"); font-weight: 100 900; font-style: italic; font-display: swap; }
+
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
+  .wrap { max-width: calc(var(--measure) + 64px); margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  @media (min-width: 720px) { .wrap { padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px)); } }
+  .mono { font-family: var(--font-mono); font-size: 12px; letter-spacing: .04em; }
+  .eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  h2 { font-size: clamp(32px, 5vw, 56px); line-height: 1.02; letter-spacing: -0.035em; font-weight: 700; margin: 8px 0 0; text-wrap: balance; }
+  section { padding-block: clamp(56px, 9vw, 112px); border-top: 1px solid var(--line); }
+  .sec-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 16px 32px; margin-bottom: clamp(28px, 4vw, 48px); }
+  .sec-head p { max-width: 460px; color: var(--muted); margin: 0; }
+
+  /* controls */
+  .seg { display: inline-flex; padding: 3px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); }
+  .seg button { font: 500 13px var(--font-sans); border: 0; background: none; color: var(--ink); padding: 6px 14px; border-radius: 999px; cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  .seg button.it { font-style: italic; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; font: 500 15px var(--font-sans); padding: 10px 18px; border-radius: 999px; border: 0; background: var(--ink); color: var(--bg); text-decoration: none; cursor: pointer; }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+  .range { display: grid; gap: 6px; min-width: 0; }
+  .range label { display: flex; justify-content: space-between; gap: 8px; }
+  .range output { color: var(--ink); }
+  input[type=range] { width: 100%; accent-color: var(--ink); }
+
+  /* hero */
+  .hero { padding-block: clamp(36px, 6vw, 72px) clamp(40px, 6vw, 72px); overflow: hidden; }
+  .hero-top { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .pill { font: 500 12px var(--font-sans); padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+  .display { margin: clamp(48px, 8vw, 104px) 0 0; font-size: clamp(44px, 7.6vw, 96px); font-weight: 700; line-height: 1.02; letter-spacing: -0.045em; text-wrap: balance; }
+  .mline { position: absolute; left: 0; right: 0; height: 0; border-top: 1px dashed var(--line); z-index: 0; }
+  .mline span { position: absolute; right: 0; top: -9px; font: 500 11px var(--font-mono); padding: 1px 5px; border-radius: 3px; background: var(--ink); color: var(--bg); letter-spacing: .02em; }
+  .mline.cap { top: .145em; } .mline.xh { top: .325em; } .mline.base { top: .855em; border-top-style: solid; } .mline.desc { top: 1.005em; }
+  .hero-top .name { font-weight: 600; font-size: 15px; letter-spacing: -0.01em; margin-right: 6px; }
+  .intro { display: grid; grid-template-columns: 1fr; gap: 24px 64px; margin-top: clamp(28px, 3.5vw, 44px); }
+  .intro-body { display: grid; gap: 1em; }
+  .intro .lede { font-size: clamp(22px, 2.6vw, 30px); line-height: 1.2; letter-spacing: -0.02em; font-weight: 600; text-wrap: balance; }
+  .intro p { margin: 0; color: var(--ink); max-width: 62ch; }
+  .intro .cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+  @media (min-width: 900px) { .intro { grid-template-columns: 1fr 1fr; } }
+
+  /* stats */
+  /* stats: no rules, just space; big numbers first, the smaller details under them */
+  .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 4vw, 44px) 24px; }
+  .stat { display: grid; gap: 8px; align-content: start; }
+  .stat .v { font-size: clamp(36px, 5vw, 64px); font-weight: 600; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .stat.sm .v { font-size: clamp(18px, 1.8vw, 22px); letter-spacing: -0.015em; line-height: 1.25; font-weight: 500; }
+  @media (min-width: 720px) { .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  /* facts: four counts read as phrases (number, then what it counts), the finer specs on one quiet line */
+  .facts { border-top: 0; padding-top: 0; }
+  .facts .counts { border-top: 1px solid var(--line); padding-top: clamp(36px, 5vw, 56px); }
+  .counts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 24px; }
+  @media (min-width: 860px) { .counts { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .counts div { display: grid; gap: 10px; align-content: start; }
+  .counts b { font-size: clamp(48px, 6.4vw, 84px); font-weight: 600; letter-spacing: -0.05em; line-height: .9; font-variant-numeric: tabular-nums; }
+  .counts span { color: var(--muted); font-size: 15px; line-height: 1.4; max-width: 18ch; }
+  .specs { display: flex; flex-wrap: wrap; gap: 10px 32px; margin: clamp(36px, 5vw, 56px) 0 0; font-size: 14px; }
+  .specs div { display: flex; gap: 8px; }
+  .specs dt { color: var(--muted); }
+  .specs dd { margin: 0; font-weight: 500; font-variant-numeric: tabular-nums; }
+
+  /* blue band: the same tokens, recoloured, so everything inside follows; it stays blue in dark mode too */
+  .band {
+    --bg: #0048FF; --surface: #1F5DFF; --ink: #FFFFFF; --muted: #D3DFFF; --line: #3B70FF; --soft: #5C87FF;
+    background: var(--bg); color: var(--ink); border-top: 0; color-scheme: dark;
+  }
+  .band + section { border-top: 0; }
+  /* sliders on the band: a custom track, since the browser's own unfilled track turns black on a dark colour scheme */
+  .band input[type=range] { -webkit-appearance: none; appearance: none; height: 6px; border-radius: 999px; cursor: pointer;
+    background: linear-gradient(to right, var(--ink) var(--p, 50%), rgba(255, 255, 255, .28) var(--p, 50%)); }
+  .band input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--ink); border: 0; }
+  .band input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: var(--ink); border: 0; }
+  .band input[type=range]::-moz-range-track { background: transparent; }
+
+  /* details */
+  .details { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  @media (min-width: 860px) { .details { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .detail { background: var(--surface); border-radius: 18px; padding: 22px; display: grid; gap: 14px; align-content: start; min-width: 0; }
+  .detail h3 { margin: 0; font-size: 20px; letter-spacing: -0.02em; }
+  .detail p { margin: 0; color: var(--muted); font-size: 15px; }
+  .stage { position: relative; display: grid; place-items: center; height: 230px; font-size: 200px; line-height: 1; overflow: hidden; }
+  .stage span { grid-area: 1 / 1; }
+  .stage .h { transition: color .2s; }
+  .compare-on .stage .h { color: var(--soft); }
+  .stage .g { font-family: "Geist Compare", sans-serif; color: transparent; -webkit-text-stroke: 1.5px var(--ink); opacity: 0; transition: opacity .2s; }
+  .compare-on .stage .g { opacity: 1; }
+  .is-italic .stage span { font-style: italic; }
+  .detail-controls { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; margin-bottom: 20px; }
+  .detail-controls .range { width: min(300px, 100%); }
+  .legend { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; }
+  .legend i { width: 18px; height: 0; border-top: 1.5px solid var(--ink); }
+
+  /* glyph inspector */
+  .inspector { display: grid; grid-template-columns: 1fr; gap: 20px; }
+  @media (min-width: 900px) { .inspector { grid-template-columns: 380px minmax(0, 1fr); align-items: start; } .glyph-big { position: sticky; top: 84px; } }
+  .glyph-big { background: var(--surface); border-radius: 18px; padding: 20px; display: grid; gap: 14px; }
+  .glyph-big .seg { justify-self: start; }
+  /* room for the tallest glyph (stacked Vietnamese accents, 1088 units) down to the lowest (−262):
+     the text box starts 855 units above the baseline, so pad .245em to reach 1100 */
+  .big-stage { position: relative; font-size: 200px; line-height: 1; height: 1.4em; padding-top: .245em; box-sizing: border-box; display: flex; justify-content: center; overflow: hidden; }
+  .big-stage .mline.cap { top: .39em; } .big-stage .mline.xh { top: .57em; } .big-stage .mline.base { top: 1.1em; } .big-stage .mline.desc { top: 1.25em; }
+  .big-stage .ch { position: relative; z-index: 1; }
+  .is-italic .big-stage .ch { font-style: italic; }
+  .big-stage .mline span { right: auto; left: 0; }
+  .ginfo { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+  .ginfo b { font-size: 15px; font-weight: 600; }
+  .gtabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .gtabs button { font: 500 13px var(--font-sans); padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: none; color: var(--ink); cursor: pointer; }
+  .gtabs button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .gtabs button small { color: var(--muted); font-size: 11px; margin-left: 4px; }
+  .gtabs button[aria-pressed="true"] small { color: inherit; opacity: .7; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(58px, 1fr)); border-left: 1px solid var(--line); border-top: 1px solid var(--line); }
+  .grid button { aspect-ratio: 1; border: 0; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: none; color: var(--ink); font: 400 26px var(--font-sans); cursor: pointer; padding: 0; }
+  .is-italic .grid button { font-style: italic; }
+  .grid button:hover, .grid button[aria-current="true"] { background: var(--ink); color: var(--bg); }
+
+  /* playground */
+  .play { display: grid; grid-template-columns: 1fr; gap: 20px; }
+  /* playground: one toolbar, then a real text input on dashed baselines */
+  .toolbar { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px 22px; }
+  .tool { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); padding: 4px; gap: 2px; }
+  .tool button { display: grid; place-items: center; width: 34px; height: 30px; border: 0; border-radius: 7px; background: none; color: var(--ink); cursor: pointer; font: 500 18px var(--font-mono); }
+  .tool button[aria-pressed="true"] { background: var(--surface); }
+  .tool button svg { width: 18px; height: 18px; }
+  .tool select { appearance: none; -webkit-appearance: none; border: 0; background: none; color: var(--ink); font: 400 15px var(--font-mono); padding: 6px 34px 6px 10px; min-width: 150px; cursor: pointer; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: right 16px center, right 11px center; background-size: 5px 5px; background-repeat: no-repeat; }
+  .tool-range { display: grid; gap: 4px; width: 160px; font: 400 13px var(--font-mono); color: var(--muted); }
+  .tool-range label { display: flex; justify-content: space-between; }
+  .tool-range output { color: var(--ink); }
+  .pg-stage { position: relative; margin-top: clamp(32px, 5vw, 64px); line-height: 1.12; font-weight: 600; letter-spacing: -0.03em; }
+  /* one dashed rule on each line's baseline: half-leading (1.12 - 1.3) / 2 + ascent 1.005 = 0.915em */
+  .pg-stage::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(to bottom, transparent .915em, var(--soft) .915em, var(--soft) calc(.915em + 1px), transparent calc(.915em + 1px)) 0 0 / 100% 1.12em repeat-y;
+    -webkit-mask: linear-gradient(to right, #000 50%, transparent 50%) 0 0 / 10px 100% repeat-x;
+    mask: linear-gradient(to right, #000 50%, transparent 50%) 0 0 / 10px 100% repeat-x; }
+  #pg-input { position: relative; display: block; width: 100%; border: 0; padding: 0; margin: 0; background: transparent; color: var(--ink); resize: none; overflow: hidden;
+    font: inherit; line-height: inherit; letter-spacing: inherit; text-align: center; caret-color: var(--ink); }
+  #pg-input:focus { outline: none; }
+  .is-italic #pg-input { font-style: italic; }
+  .pg-features { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; margin-top: clamp(28px, 4vw, 48px); }
+  .pg-features .eyebrow { margin-right: 6px; }
+  .chip { font: 500 12.5px var(--font-sans); padding: 6px 11px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+  .chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+
+  /* example text: long-form paragraphs, two columns on wide screens */
+  .text-controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+  .text-caption { color: var(--muted); font-size: 14px; margin: 28px 0 18px; }
+  .prose { font-size: 17px; line-height: 1.62; column-gap: 56px; }
+  .prose p { margin: 0 0 1.4em; }
+  .prose em { font-style: italic; }
+  @media (min-width: 900px) { .prose { column-count: 2; } }
+
+  /* language support */
+  #languages .stats { margin-bottom: clamp(32px, 5vw, 56px); }
+  .lang-sub { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 14px; }
+  .lang-cards { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: clamp(36px, 5vw, 56px); }
+  @media (min-width: 640px) { .lang-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 960px) { .lang-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .lang-card { background: var(--surface); border-radius: 16px; padding: 20px; display: grid; gap: 10px; align-content: space-between; min-height: 132px; }
+  .lang-card .say { font-size: 28px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; }
+  .lang-card .nm { font-size: 13px; color: var(--muted); }
+  .lang-controls { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center; justify-content: space-between; }
+  #lang-q { font: 400 15px var(--font-sans); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 9px 16px; width: min(320px, 100%); }
+  #lang-q:focus { outline: none; border-color: var(--ink); }
+  .seg button small { color: var(--muted); font-size: 11px; margin-left: 4px; }
+  .seg button[aria-pressed="true"] small { color: inherit; opacity: .7; }
+  .langs { list-style: none; padding: 0; margin: 20px 0 0; columns: 4 210px; column-gap: 32px; font-size: 15px; }
+  .langs li { break-inside: avoid; display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-bottom: 1px solid var(--line); }
+  .langs .auto { color: var(--muted); font-size: 13px; text-align: right; }
+  .langs .sc { color: var(--muted); font: 400 11px var(--font-mono); margin-left: 6px; }
+  .lang-empty { color: var(--muted); margin: 20px 0 0; }
+  .lang-toggle { margin-top: 20px; }
+
+  /* weights */
+  .wlist { border-top: 1px solid var(--line); }
+  .wrow { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 4px 20px; padding: 14px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .wrow .s { font-size: clamp(26px, 4.4vw, 52px); letter-spacing: -0.03em; line-height: 1.12; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .wrow .s.it { font-style: italic; }
+  .wrow .meta { display: grid; gap: 2px; }
+  @media (min-width: 900px) { .wrow { grid-template-columns: 130px minmax(0, 1fr) minmax(0, 1fr); } }
+  @media (max-width: 899px) { .wrow .s.it { display: none; } }
+
+  /* get it */
+  .get { display: grid; grid-template-columns: 1fr; gap: 20px; }
+  @media (min-width: 960px) { .get { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); } }
+  .files { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .file { display: flex; justify-content: space-between; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+  .file b { font-weight: 600; }
+  .file .mono { color: var(--muted); white-space: nowrap; }
+  .code { position: relative; background: var(--surface); border-radius: 18px; padding: 18px; min-width: 0; }
+  .code pre { margin: 0; overflow-x: auto; font: 13px/1.6 var(--font-mono); color: var(--ink); }
+  .code-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .code-bar .seg { background: var(--bg); }
+  .code .copy { font: 500 12px var(--font-sans); padding: 6px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+  .code-note { margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+  .tips { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 20px; }
+  @media (min-width: 640px) { .tips { grid-template-columns: 1fr 1fr; } }
+  .tip { border: 1px solid var(--line); border-radius: 14px; padding: 16px; font-size: 14.5px; }
+  .tip b { display: block; font-size: 16px; margin-bottom: 6px; }
+  .framed-note { display: none; color: var(--muted); font-size: 14px; margin-top: 12px; }
+  .in-frame .dl { display: none; }
+  .in-frame .framed-note { display: block; }
+
+  /* footer */
+  footer { border-top: 1px solid var(--line); padding-block: 56px 72px; }
+  .foot { display: grid; grid-template-columns: 1fr; gap: 32px; }
+  @media (min-width: 860px) { .foot { grid-template-columns: 1.2fr 1fr 1fr; } }
+  .foot h4 { margin: 0 0 10px; font-size: 14px; font-weight: 600; }
+  .foot p, .foot li { color: var(--muted); font-size: 14px; margin: 0 0 8px; }
+  .foot ol { list-style: none; padding: 0; margin: 0; }
+  .foot li b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .foot a { color: var(--muted); }
+
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+</style>
+
+<div id="app">
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-top">
+      <span class="name">Abby Sans</span>
+      <span class="pill">v0.4</span>
+      <span class="pill">9 weights × 2 styles</span>
+      <span class="pill">SIL Open Font License</span>
+    </div>
+    <h1 class="display">The Abby Sans typeface</h1>
+
+    <div class="intro">
+      <div>
+        <div class="lede">One typeface for screens and print, from a 14px label to a billboard.</div>
+        <div class="cta"><a class="btn" href="#get">Get Abby Sans</a><a class="btn ghost" href="#playground">Try it</a></div>
+      </div>
+      <div class="intro-body">
+        <p>Abby Sans is a sans serif for teams that want one family for everything: the app, the dashboards they run on, and the posts, packaging and posters people see. Nine weights run from a delicate Thin to a loud Black, each with a true italic. It is named after Abby, a cat.</p>
+        <p>It starts from Geist, the open source typeface by Vercel, and keeps its clear shapes and generous spacing so long text reads easily at 14px. Then it gets three details of its own: softened corners that grow with the weight, round dots everywhere, and an exclamation mark that tapers like a wedge.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section aria-label="Facts" class="facts">
+  <div class="wrap">
+    <div class="counts">
+      <div><b>9</b><span>weights, Thin to Black</span></div>
+      <div><b>18</b><span>styles, each with a true italic</span></div>
+      <div><b>975</b><span>glyphs</span></div>
+      <div><b>362</b><span>languages</span></div>
+    </div>
+    <dl class="specs">
+      <div><dt>Characters</dt><dd>728</dd></div>
+      <div><dt>Stylistic sets</dt><dd>11</dd></div>
+      <div><dt>Scripts</dt><dd>Latin, Vietnamese, Cyrillic</dd></div>
+      <div><dt>Cap / x-height</dt><dd>710 / 530</dd></div>
+      <div><dt>Built on</dt><dd>Geist 1.9.2</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="details">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">What makes it Abby</span><h2>Three details, at every weight</h2></div>
+      <p>Turn on the Geist outline to compare: the outline is Geist, the grey fill is Abby Sans. The changes stay quiet in body text and get louder as the weight goes up.</p>
+    </div>
+    <div class="detail-controls">
+      <span class="seg" role="group" aria-label="Compare with Geist"><button type="button" id="cmp-off" aria-pressed="true">Abby Sans</button><button type="button" id="cmp-on" aria-pressed="false">Show Geist outline</button></span>
+      <div class="range mono"><label for="det-w"><span>WEIGHT</span><output id="det-w-out">800</output></label><input type="range" id="det-w" min="100" max="900" value="800"></div>
+      <span class="legend" id="legend" hidden><i></i>Geist outline over Abby Sans</span>
+    </div>
+    <div class="details" id="detail-cards">
+      <article class="detail"><div class="stage"><span class="h">ij</span><span class="g">ij</span></div><h3>Round dots</h3><p>Every square dot becomes a circle: i, j, umlauts, the period, colon, question mark and the Vietnamese dot below.</p></article>
+      <article class="detail"><div class="stage"><span class="h">Ek</span><span class="g">Ek</span></div><h3>Softened corners</h3><p>Each corner gets a radius that scales with the stroke, about 17 units in Regular and 38 in Black, so heavy weights feel friendly.</p></article>
+      <article class="detail"><div class="stage"><span class="h">!?</span><span class="g">!?</span></div><h3>The wedge</h3><p>The exclamation mark is a straight stroke that tapers into a wedge, finished with a round dot.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="glyphs">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Glyph inspector</span><h2>Every character</h2></div>
+      <p>Pick a glyph to see it large on the font's metrics. Switch between upright and italic, and slide through the weights.</p>
+    </div>
+    <div class="inspector">
+      <div class="glyph-big">
+        <div class="big-stage" id="big-stage">
+          <div class="mline cap"><span>CAP 710</span></div>
+          <div class="mline xh"><span>X 530</span></div>
+          <div class="mline base"><span>BASE 0</span></div>
+          <div class="mline desc"><span>DESC −150</span></div>
+          <div class="ch" id="big-ch">a</div>
+        </div>
+        <div class="ginfo"><b id="g-name">Latin Small Letter A</b><span class="mono" id="g-code">U+0061</span></div>
+        <span class="seg" role="group" aria-label="Style"><button type="button" id="style-upright" aria-pressed="true">Upright</button><button type="button" id="style-italic" class="it" aria-pressed="false">Italic</button></span>
+        <div class="range mono"><label for="g-w"><span>WEIGHT</span><output id="g-w-out">400</output></label><input type="range" id="g-w" min="100" max="900" value="400"></div>
+      </div>
+      <div>
+        <div class="gtabs" id="gtabs" role="group" aria-label="Glyph groups"></div>
+        <div class="grid" id="ggrid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="playground">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Playground</span><h2>Type something</h2></div>
+      <p>Click the text and type. Every control changes it live.</p>
+    </div>
+    <div class="toolbar">
+      <span class="tool"><label for="pg-style" class="sr-only">Weight name</label><select id="pg-style">
+        <option value="100">Thin</option><option value="200">ExtraLight</option><option value="300">Light</option><option value="400">Regular</option><option value="500">Medium</option><option value="600" selected>SemiBold</option><option value="700">Bold</option><option value="800">ExtraBold</option><option value="900">Black</option>
+      </select></span>
+      <span class="tool" role="group" aria-label="Style">
+        <button type="button" id="pg-upright" aria-pressed="true" aria-label="Upright">I</button>
+        <button type="button" id="pg-italic" aria-pressed="false" aria-label="Italic" style="font-style:italic">I</button>
+      </span>
+      <span class="tool" role="group" aria-label="Alignment" id="pg-align">
+        <button type="button" data-a="left" aria-pressed="false" aria-label="Align left"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 4.5h12M3 9h8M3 13.5h11"/></svg></button>
+        <button type="button" data-a="center" aria-pressed="true" aria-label="Align center"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 4.5h12M5 9h8M3.5 13.5h11"/></svg></button>
+        <button type="button" data-a="right" aria-pressed="false" aria-label="Align right"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 4.5h12M7 9h8M4 13.5h11"/></svg></button>
+      </span>
+      <div class="tool-range"><label for="p-w"><span>Weight</span><output id="p-w-out">600</output></label><input type="range" id="p-w" min="100" max="900" value="600"></div>
+      <div class="tool-range"><label for="p-s"><span>Size</span><output id="p-s-out">160</output></label><input type="range" id="p-s" min="16" max="240" value="160"></div>
+      <div class="tool-range"><label for="p-t"><span>Spacing</span><output id="p-t-out">−3%</output></label><input type="range" id="p-t" min="-8" max="10" value="-3"></div>
+      <span class="tool"><button type="button" id="pg-reset" aria-label="Reset"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 9a5.5 5.5 0 1 0 1.7-4"/><path d="M3.5 3v3.5H7"/></svg></button></span>
+    </div>
+    <div class="pg-stage" id="pg-stage">
+      <label for="pg-input" class="sr-only">Type to preview Abby Sans</label>
+      <textarea id="pg-input" rows="1" spellcheck="false">Apa kabar hari ini?</textarea>
+    </div>
+    <div class="pg-features" id="features" role="group" aria-label="Stylistic sets and features">
+      <span class="eyebrow">Stylistic sets</span>
+      <button type="button" class="chip" data-f="ss01" aria-pressed="false">No tail a</button>
+      <button type="button" class="chip" data-f="ss02" aria-pressed="false">Alt a</button>
+      <button type="button" class="chip" data-f="ss03" aria-pressed="false">Alt l</button>
+      <button type="button" class="chip" data-f="ss04" aria-pressed="false">Alt R</button>
+      <button type="button" class="chip" data-f="ss05" aria-pressed="false">Alt I</button>
+      <button type="button" class="chip" data-f="ss06" aria-pressed="false">Alt G</button>
+      <button type="button" class="chip" data-f="ss07" aria-pressed="false">Alt arrows</button>
+      <button type="button" class="chip" data-f="ss09" aria-pressed="false">Alt numbers</button>
+      <button type="button" class="chip" data-f="tnum" aria-pressed="false">Tabular figures</button>
+      <button type="button" class="chip" data-f="frac" aria-pressed="false">Fractions</button>
+    </div>
+  </div>
+</section>
+
+<section id="text">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Example text</span><h2>Built for long reads</h2></div>
+      <p>The same paragraphs in English, Indonesian and Vietnamese, with italics mixed in. Switch the language and the reading weight.</p>
+    </div>
+    <div class="text-controls">
+      <span class="seg" role="group" aria-label="Language" id="lang-seg">
+        <button type="button" data-lang="en" aria-pressed="true">English</button>
+        <button type="button" data-lang="id" aria-pressed="false">Bahasa Indonesia</button>
+        <button type="button" data-lang="vi" aria-pressed="false">Tiếng Việt</button>
+      </span>
+      <span class="seg" role="group" aria-label="Reading weight" id="read-w">
+        <button type="button" data-w="300" aria-pressed="false">Light</button>
+        <button type="button" data-w="400" aria-pressed="true">Regular</button>
+        <button type="button" data-w="500" aria-pressed="false">Medium</button>
+      </span>
+    </div>
+    <p class="text-caption" id="text-caption">Example text, Regular · English</p>
+
+    <div class="prose" lang="en" data-lang="en">
+      <p>Every city starts the day by reading. Before the first coffee is finished, people have checked a timetable, a weather forecast, a message from a friend and the name of a street they have never walked down. Most of it is read in a glance, on a phone held in one hand or a sign seen from the corner of an eye. <em>Words are everywhere, and almost nobody stops to look at them.</em></p>
+      <p>That is why the small details matter. A train number has to be clear from a distance so nobody boards the wrong one. A date on a form has to read the same at nine in the morning and at midnight. A figure in a report has to line up with the one above it, because people trust what they can compare. None of this shows in a screenshot, but everyone notices when it goes wrong.</p>
+      <p>Type works the same way. Most readers will never think about the shape of a lowercase a, or the spacing between two numbers in a table. They simply read faster, make fewer mistakes and keep going. <em>Good typography, like good design, is the part you only miss when it is gone.</em> Abby Sans was drawn for that kind of quiet work: interfaces at fourteen pixels, dashboards full of figures, and the occasional poster that is allowed to shout.</p>
+      <p>So it carries a few small signatures. The dots are round, the corners are softened just enough to feel friendly at heavy weights, and the exclamation mark tapers like a wedge. Set a long paragraph and you will hardly see them. Set a single word at two hundred pixels and they are the first thing you notice.</p>
+    </div>
+
+    <div class="prose" lang="id" data-lang="id" hidden>
+      <p>Setiap kota memulai hari dengan membaca. Sebelum kopi pertama habis, orang sudah mengecek jadwal kereta, ramalan cuaca, pesan dari teman, dan nama jalan yang belum pernah mereka lewati. Sebagian besar dibaca sekilas, di ponsel yang dipegang satu tangan atau di papan petunjuk yang terlihat dari sudut mata. <em>Kata ada di mana-mana, dan hampir tidak ada yang berhenti untuk memperhatikannya.</em></p>
+      <p>Karena itu detail kecil jadi penting. Nomor kereta harus jelas dari jauh supaya tidak ada yang salah naik. Tanggal di formulir harus terbaca sama, baik jam sembilan pagi maupun tengah malam. Angka di laporan harus sejajar dengan angka di atasnya, karena orang percaya pada hal yang bisa mereka bandingkan. Semua ini tidak terlihat di tangkapan layar, tapi semua orang sadar kalau ada yang salah.</p>
+      <p>Huruf bekerja dengan cara yang sama. Kebanyakan pembaca tidak pernah memikirkan bentuk huruf a kecil, atau jarak antara dua angka di dalam tabel. Mereka hanya membaca lebih cepat, lebih jarang salah, lalu terus melanjutkan. <em>Tipografi yang baik, seperti desain yang baik, baru terasa saat ia tidak ada.</em> Abby Sans dirancang untuk pekerjaan yang tenang seperti itu: antarmuka di ukuran empat belas piksel, dasbor penuh angka, dan sesekali poster yang boleh berteriak.</p>
+      <p>Jadi ia membawa beberapa ciri kecil. Titiknya bulat, sudutnya dilunakkan secukupnya agar terasa ramah di ketebalan berat, dan tanda serunya meruncing seperti baji. Pasang dalam satu paragraf panjang dan ciri itu hampir tak terlihat. Pasang satu kata di ukuran dua ratus piksel dan itulah hal pertama yang kamu lihat.</p>
+    </div>
+
+    <div class="prose" lang="vi" data-lang="vi" hidden>
+      <p>Mỗi thành phố bắt đầu ngày mới bằng việc đọc. Trước khi uống xong ly cà phê đầu tiên, người ta đã xem lịch tàu, dự báo thời tiết, tin nhắn của bạn bè và tên một con phố họ chưa từng đi qua. Phần lớn chỉ được đọc lướt, trên chiếc điện thoại cầm một tay hay một tấm biển thoáng qua khóe mắt. <em>Chữ có ở khắp nơi, và gần như không ai dừng lại để nhìn chúng.</em></p>
+      <p>Vì vậy, những chi tiết nhỏ rất quan trọng. Số hiệu tàu phải rõ ràng từ xa để không ai lên nhầm. Ngày tháng trên một biểu mẫu phải đọc giống nhau lúc chín giờ sáng cũng như lúc nửa đêm. Một con số trong báo cáo phải thẳng hàng với con số phía trên, vì người ta tin vào những gì họ có thể so sánh. Không điều gì trong số này hiện lên trong ảnh chụp màn hình, nhưng ai cũng nhận ra khi có gì đó sai.</p>
+      <p>Chữ cũng hoạt động theo cách như vậy. Phần lớn người đọc sẽ không bao giờ để ý đến hình dáng của chữ a thường, hay khoảng cách giữa hai con số trong một bảng. Họ chỉ đọc nhanh hơn, ít nhầm lẫn hơn và tiếp tục. <em>Kiểu chữ tốt, cũng như thiết kế tốt, là thứ ta chỉ nhớ đến khi nó không còn.</em> Abby Sans được tạo ra cho những công việc lặng lẽ như thế: giao diện ở cỡ mười bốn pixel, bảng điều khiển đầy số liệu, và đôi khi là một tấm áp phích được phép nói thật to.</p>
+      <p>Vì thế, nó mang vài dấu ấn nhỏ. Các dấu chấm đều tròn, các góc được bo vừa đủ để trông thân thiện ở những độ đậm lớn, và dấu chấm than thon lại như một cái nêm. Đặt nó trong một đoạn văn dài, bạn sẽ hầu như không thấy. Đặt một từ duy nhất ở cỡ hai trăm pixel, đó sẽ là điều đầu tiên bạn nhận ra.</p>
+    </div>
+  </div>
+</section>
+
+<section id="languages">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Language support</span><h2><span id="lang-total">362</span> languages, two scripts</h2></div>
+      <p>Checked against the Hyperglot language database, in both upright and italic. Together these languages have about <span id="lang-speakers">2.99B</span> speakers.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="eyebrow">Languages</span><span class="v" id="lang-total-2">362</span></div>
+      <div class="stat"><span class="eyebrow">Latin script</span><span class="v" id="lang-latin">319</span></div>
+      <div class="stat"><span class="eyebrow">Cyrillic script</span><span class="v" id="lang-cyrillic">43</span></div>
+      <div class="stat"><span class="eyebrow">Speakers</span><span class="v" id="lang-speakers-2">2.99B</span></div>
+    </div>
+
+    <h3 class="lang-sub">Close to home</h3>
+    <div class="lang-cards">
+      <div class="lang-card" lang="id"><span class="say">Selamat pagi, semuanya!</span><span class="nm">Bahasa Indonesia · Indonesian</span></div>
+      <div class="lang-card" lang="ms"><span class="say">Selamat pagi, semua!</span><span class="nm">Bahasa Melayu · Malay</span></div>
+      <div class="lang-card" lang="vi"><span class="say">Chào buổi sáng cả nhà!</span><span class="nm">Tiếng Việt · Vietnamese</span></div>
+      <div class="lang-card" lang="jv"><span class="say">Sugeng enjang!</span><span class="nm">Basa Jawa · Javanese</span></div>
+      <div class="lang-card" lang="fil"><span class="say">Magandang umaga!</span><span class="nm">Filipino</span></div>
+      <div class="lang-card" lang="en"><span class="say">Good morning, everyone!</span><span class="nm">English</span></div>
+    </div>
+
+    <div class="lang-controls">
+      <span class="seg" role="group" aria-label="Script" id="lang-script"></span>
+      <label for="lang-q" class="sr-only">Search languages</label>
+      <input type="search" id="lang-q" placeholder="Search 362 languages" autocomplete="off">
+    </div>
+    <ul class="langs" id="lang-list" hidden></ul>
+    <p class="lang-empty" id="lang-empty" hidden></p>
+    <button type="button" class="btn ghost lang-toggle" id="lang-toggle" aria-controls="lang-list" aria-expanded="false">Show all 362 languages</button>
+  </div>
+</section>
+
+<section id="weights">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Weights</span><h2>Thin to Black, upright and italic</h2></div>
+      <p>Regular for reading, Medium for labels, SemiBold and Bold for titles, ExtraBold and Black for anything that needs to shout.</p>
+    </div>
+    <div class="wlist" id="wlist"></div>
+  </div>
+</section>
+
+<section id="get">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Get Abby Sans</span><h2>Install it once, use it everywhere</h2></div>
+      <p>Variable fonts for the web and Figma, static hinted files for Office, print and older tools. Every file is free to use under the SIL Open Font License.</p>
+    </div>
+    <div class="get">
+      <div>
+        <div class="files">
+          <div class="file"><b>Variable, upright and italic</b><span class="mono">2 × WOFF2, 2 × TTF</span></div>
+          <div class="file"><b>Static desktop fonts, hinted</b><span class="mono">18 × TTF</span></div>
+          <div class="file"><b>Static web fonts</b><span class="mono">18 × WOFF2</span></div>
+          <div class="file"><b>License and readme</b><span class="mono">OFL.txt, README.md</span></div>
+        </div>
+        <div class="cta" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
+          <a class="btn dl" href="downloads/AbbySans-0.4.zip">Download .zip · 2.9 MB</a>
+        </div>
+        <p class="framed-note">Downloads are turned off in this preview. Get the .zip from the Abby Sans website.</p>
+        <div class="tips">
+          <div class="tip"><b>For software</b>Regular 400 for body at 14 to 16px, Medium 500 for labels and buttons, SemiBold 600 or Bold 700 for titles. Letter spacing 0 for text, −1% to −2% for titles.</div>
+          <div class="tip"><b>For marketing</b>Black 900 or ExtraBold 800 for headlines, set tight at −3% to −5% letter spacing and 0.9 line height. Regular or Medium for supporting copy.</div>
+        </div>
+      </div>
+      <div class="code">
+        <div class="code-bar">
+          <div class="seg" id="code-tabs" role="tablist">
+            <button type="button" data-tab="css" aria-pressed="true">CSS</button>
+            <button type="button" data-tab="next" aria-pressed="false">Next.js</button>
+            <button type="button" data-tab="tailwind" aria-pressed="false">Tailwind</button>
+          </div>
+          <button type="button" class="copy" id="copy">Copy</button>
+        </div>
+<pre class="snippet" data-tab="css">@font-face {
+  font-family: "Abby Sans";
+  src: url("AbbySans[wght].woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Abby Sans";
+  src: url("AbbySans-Italic[wght].woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  font-family: "Abby Sans", system-ui, sans-serif;
+}
+h1 {
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
+.price {
+  font-variant-numeric: tabular-nums;
+}</pre>
+<pre class="snippet" data-tab="next" hidden>// app/layout.js
+import localFont from "next/font/local";
+
+const abbySans = localFont({
+  src: [
+    {
+      path: "./fonts/AbbySans[wght].woff2",
+      weight: "100 900",
+      style: "normal",
+    },
+    {
+      path: "./fonts/AbbySans-Italic[wght].woff2",
+      weight: "100 900",
+      style: "italic",
+    },
+  ],
+  display: "swap",
+  variable: "--font-abby-sans",
+});
+
+export default function RootLayout({ children }) {
+  return (
+    &lt;html lang="id" className={abbySans.variable}&gt;
+      &lt;body&gt;{children}&lt;/body&gt;
+    &lt;/html&gt;
+  );
+}
+
+/* app/globals.css */
+body {
+  font-family: var(--font-abby-sans), sans-serif;
+}</pre>
+<pre class="snippet" data-tab="tailwind" hidden>/* app.css, Tailwind CSS v4 */
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Abby Sans";
+  src: url("AbbySans[wght].woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Abby Sans";
+  src: url("AbbySans-Italic[wght].woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: "Abby Sans", system-ui, sans-serif;
+}
+
+/* with Next.js, point it at the layout.js variable:
+@theme inline {
+  --font-sans: var(--font-abby-sans);
+} */
+
+&lt;h1 class="font-black tracking-tight"&gt;Abby Sans&lt;/h1&gt;
+&lt;p class="tabular-nums"&gt;12,480&lt;/p&gt;</pre>
+        <p class="code-note" data-tab="css">Works in any website, app or internal tool. Put the two variable WOFF2 files next to your stylesheet.</p>
+        <p class="code-note" data-tab="next" hidden>For Next.js sites. Put the two variable WOFF2 files in app/fonts. next/font serves the files from your own domain and stops layout shift while the font loads.</p>
+        <p class="code-note" data-tab="tailwind" hidden>For projects on Tailwind CSS v4. Every font-sans class, the default, becomes Abby Sans.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <h4>Credits</h4>
+        <p>Abby Sans is based on Geist by Vercel, designed with Basement Studio and released under the SIL Open Font License 1.1. Abby Sans changes the corners, the dots and the exclamation mark; spacing and kerning are Geist's.</p>
+        <p>License: SIL Open Font License 1.1. Use it, embed it and ship it in anything. Just don't sell the font files on their own, and keep OFL.txt with them. Read the license at openfontlicense.org.</p>
+      </div>
+      <div>
+        <h4>Changelog</h4>
+        <ol>
+          <li><b>0.4</b> · True italics for all 9 weights, rebuilt on Geist 1.9.2 with Vietnamese and more Cyrillic.</li>
+          <li><b>0.3</b> · One family for everything: variable weight from Thin to Black.</li>
+          <li><b>0.2</b> · Display weights for screen headlines.</li>
+          <li><b>0.1</b> · First cut: Display Black for ads.</li>
+        </ol>
+      </div>
+      <div>
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#top">Top</a></li><li><a href="#details">Details</a></li><li><a href="#glyphs">Glyph inspector</a></li><li><a href="#playground">Playground</a></li><li><a href="#text">Example text</a></li><li><a href="#languages">Languages</a></li><li><a href="#weights">Weights</a></li><li><a href="#get">Get it</a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+
+<script>
+  // the band's slider track paints its filled part from --p
+  const syncRangeFill = el => el.style.setProperty('--p', ((el.value - el.min) / (el.max - el.min)) * 100 + '%');
+  document.addEventListener('input', e => { if (e.target.matches('input[type=range]')) syncRangeFill(e.target); });
+  document.querySelectorAll('input[type=range]').forEach(syncRangeFill);
+(() => {
+  const $ = id => document.getElementById(id);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const GLYPHS = /*glyphs:start*/[[33,"Exclamation Mark","Punctuation"],[34,"Quotation Mark","Punctuation"],[35,"Number Sign","Punctuation"],[36,"Dollar Sign","Symbols"],[37,"Percent Sign","Punctuation"],[38,"Ampersand","Punctuation"],[39,"Apostrophe","Punctuation"],[40,"Left Parenthesis","Punctuation"],[41,"Right Parenthesis","Punctuation"],[42,"Asterisk","Punctuation"],[43,"Plus Sign","Symbols"],[44,"Comma","Punctuation"],[45,"Hyphen-Minus","Punctuation"],[46,"Full Stop","Punctuation"],[47,"Solidus","Punctuation"],[48,"Digit Zero","Figures"],[49,"Digit One","Figures"],[50,"Digit Two","Figures"],[51,"Digit Three","Figures"],[52,"Digit Four","Figures"],[53,"Digit Five","Figures"],[54,"Digit Six","Figures"],[55,"Digit Seven","Figures"],[56,"Digit Eight","Figures"],[57,"Digit Nine","Figures"],[58,"Colon","Punctuation"],[59,"Semicolon","Punctuation"],[60,"Less-Than Sign","Symbols"],[61,"Equals Sign","Symbols"],[62,"Greater-Than Sign","Symbols"],[63,"Question Mark","Punctuation"],[64,"Commercial At","Punctuation"],[65,"Latin Capital Letter A","Uppercase"],[66,"Latin Capital Letter B","Uppercase"],[67,"Latin Capital Letter C","Uppercase"],[68,"Latin Capital Letter D","Uppercase"],[69,"Latin Capital Letter E","Uppercase"],[70,"Latin Capital Letter F","Uppercase"],[71,"Latin Capital Letter G","Uppercase"],[72,"Latin Capital Letter H","Uppercase"],[73,"Latin Capital Letter I","Uppercase"],[74,"Latin Capital Letter J","Uppercase"],[75,"Latin Capital Letter K","Uppercase"],[76,"Latin Capital Letter L","Uppercase"],[77,"Latin Capital Letter M","Uppercase"],[78,"Latin Capital Letter N","Uppercase"],[79,"Latin Capital Letter O","Uppercase"],[80,"Latin Capital Letter P","Uppercase"],[81,"Latin Capital Letter Q","Uppercase"],[82,"Latin Capital Letter R","Uppercase"],[83,"Latin Capital Letter S","Uppercase"],[84,"Latin Capital Letter T","Uppercase"],[85,"Latin Capital Letter U","Uppercase"],[86,"Latin Capital Letter V","Uppercase"],[87,"Latin Capital Letter W","Uppercase"],[88,"Latin Capital Letter X","Uppercase"],[89,"Latin Capital Letter Y","Uppercase"],[90,"Latin Capital Letter Z","Uppercase"],[91,"Left Square Bracket","Punctuation"],[92,"Reverse Solidus","Punctuation"],[93,"Right Square Bracket","Punctuation"],[94,"Circumflex Accent","Symbols"],[95,"Low Line","Punctuation"],[96,"Grave Accent","Symbols"],[97,"Latin Small Letter A","Lowercase"],[98,"Latin Small Letter B","Lowercase"],[99,"Latin Small Letter C","Lowercase"],[100,"Latin Small Letter D","Lowercase"],[101,"Latin Small Letter E","Lowercase"],[102,"Latin Small Letter F","Lowercase"],[103,"Latin Small Letter G","Lowercase"],[104,"Latin Small Letter H","Lowercase"],[105,"Latin Small Letter I","Lowercase"],[106,"Latin Small Letter J","Lowercase"],[107,"Latin Small Letter K","Lowercase"],[108,"Latin Small Letter L","Lowercase"],[109,"Latin Small Letter M","Lowercase"],[110,"Latin Small Letter N","Lowercase"],[111,"Latin Small Letter O","Lowercase"],[112,"Latin Small Letter P","Lowercase"],[113,"Latin Small Letter Q","Lowercase"],[114,"Latin Small Letter R","Lowercase"],[115,"Latin Small Letter S","Lowercase"],[116,"Latin Small Letter T","Lowercase"],[117,"Latin Small Letter U","Lowercase"],[118,"Latin Small Letter V","Lowercase"],[119,"Latin Small Letter W","Lowercase"],[120,"Latin Small Letter X","Lowercase"],[121,"Latin Small Letter Y","Lowercase"],[122,"Latin Small Letter Z","Lowercase"],[123,"Left Curly Bracket","Punctuation"],[124,"Vertical Line","Symbols"],[125,"Right Curly Bracket","Punctuation"],[126,"Tilde","Symbols"],[161,"Inverted Exclamation Mark","Punctuation"],[162,"Cent Sign","Symbols"],[163,"Pound Sign","Symbols"],[164,"Currency Sign","Symbols"],[165,"Yen Sign","Symbols"],[166,"Broken Bar","Symbols"],[167,"Section Sign","Punctuation"],[168,"Diaeresis","Symbols"],[169,"Copyright Sign","Symbols"],[170,"Feminine Ordinal Indicator","Symbols"],[171,"Left-Pointing Double Angle Quotation Mark","Punctuation"],[172,"Not Sign","Symbols"],[174,"Registered Sign","Symbols"],[175,"Macron","Symbols"],[176,"Degree Sign","Symbols"],[177,"Plus-Minus Sign","Symbols"],[178,"Superscript Two","Figures"],[179,"Superscript Three","Figures"],[180,"Acute Accent","Symbols"],[181,"Micro Sign","Symbols"],[182,"Pilcrow Sign","Punctuation"],[183,"Middle Dot","Punctuation"],[184,"Cedilla","Symbols"],[185,"Superscript One","Figures"],[186,"Masculine Ordinal Indicator","Symbols"],[187,"Right-Pointing Double Angle Quotation Mark","Punctuation"],[188,"Vulgar Fraction One Quarter","Figures"],[189,"Vulgar Fraction One Half","Figures"],[190,"Vulgar Fraction Three Quarters","Figures"],[191,"Inverted Question Mark","Punctuation"],[192,"Latin Capital Letter A With Grave","Uppercase"],[193,"Latin Capital Letter A With Acute","Uppercase"],[194,"Latin Capital Letter A With Circumflex","Uppercase"],[195,"Latin Capital Letter A With Tilde","Uppercase"],[196,"Latin Capital Letter A With Diaeresis","Uppercase"],[197,"Latin Capital Letter A With Ring Above","Uppercase"],[198,"Latin Capital Letter Ae","Uppercase"],[199,"Latin Capital Letter C With Cedilla","Uppercase"],[200,"Latin Capital Letter E With Grave","Uppercase"],[201,"Latin Capital Letter E With Acute","Uppercase"],[202,"Latin Capital Letter E With Circumflex","Uppercase"],[203,"Latin Capital Letter E With Diaeresis","Uppercase"],[204,"Latin Capital Letter I With Grave","Uppercase"],[205,"Latin Capital Letter I With Acute","Uppercase"],[206,"Latin Capital Letter I With Circumflex","Uppercase"],[207,"Latin Capital Letter I With Diaeresis","Uppercase"],[208,"Latin Capital Letter Eth","Uppercase"],[209,"Latin Capital Letter N With Tilde","Uppercase"],[210,"Latin Capital Letter O With Grave","Uppercase"],[211,"Latin Capital Letter O With Acute","Uppercase"],[212,"Latin Capital Letter O With Circumflex","Uppercase"],[213,"Latin Capital Letter O With Tilde","Uppercase"],[214,"Latin Capital Letter O With Diaeresis","Uppercase"],[215,"Multiplication Sign","Symbols"],[216,"Latin Capital Letter O With Stroke","Uppercase"],[217,"Latin Capital Letter U With Grave","Uppercase"],[218,"Latin Capital Letter U With Acute","Uppercase"],[219,"Latin Capital Letter U With Circumflex","Uppercase"],[220,"Latin Capital Letter U With Diaeresis","Uppercase"],[221,"Latin Capital Letter Y With Acute","Uppercase"],[222,"Latin Capital Letter Thorn","Uppercase"],[223,"Latin Small Letter Sharp S","Lowercase"],[224,"Latin Small Letter A With Grave","Lowercase"],[225,"Latin Small Letter A With Acute","Lowercase"],[226,"Latin Small Letter A With Circumflex","Lowercase"],[227,"Latin Small Letter A With Tilde","Lowercase"],[228,"Latin Small Letter A With Diaeresis","Lowercase"],[229,"Latin Small Letter A With Ring Above","Lowercase"],[230,"Latin Small Letter Ae","Lowercase"],[231,"Latin Small Letter C With Cedilla","Lowercase"],[232,"Latin Small Letter E With Grave","Lowercase"],[233,"Latin Small Letter E With Acute","Lowercase"],[234,"Latin Small Letter E With Circumflex","Lowercase"],[235,"Latin Small Letter E With Diaeresis","Lowercase"],[236,"Latin Small Letter I With Grave","Lowercase"],[237,"Latin Small Letter I With Acute","Lowercase"],[238,"Latin Small Letter I With Circumflex","Lowercase"],[239,"Latin Small Letter I With Diaeresis","Lowercase"],[240,"Latin Small Letter Eth","Lowercase"],[241,"Latin Small Letter N With Tilde","Lowercase"],[242,"Latin Small Letter O With Grave","Lowercase"],[243,"Latin Small Letter O With Acute","Lowercase"],[244,"Latin Small Letter O With Circumflex","Lowercase"],[245,"Latin Small Letter O With Tilde","Lowercase"],[246,"Latin Small Letter O With Diaeresis","Lowercase"],[247,"Division Sign","Symbols"],[248,"Latin Small Letter O With Stroke","Lowercase"],[249,"Latin Small Letter U With Grave","Lowercase"],[250,"Latin Small Letter U With Acute","Lowercase"],[251,"Latin Small Letter U With Circumflex","Lowercase"],[252,"Latin Small Letter U With Diaeresis","Lowercase"],[253,"Latin Small Letter Y With Acute","Lowercase"],[254,"Latin Small Letter Thorn","Lowercase"],[255,"Latin Small Letter Y With Diaeresis","Lowercase"],[256,"Latin Capital Letter A With Macron","Uppercase"],[257,"Latin Small Letter A With Macron","Lowercase"],[258,"Latin Capital Letter A With Breve","Uppercase"],[259,"Latin Small Letter A With Breve","Lowercase"],[260,"Latin Capital Letter A With Ogonek","Uppercase"],[261,"Latin Small Letter A With Ogonek","Lowercase"],[262,"Latin Capital Letter C With Acute","Uppercase"],[263,"Latin Small Letter C With Acute","Lowercase"],[264,"Latin Capital Letter C With Circumflex","Uppercase"],[265,"Latin Small Letter C With Circumflex","Lowercase"],[266,"Latin Capital Letter C With Dot Above","Uppercase"],[267,"Latin Small Letter C With Dot Above","Lowercase"],[268,"Latin Capital Letter C With Caron","Uppercase"],[269,"Latin Small Letter C With Caron","Lowercase"],[270,"Latin Capital Letter D With Caron","Uppercase"],[271,"Latin Small Letter D With Caron","Lowercase"],[272,"Latin Capital Letter D With Stroke","Uppercase"],[273,"Latin Small Letter D With Stroke","Lowercase"],[274,"Latin Capital Letter E With Macron","Uppercase"],[275,"Latin Small Letter E With Macron","Lowercase"],[278,"Latin Capital Letter E With Dot Above","Uppercase"],[279,"Latin Small Letter E With Dot Above","Lowercase"],[280,"Latin Capital Letter E With Ogonek","Uppercase"],[281,"Latin Small Letter E With Ogonek","Lowercase"],[282,"Latin Capital Letter E With Caron","Uppercase"],[283,"Latin Small Letter E With Caron","Lowercase"],[284,"Latin Capital Letter G With Circumflex","Uppercase"],[285,"Latin Small Letter G With Circumflex","Lowercase"],[286,"Latin Capital Letter G With Breve","Uppercase"],[287,"Latin Small Letter G With Breve","Lowercase"],[288,"Latin Capital Letter G With Dot Above","Uppercase"],[289,"Latin Small Letter G With Dot Above","Lowercase"],[290,"Latin Capital Letter G With Cedilla","Uppercase"],[291,"Latin Small Letter G With Cedilla","Lowercase"],[292,"Latin Capital Letter H With Circumflex","Uppercase"],[293,"Latin Small Letter H With Circumflex","Lowercase"],[294,"Latin Capital Letter H With Stroke","Uppercase"],[295,"Latin Small Letter H With Stroke","Lowercase"],[296,"Latin Capital Letter I With Tilde","Uppercase"],[297,"Latin Small Letter I With Tilde","Lowercase"],[298,"Latin Capital Letter I With Macron","Uppercase"],[299,"Latin Small Letter I With Macron","Lowercase"],[302,"Latin Capital Letter I With Ogonek","Uppercase"],[303,"Latin Small Letter I With Ogonek","Lowercase"],[304,"Latin Capital Letter I With Dot Above","Uppercase"],[305,"Latin Small Letter Dotless I","Lowercase"],[306,"Latin Capital Ligature Ij","Uppercase"],[307,"Latin Small Ligature Ij","Lowercase"],[308,"Latin Capital Letter J With Circumflex","Uppercase"],[309,"Latin Small Letter J With Circumflex","Lowercase"],[310,"Latin Capital Letter K With Cedilla","Uppercase"],[311,"Latin Small Letter K With Cedilla","Lowercase"],[313,"Latin Capital Letter L With Acute","Uppercase"],[314,"Latin Small Letter L With Acute","Lowercase"],[315,"Latin Capital Letter L With Cedilla","Uppercase"],[316,"Latin Small Letter L With Cedilla","Lowercase"],[317,"Latin Capital Letter L With Caron","Uppercase"],[318,"Latin Small Letter L With Caron","Lowercase"],[321,"Latin Capital Letter L With Stroke","Uppercase"],[322,"Latin Small Letter L With Stroke","Lowercase"],[323,"Latin Capital Letter N With Acute","Uppercase"],[324,"Latin Small Letter N With Acute","Lowercase"],[325,"Latin Capital Letter N With Cedilla","Uppercase"],[326,"Latin Small Letter N With Cedilla","Lowercase"],[327,"Latin Capital Letter N With Caron","Uppercase"],[328,"Latin Small Letter N With Caron","Lowercase"],[330,"Latin Capital Letter Eng","Uppercase"],[331,"Latin Small Letter Eng","Lowercase"],[332,"Latin Capital Letter O With Macron","Uppercase"],[333,"Latin Small Letter O With Macron","Lowercase"],[336,"Latin Capital Letter O With Double Acute","Uppercase"],[337,"Latin Small Letter O With Double Acute","Lowercase"],[338,"Latin Capital Ligature Oe","Uppercase"],[339,"Latin Small Ligature Oe","Lowercase"],[340,"Latin Capital Letter R With Acute","Uppercase"],[341,"Latin Small Letter R With Acute","Lowercase"],[342,"Latin Capital Letter R With Cedilla","Uppercase"],[343,"Latin Small Letter R With Cedilla","Lowercase"],[344,"Latin Capital Letter R With Caron","Uppercase"],[345,"Latin Small Letter R With Caron","Lowercase"],[346,"Latin Capital Letter S With Acute","Uppercase"],[347,"Latin Small Letter S With Acute","Lowercase"],[348,"Latin Capital Letter S With Circumflex","Uppercase"],[349,"Latin Small Letter S With Circumflex","Lowercase"],[350,"Latin Capital Letter S With Cedilla","Uppercase"],[351,"Latin Small Letter S With Cedilla","Lowercase"],[352,"Latin Capital Letter S With Caron","Uppercase"],[353,"Latin Small Letter S With Caron","Lowercase"],[354,"Latin Capital Letter T With Cedilla","Uppercase"],[355,"Latin Small Letter T With Cedilla","Lowercase"],[356,"Latin Capital Letter T With Caron","Uppercase"],[357,"Latin Small Letter T With Caron","Lowercase"],[358,"Latin Capital Letter T With Stroke","Uppercase"],[359,"Latin Small Letter T With Stroke","Lowercase"],[360,"Latin Capital Letter U With Tilde","Uppercase"],[361,"Latin Small Letter U With Tilde","Lowercase"],[362,"Latin Capital Letter U With Macron","Uppercase"],[363,"Latin Small Letter U With Macron","Lowercase"],[364,"Latin Capital Letter U With Breve","Uppercase"],[365,"Latin Small Letter U With Breve","Lowercase"],[366,"Latin Capital Letter U With Ring Above","Uppercase"],[367,"Latin Small Letter U With Ring Above","Lowercase"],[368,"Latin Capital Letter U With Double Acute","Uppercase"],[369,"Latin Small Letter U With Double Acute","Lowercase"],[370,"Latin Capital Letter U With Ogonek","Uppercase"],[371,"Latin Small Letter U With Ogonek","Lowercase"],[372,"Latin Capital Letter W With Circumflex","Uppercase"],[373,"Latin Small Letter W With Circumflex","Lowercase"],[374,"Latin Capital Letter Y With Circumflex","Uppercase"],[375,"Latin Small Letter Y With Circumflex","Lowercase"],[376,"Latin Capital Letter Y With Diaeresis","Uppercase"],[377,"Latin Capital Letter Z With Acute","Uppercase"],[378,"Latin Small Letter Z With Acute","Lowercase"],[379,"Latin Capital Letter Z With Dot Above","Uppercase"],[380,"Latin Small Letter Z With Dot Above","Lowercase"],[381,"Latin Capital Letter Z With Caron","Uppercase"],[382,"Latin Small Letter Z With Caron","Lowercase"],[399,"Latin Capital Letter Schwa","Uppercase"],[402,"Latin Small Letter F With Hook","Lowercase"],[416,"Latin Capital Letter O With Horn","Uppercase"],[417,"Latin Small Letter O With Horn","Lowercase"],[431,"Latin Capital Letter U With Horn","Uppercase"],[432,"Latin Small Letter U With Horn","Lowercase"],[461,"Latin Capital Letter A With Caron","Uppercase"],[462,"Latin Small Letter A With Caron","Lowercase"],[484,"Latin Capital Letter G With Stroke","Uppercase"],[485,"Latin Small Letter G With Stroke","Lowercase"],[486,"Latin Capital Letter G With Caron","Uppercase"],[487,"Latin Small Letter G With Caron","Lowercase"],[488,"Latin Capital Letter K With Caron","Uppercase"],[489,"Latin Small Letter K With Caron","Lowercase"],[536,"Latin Capital Letter S With Comma Below","Uppercase"],[537,"Latin Small Letter S With Comma Below","Lowercase"],[538,"Latin Capital Letter T With Comma Below","Uppercase"],[539,"Latin Small Letter T With Comma Below","Lowercase"],[567,"Latin Small Letter Dotless J","Lowercase"],[601,"Latin Small Letter Schwa","Lowercase"],[697,"Modifier Letter Prime","Symbols"],[700,"Modifier Letter Apostrophe","Symbols"],[710,"Modifier Letter Circumflex Accent","Symbols"],[711,"Caron","Symbols"],[712,"Modifier Letter Vertical Line","Symbols"],[728,"Breve","Symbols"],[729,"Dot Above","Symbols"],[730,"Ring Above","Symbols"],[731,"Ogonek","Symbols"],[732,"Small Tilde","Symbols"],[733,"Double Acute Accent","Symbols"],[923,"Greek Capital Letter Lamda","Symbols"],[937,"Greek Capital Letter Omega","Symbols"],[955,"Greek Small Letter Lamda","Symbols"],[956,"Greek Small Letter Mu","Symbols"],[960,"Greek Small Letter Pi","Symbols"],[969,"Greek Small Letter Omega","Symbols"],[1024,"Cyrillic Capital Letter Ie With Grave","Cyrillic"],[1025,"Cyrillic Capital Letter Io","Cyrillic"],[1026,"Cyrillic Capital Letter Dje","Cyrillic"],[1027,"Cyrillic Capital Letter Gje","Cyrillic"],[1028,"Cyrillic Capital Letter Ukrainian Ie","Cyrillic"],[1029,"Cyrillic Capital Letter Dze","Cyrillic"],[1030,"Cyrillic Capital Letter Byelorussian-Ukrainian I","Cyrillic"],[1031,"Cyrillic Capital Letter Yi","Cyrillic"],[1032,"Cyrillic Capital Letter Je","Cyrillic"],[1033,"Cyrillic Capital Letter Lje","Cyrillic"],[1034,"Cyrillic Capital Letter Nje","Cyrillic"],[1035,"Cyrillic Capital Letter Tshe","Cyrillic"],[1036,"Cyrillic Capital Letter Kje","Cyrillic"],[1037,"Cyrillic Capital Letter I With Grave","Cyrillic"],[1038,"Cyrillic Capital Letter Short U","Cyrillic"],[1039,"Cyrillic Capital Letter Dzhe","Cyrillic"],[1040,"Cyrillic Capital Letter A","Cyrillic"],[1041,"Cyrillic Capital Letter Be","Cyrillic"],[1042,"Cyrillic Capital Letter Ve","Cyrillic"],[1043,"Cyrillic Capital Letter Ghe","Cyrillic"],[1044,"Cyrillic Capital Letter De","Cyrillic"],[1045,"Cyrillic Capital Letter Ie","Cyrillic"],[1046,"Cyrillic Capital Letter Zhe","Cyrillic"],[1047,"Cyrillic Capital Letter Ze","Cyrillic"],[1048,"Cyrillic Capital Letter I","Cyrillic"],[1049,"Cyrillic Capital Letter Short I","Cyrillic"],[1050,"Cyrillic Capital Letter Ka","Cyrillic"],[1051,"Cyrillic Capital Letter El","Cyrillic"],[1052,"Cyrillic Capital Letter Em","Cyrillic"],[1053,"Cyrillic Capital Letter En","Cyrillic"],[1054,"Cyrillic Capital Letter O","Cyrillic"],[1055,"Cyrillic Capital Letter Pe","Cyrillic"],[1056,"Cyrillic Capital Letter Er","Cyrillic"],[1057,"Cyrillic Capital Letter Es","Cyrillic"],[1058,"Cyrillic Capital Letter Te","Cyrillic"],[1059,"Cyrillic Capital Letter U","Cyrillic"],[1060,"Cyrillic Capital Letter Ef","Cyrillic"],[1061,"Cyrillic Capital Letter Ha","Cyrillic"],[1062,"Cyrillic Capital Letter Tse","Cyrillic"],[1063,"Cyrillic Capital Letter Che","Cyrillic"],[1064,"Cyrillic Capital Letter Sha","Cyrillic"],[1065,"Cyrillic Capital Letter Shcha","Cyrillic"],[1066,"Cyrillic Capital Letter Hard Sign","Cyrillic"],[1067,"Cyrillic Capital Letter Yeru","Cyrillic"],[1068,"Cyrillic Capital Letter Soft Sign","Cyrillic"],[1069,"Cyrillic Capital Letter E","Cyrillic"],[1070,"Cyrillic Capital Letter Yu","Cyrillic"],[1071,"Cyrillic Capital Letter Ya","Cyrillic"],[1072,"Cyrillic Small Letter A","Cyrillic"],[1073,"Cyrillic Small Letter Be","Cyrillic"],[1074,"Cyrillic Small Letter Ve","Cyrillic"],[1075,"Cyrillic Small Letter Ghe","Cyrillic"],[1076,"Cyrillic Small Letter De","Cyrillic"],[1077,"Cyrillic Small Letter Ie","Cyrillic"],[1078,"Cyrillic Small Letter Zhe","Cyrillic"],[1079,"Cyrillic Small Letter Ze","Cyrillic"],[1080,"Cyrillic Small Letter I","Cyrillic"],[1081,"Cyrillic Small Letter Short I","Cyrillic"],[1082,"Cyrillic Small Letter Ka","Cyrillic"],[1083,"Cyrillic Small Letter El","Cyrillic"],[1084,"Cyrillic Small Letter Em","Cyrillic"],[1085,"Cyrillic Small Letter En","Cyrillic"],[1086,"Cyrillic Small Letter O","Cyrillic"],[1087,"Cyrillic Small Letter Pe","Cyrillic"],[1088,"Cyrillic Small Letter Er","Cyrillic"],[1089,"Cyrillic Small Letter Es","Cyrillic"],[1090,"Cyrillic Small Letter Te","Cyrillic"],[1091,"Cyrillic Small Letter U","Cyrillic"],[1092,"Cyrillic Small Letter Ef","Cyrillic"],[1093,"Cyrillic Small Letter Ha","Cyrillic"],[1094,"Cyrillic Small Letter Tse","Cyrillic"],[1095,"Cyrillic Small Letter Che","Cyrillic"],[1096,"Cyrillic Small Letter Sha","Cyrillic"],[1097,"Cyrillic Small Letter Shcha","Cyrillic"],[1098,"Cyrillic Small Letter Hard Sign","Cyrillic"],[1099,"Cyrillic Small Letter Yeru","Cyrillic"],[1100,"Cyrillic Small Letter Soft Sign","Cyrillic"],[1101,"Cyrillic Small Letter E","Cyrillic"],[1102,"Cyrillic Small Letter Yu","Cyrillic"],[1103,"Cyrillic Small Letter Ya","Cyrillic"],[1104,"Cyrillic Small Letter Ie With Grave","Cyrillic"],[1105,"Cyrillic Small Letter Io","Cyrillic"],[1106,"Cyrillic Small Letter Dje","Cyrillic"],[1107,"Cyrillic Small Letter Gje","Cyrillic"],[1108,"Cyrillic Small Letter Ukrainian Ie","Cyrillic"],[1109,"Cyrillic Small Letter Dze","Cyrillic"],[1110,"Cyrillic Small Letter Byelorussian-Ukrainian I","Cyrillic"],[1111,"Cyrillic Small Letter Yi","Cyrillic"],[1112,"Cyrillic Small Letter Je","Cyrillic"],[1113,"Cyrillic Small Letter Lje","Cyrillic"],[1114,"Cyrillic Small Letter Nje","Cyrillic"],[1115,"Cyrillic Small Letter Tshe","Cyrillic"],[1116,"Cyrillic Small Letter Kje","Cyrillic"],[1117,"Cyrillic Small Letter I With Grave","Cyrillic"],[1118,"Cyrillic Small Letter Short U","Cyrillic"],[1119,"Cyrillic Small Letter Dzhe","Cyrillic"],[1122,"Cyrillic Capital Letter Yat","Cyrillic"],[1123,"Cyrillic Small Letter Yat","Cyrillic"],[1130,"Cyrillic Capital Letter Big Yus","Cyrillic"],[1131,"Cyrillic Small Letter Big Yus","Cyrillic"],[1138,"Cyrillic Capital Letter Fita","Cyrillic"],[1139,"Cyrillic Small Letter Fita","Cyrillic"],[1140,"Cyrillic Capital Letter Izhitsa","Cyrillic"],[1141,"Cyrillic Small Letter Izhitsa","Cyrillic"],[1168,"Cyrillic Capital Letter Ghe With Upturn","Cyrillic"],[1169,"Cyrillic Small Letter Ghe With Upturn","Cyrillic"],[1170,"Cyrillic Capital Letter Ghe With Stroke","Cyrillic"],[1171,"Cyrillic Small Letter Ghe With Stroke","Cyrillic"],[1174,"Cyrillic Capital Letter Zhe With Descender","Cyrillic"],[1175,"Cyrillic Small Letter Zhe With Descender","Cyrillic"],[1178,"Cyrillic Capital Letter Ka With Descender","Cyrillic"],[1179,"Cyrillic Small Letter Ka With Descender","Cyrillic"],[1186,"Cyrillic Capital Letter En With Descender","Cyrillic"],[1187,"Cyrillic Small Letter En With Descender","Cyrillic"],[1198,"Cyrillic Capital Letter Straight U","Cyrillic"],[1199,"Cyrillic Small Letter Straight U","Cyrillic"],[1200,"Cyrillic Capital Letter Straight U With Stroke","Cyrillic"],[1201,"Cyrillic Small Letter Straight U With Stroke","Cyrillic"],[1202,"Cyrillic Capital Letter Ha With Descender","Cyrillic"],[1203,"Cyrillic Small Letter Ha With Descender","Cyrillic"],[1206,"Cyrillic Capital Letter Che With Descender","Cyrillic"],[1207,"Cyrillic Small Letter Che With Descender","Cyrillic"],[1210,"Cyrillic Capital Letter Shha","Cyrillic"],[1211,"Cyrillic Small Letter Shha","Cyrillic"],[1216,"Cyrillic Letter Palochka","Cyrillic"],[1231,"Cyrillic Small Letter Palochka","Cyrillic"],[1240,"Cyrillic Capital Letter Schwa","Cyrillic"],[1241,"Cyrillic Small Letter Schwa","Cyrillic"],[1250,"Cyrillic Capital Letter I With Macron","Cyrillic"],[1251,"Cyrillic Small Letter I With Macron","Cyrillic"],[1256,"Cyrillic Capital Letter Barred O","Cyrillic"],[1257,"Cyrillic Small Letter Barred O","Cyrillic"],[1262,"Cyrillic Capital Letter U With Macron","Cyrillic"],[1263,"Cyrillic Small Letter U With Macron","Cyrillic"],[3647,"Thai Currency Symbol Baht","Symbols"],[7712,"Latin Capital Letter G With Macron","Uppercase"],[7713,"Latin Small Letter G With Macron","Lowercase"],[7808,"Latin Capital Letter W With Grave","Uppercase"],[7809,"Latin Small Letter W With Grave","Lowercase"],[7810,"Latin Capital Letter W With Acute","Uppercase"],[7811,"Latin Small Letter W With Acute","Lowercase"],[7812,"Latin Capital Letter W With Diaeresis","Uppercase"],[7813,"Latin Small Letter W With Diaeresis","Lowercase"],[7838,"Latin Capital Letter Sharp S","Uppercase"],[7840,"Latin Capital Letter A With Dot Below","Uppercase"],[7841,"Latin Small Letter A With Dot Below","Lowercase"],[7842,"Latin Capital Letter A With Hook Above","Uppercase"],[7843,"Latin Small Letter A With Hook Above","Lowercase"],[7844,"Latin Capital Letter A With Circumflex And Acute","Uppercase"],[7845,"Latin Small Letter A With Circumflex And Acute","Lowercase"],[7846,"Latin Capital Letter A With Circumflex And Grave","Uppercase"],[7847,"Latin Small Letter A With Circumflex And Grave","Lowercase"],[7848,"Latin Capital Letter A With Circumflex And Hook Above","Uppercase"],[7849,"Latin Small Letter A With Circumflex And Hook Above","Lowercase"],[7850,"Latin Capital Letter A With Circumflex And Tilde","Uppercase"],[7851,"Latin Small Letter A With Circumflex And Tilde","Lowercase"],[7852,"Latin Capital Letter A With Circumflex And Dot Below","Uppercase"],[7853,"Latin Small Letter A With Circumflex And Dot Below","Lowercase"],[7854,"Latin Capital Letter A With Breve And Acute","Uppercase"],[7855,"Latin Small Letter A With Breve And Acute","Lowercase"],[7856,"Latin Capital Letter A With Breve And Grave","Uppercase"],[7857,"Latin Small Letter A With Breve And Grave","Lowercase"],[7858,"Latin Capital Letter A With Breve And Hook Above","Uppercase"],[7859,"Latin Small Letter A With Breve And Hook Above","Lowercase"],[7860,"Latin Capital Letter A With Breve And Tilde","Uppercase"],[7861,"Latin Small Letter A With Breve And Tilde","Lowercase"],[7862,"Latin Capital Letter A With Breve And Dot Below","Uppercase"],[7863,"Latin Small Letter A With Breve And Dot Below","Lowercase"],[7864,"Latin Capital Letter E With Dot Below","Uppercase"],[7865,"Latin Small Letter E With Dot Below","Lowercase"],[7866,"Latin Capital Letter E With Hook Above","Uppercase"],[7867,"Latin Small Letter E With Hook Above","Lowercase"],[7868,"Latin Capital Letter E With Tilde","Uppercase"],[7869,"Latin Small Letter E With Tilde","Lowercase"],[7870,"Latin Capital Letter E With Circumflex And Acute","Uppercase"],[7871,"Latin Small Letter E With Circumflex And Acute","Lowercase"],[7872,"Latin Capital Letter E With Circumflex And Grave","Uppercase"],[7873,"Latin Small Letter E With Circumflex And Grave","Lowercase"],[7874,"Latin Capital Letter E With Circumflex And Hook Above","Uppercase"],[7875,"Latin Small Letter E With Circumflex And Hook Above","Lowercase"],[7876,"Latin Capital Letter E With Circumflex And Tilde","Uppercase"],[7877,"Latin Small Letter E With Circumflex And Tilde","Lowercase"],[7878,"Latin Capital Letter E With Circumflex And Dot Below","Uppercase"],[7879,"Latin Small Letter E With Circumflex And Dot Below","Lowercase"],[7880,"Latin Capital Letter I With Hook Above","Uppercase"],[7881,"Latin Small Letter I With Hook Above","Lowercase"],[7882,"Latin Capital Letter I With Dot Below","Uppercase"],[7883,"Latin Small Letter I With Dot Below","Lowercase"],[7884,"Latin Capital Letter O With Dot Below","Uppercase"],[7885,"Latin Small Letter O With Dot Below","Lowercase"],[7886,"Latin Capital Letter O With Hook Above","Uppercase"],[7887,"Latin Small Letter O With Hook Above","Lowercase"],[7888,"Latin Capital Letter O With Circumflex And Acute","Uppercase"],[7889,"Latin Small Letter O With Circumflex And Acute","Lowercase"],[7890,"Latin Capital Letter O With Circumflex And Grave","Uppercase"],[7891,"Latin Small Letter O With Circumflex And Grave","Lowercase"],[7892,"Latin Capital Letter O With Circumflex And Hook Above","Uppercase"],[7893,"Latin Small Letter O With Circumflex And Hook Above","Lowercase"],[7894,"Latin Capital Letter O With Circumflex And Tilde","Uppercase"],[7895,"Latin Small Letter O With Circumflex And Tilde","Lowercase"],[7896,"Latin Capital Letter O With Circumflex And Dot Below","Uppercase"],[7897,"Latin Small Letter O With Circumflex And Dot Below","Lowercase"],[7898,"Latin Capital Letter O With Horn And Acute","Uppercase"],[7899,"Latin Small Letter O With Horn And Acute","Lowercase"],[7900,"Latin Capital Letter O With Horn And Grave","Uppercase"],[7901,"Latin Small Letter O With Horn And Grave","Lowercase"],[7902,"Latin Capital Letter O With Horn And Hook Above","Uppercase"],[7903,"Latin Small Letter O With Horn And Hook Above","Lowercase"],[7904,"Latin Capital Letter O With Horn And Tilde","Uppercase"],[7905,"Latin Small Letter O With Horn And Tilde","Lowercase"],[7906,"Latin Capital Letter O With Horn And Dot Below","Uppercase"],[7907,"Latin Small Letter O With Horn And Dot Below","Lowercase"],[7908,"Latin Capital Letter U With Dot Below","Uppercase"],[7909,"Latin Small Letter U With Dot Below","Lowercase"],[7910,"Latin Capital Letter U With Hook Above","Uppercase"],[7911,"Latin Small Letter U With Hook Above","Lowercase"],[7912,"Latin Capital Letter U With Horn And Acute","Uppercase"],[7913,"Latin Small Letter U With Horn And Acute","Lowercase"],[7914,"Latin Capital Letter U With Horn And Grave","Uppercase"],[7915,"Latin Small Letter U With Horn And Grave","Lowercase"],[7916,"Latin Capital Letter U With Horn And Hook Above","Uppercase"],[7917,"Latin Small Letter U With Horn And Hook Above","Lowercase"],[7918,"Latin Capital Letter U With Horn And Tilde","Uppercase"],[7919,"Latin Small Letter U With Horn And Tilde","Lowercase"],[7920,"Latin Capital Letter U With Horn And Dot Below","Uppercase"],[7921,"Latin Small Letter U With Horn And Dot Below","Lowercase"],[7922,"Latin Capital Letter Y With Grave","Uppercase"],[7923,"Latin Small Letter Y With Grave","Lowercase"],[7924,"Latin Capital Letter Y With Dot Below","Uppercase"],[7925,"Latin Small Letter Y With Dot Below","Lowercase"],[7926,"Latin Capital Letter Y With Hook Above","Uppercase"],[7927,"Latin Small Letter Y With Hook Above","Lowercase"],[7928,"Latin Capital Letter Y With Tilde","Uppercase"],[7929,"Latin Small Letter Y With Tilde","Lowercase"],[8211,"En Dash","Punctuation"],[8212,"Em Dash","Punctuation"],[8216,"Left Single Quotation Mark","Punctuation"],[8217,"Right Single Quotation Mark","Punctuation"],[8218,"Single Low-9 Quotation Mark","Punctuation"],[8220,"Left Double Quotation Mark","Punctuation"],[8221,"Right Double Quotation Mark","Punctuation"],[8222,"Double Low-9 Quotation Mark","Punctuation"],[8224,"Dagger","Punctuation"],[8225,"Double Dagger","Punctuation"],[8226,"Bullet","Punctuation"],[8230,"Horizontal Ellipsis","Punctuation"],[8240,"Per Mille Sign","Punctuation"],[8242,"Prime","Punctuation"],[8243,"Double Prime","Punctuation"],[8249,"Single Left-Pointing Angle Quotation Mark","Punctuation"],[8250,"Single Right-Pointing Angle Quotation Mark","Punctuation"],[8260,"Fraction Slash","Symbols"],[8304,"Superscript Zero","Figures"],[8308,"Superscript Four","Figures"],[8309,"Superscript Five","Figures"],[8310,"Superscript Six","Figures"],[8311,"Superscript Seven","Figures"],[8312,"Superscript Eight","Figures"],[8313,"Superscript Nine","Figures"],[8320,"Subscript Zero","Figures"],[8321,"Subscript One","Figures"],[8322,"Subscript Two","Figures"],[8323,"Subscript Three","Figures"],[8324,"Subscript Four","Figures"],[8325,"Subscript Five","Figures"],[8326,"Subscript Six","Figures"],[8327,"Subscript Seven","Figures"],[8328,"Subscript Eight","Figures"],[8329,"Subscript Nine","Figures"],[8362,"New Sheqel Sign","Symbols"],[8364,"Euro Sign","Symbols"],[8369,"Peso Sign","Symbols"],[8372,"Hryvnia Sign","Symbols"],[8377,"Indian Rupee Sign","Symbols"],[8381,"Ruble Sign","Symbols"],[8470,"Numero Sign","Symbols"],[8471,"Sound Recording Copyright","Symbols"],[8482,"Trade Mark Sign","Symbols"],[8531,"Vulgar Fraction One Third","Figures"],[8532,"Vulgar Fraction Two Thirds","Figures"],[8533,"Vulgar Fraction One Fifth","Figures"],[8539,"Vulgar Fraction One Eighth","Figures"],[8540,"Vulgar Fraction Three Eighths","Figures"],[8541,"Vulgar Fraction Five Eighths","Figures"],[8542,"Vulgar Fraction Seven Eighths","Figures"],[8592,"Leftwards Arrow","Symbols"],[8593,"Upwards Arrow","Symbols"],[8594,"Rightwards Arrow","Symbols"],[8595,"Downwards Arrow","Symbols"],[8596,"Left Right Arrow","Symbols"],[8597,"Up Down Arrow","Symbols"],[8598,"North West Arrow","Symbols"],[8599,"North East Arrow","Symbols"],[8600,"South East Arrow","Symbols"],[8601,"South West Arrow","Symbols"],[8605,"Rightwards Wave Arrow","Symbols"],[8617,"Leftwards Arrow With Hook","Symbols"],[8618,"Rightwards Arrow With Hook","Symbols"],[8624,"Upwards Arrow With Tip Leftwards","Symbols"],[8625,"Upwards Arrow With Tip Rightwards","Symbols"],[8627,"Downwards Arrow With Tip Rightwards","Symbols"],[8628,"Rightwards Arrow With Corner Downwards","Symbols"],[8629,"Downwards Arrow With Corner Leftwards","Symbols"],[8676,"Leftwards Arrow To Bar","Symbols"],[8677,"Rightwards Arrow To Bar","Symbols"],[8679,"Upwards White Arrow","Symbols"],[8706,"Partial Differential","Symbols"],[8710,"Increment","Symbols"],[8719,"N-Ary Product","Symbols"],[8721,"N-Ary Summation","Symbols"],[8722,"Minus Sign","Symbols"],[8730,"Square Root","Symbols"],[8734,"Infinity","Symbols"],[8747,"Integral","Symbols"],[8758,"Ratio","Symbols"],[8776,"Almost Equal To","Symbols"],[8800,"Not Equal To","Symbols"],[8804,"Less-Than Or Equal To","Symbols"],[8805,"Greater-Than Or Equal To","Symbols"],[9312,"Circled Digit One","Figures"],[9313,"Circled Digit Two","Figures"],[9314,"Circled Digit Three","Figures"],[9315,"Circled Digit Four","Figures"],[9316,"Circled Digit Five","Figures"],[9317,"Circled Digit Six","Figures"],[9318,"Circled Digit Seven","Figures"],[9319,"Circled Digit Eight","Figures"],[9320,"Circled Digit Nine","Figures"],[9450,"Circled Digit Zero","Figures"],[9471,"Negative Circled Digit Zero","Figures"],[9650,"Black Up-Pointing Triangle","Symbols"],[9651,"White Up-Pointing Triangle","Symbols"],[9654,"Black Right-Pointing Triangle","Symbols"],[9655,"White Right-Pointing Triangle","Symbols"],[9660,"Black Down-Pointing Triangle","Symbols"],[9661,"White Down-Pointing Triangle","Symbols"],[9664,"Black Left-Pointing Triangle","Symbols"],[9665,"White Left-Pointing Triangle","Symbols"],[9674,"Lozenge","Symbols"],[9675,"White Circle","Symbols"],[9676,"Dotted Circle","Symbols"],[9679,"Black Circle","Symbols"],[9785,"White Frowning Face","Symbols"],[9786,"White Smiling Face","Symbols"],[10102,"Dingbat Negative Circled Digit One","Figures"],[10103,"Dingbat Negative Circled Digit Two","Figures"],[10104,"Dingbat Negative Circled Digit Three","Figures"],[10105,"Dingbat Negative Circled Digit Four","Figures"],[10106,"Dingbat Negative Circled Digit Five","Figures"],[10107,"Dingbat Negative Circled Digit Six","Figures"],[10108,"Dingbat Negative Circled Digit Seven","Figures"],[10109,"Dingbat Negative Circled Digit Eight","Figures"],[10110,"Dingbat Negative Circled Digit Nine","Figures"],[12291,"Ditto Mark","Punctuation"],[12316,"Wave Dash","Punctuation"],[42891,"Latin Capital Letter Saltillo","Uppercase"],[42892,"Latin Small Letter Saltillo","Lowercase"],[64257,"Latin Small Ligature Fi","Lowercase"],[64258,"Latin Small Ligature Fl","Lowercase"]]/*glyphs:end*/;
+
+  // downloads don't work inside a framed preview, so swap the button for a note
+  if (window.top !== window) document.documentElement.classList.add('in-frame');
+
+  // Upright / Italic (the switch sits in the glyph inspector), shared by the whole page
+  const setItalic = on => {
+    document.documentElement.classList.toggle('is-italic', on);
+    $('style-upright').setAttribute('aria-pressed', String(!on));
+    $('style-italic').setAttribute('aria-pressed', String(on));
+    if (window.setPgItalic) window.setPgItalic(on);
+  };
+  $('style-upright').addEventListener('click', () => setItalic(false));
+  $('style-italic').addEventListener('click', () => setItalic(true));
+
+  const bindRange = (id, apply, fmt = v => v) => {
+    const el = $(id), out = $(id + '-out');
+    const run = () => { out.textContent = fmt(+el.value); apply(+el.value); };
+    el.addEventListener('input', run); run();
+    return el;
+  };
+
+  // runs fn once, the first time el is mostly on screen
+  const onceInView = (el, fn) => {
+    if (!('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { io.disconnect(); fn(); } }, { threshold: .35 });
+    io.observe(el);
+  };
+
+  // details: weight and Geist overlay
+  bindRange('det-w', w => document.querySelectorAll('#detail-cards .stage span').forEach(s => s.style.fontWeight = w));
+  const setCompare = on => {
+    $('detail-cards').classList.toggle('compare-on', on);
+    $('cmp-on').setAttribute('aria-pressed', String(on));
+    $('cmp-off').setAttribute('aria-pressed', String(!on));
+    $('legend').hidden = !on;
+  };
+  $('cmp-on').addEventListener('click', () => setCompare(true));
+  $('cmp-off').addEventListener('click', () => setCompare(false));
+
+  // details: each glyph sweeps Thin to Black when the cards arrive, and again on hover
+  const sweep = (els, to, delay = 0) => {
+    if (reduce) return;
+    els.forEach(el => el.animate([{ fontWeight: 100 }, { fontWeight: 900, offset: .55 }, { fontWeight: to }],
+      { duration: 1500, delay, easing: 'cubic-bezier(.65, 0, .35, 1)' }));
+  };
+  const cards = [...document.querySelectorAll('#detail-cards .detail')];
+  cards.forEach(card => card.addEventListener('pointerenter', () => sweep(card.querySelectorAll('.stage span'), +$('det-w').value)));
+  onceInView($('detail-cards'), () => cards.forEach((card, i) => sweep(card.querySelectorAll('.stage span'), +$('det-w').value, i * 180)));
+
+  // glyph inspector
+  const groups = ['All', 'Uppercase', 'Lowercase', 'Figures', 'Punctuation', 'Symbols', 'Cyrillic'];
+  let group = 'All', current = 0x61;
+  const show = cp => {
+    const g = GLYPHS.find(r => r[0] === cp); if (!g) return;
+    current = cp;
+    $('big-ch').textContent = String.fromCodePoint(cp);
+    if (!reduce) $('big-ch').animate([{ transform: 'translateY(4%) scale(.94)', opacity: .4 }, { transform: 'none', opacity: 1 }], { duration: 220, easing: 'cubic-bezier(.22, 1, .36, 1)' });
+    $('g-name').textContent = g[1];
+    $('g-code').textContent = 'U+' + cp.toString(16).toUpperCase().padStart(4, '0');
+    document.querySelectorAll('#ggrid button').forEach(b => b.setAttribute('aria-current', String(+b.dataset.cp === cp)));
+  };
+  const renderTabs = () => {
+    $('gtabs').innerHTML = groups.map(name => {
+      const n = name === 'All' ? GLYPHS.length : GLYPHS.filter(r => r[2] === name).length;
+      return `<button type="button" data-g="${name}" aria-pressed="${name === group}">${name}<small>${n}</small></button>`;
+    }).join('');
+  };
+  const renderGrid = () => {
+    const rows = group === 'All' ? GLYPHS : GLYPHS.filter(r => r[2] === group);
+    $('ggrid').innerHTML = rows.map(([cp, name]) =>
+      `<button type="button" data-cp="${cp}" title="${name}" aria-label="${name}" aria-current="${cp === current}">${String.fromCodePoint(cp)}</button>`).join('');
+  };
+  $('gtabs').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    group = b.dataset.g; renderTabs(); renderGrid();
+  });
+  $('ggrid').addEventListener('click', e => { const b = e.target.closest('button'); if (b) show(+b.dataset.cp); });
+  $('ggrid').addEventListener('mouseover', e => { const b = e.target.closest('button'); if (b && matchMedia('(hover: hover)').matches) show(+b.dataset.cp); });
+  renderTabs(); renderGrid(); show(current);
+  bindRange('g-w', w => { $('big-ch').style.fontWeight = w; $('ggrid').style.fontWeight = w; document.querySelectorAll('#ggrid button').forEach(b => b.style.fontWeight = w); });
+
+  // playground: a real textarea that grows with its text
+  const input = $('pg-input'), stage = $('pg-stage'), styleSel = $('pg-style');
+  const DEFAULTS = { text: 'Apa kabar hari ini?', w: 600, s: 160, t: -3, align: 'center' };
+  const grow = () => { input.style.height = 'auto'; input.style.height = input.scrollHeight + 'px'; };
+  const setRange = (id, v) => { const el = $(id); el.value = v; el.dispatchEvent(new Event('input')); };
+  bindRange('p-w', w => { stage.style.fontWeight = w; styleSel.value = String(Math.min(900, Math.max(100, Math.round(w / 100) * 100))); });
+  bindRange('p-s', s => { stage.style.fontSize = `min(${s}px, 18vw)`; grow(); });
+  bindRange('p-t', t => { stage.style.letterSpacing = (t / 100) + 'em'; grow(); }, t => (t < 0 ? '−' : '') + Math.abs(t) + '%');
+  styleSel.addEventListener('change', () => setRange('p-w', styleSel.value));
+  const setPgItalic = on => {
+    input.style.fontStyle = on ? 'italic' : 'normal';
+    $('pg-italic').setAttribute('aria-pressed', String(on));
+    $('pg-upright').setAttribute('aria-pressed', String(!on));
+  };
+  window.setPgItalic = setPgItalic;
+  $('pg-upright').addEventListener('click', () => setPgItalic(false));
+  $('pg-italic').addEventListener('click', () => setPgItalic(true));
+  const setAlign = a => {
+    input.style.textAlign = a;
+    document.querySelectorAll('#pg-align button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.a === a)));
+  };
+  $('pg-align').addEventListener('click', e => { const b = e.target.closest('[data-a]'); if (b) setAlign(b.dataset.a); });
+  $('features').addEventListener('click', e => {
+    const b = e.target.closest('[data-f]'); if (!b) return;
+    b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true'));
+    const on = [...document.querySelectorAll('#features [aria-pressed="true"]')].map(c => `"${c.dataset.f}" 1`);
+    input.style.fontFeatureSettings = on.length ? on.join(', ') : 'normal';
+  });
+  $('pg-reset').addEventListener('click', () => {
+    input.value = DEFAULTS.text;
+    setRange('p-w', DEFAULTS.w); setRange('p-s', DEFAULTS.s); setRange('p-t', DEFAULTS.t);
+    setAlign(DEFAULTS.align); setPgItalic(document.documentElement.classList.contains('is-italic'));
+    document.querySelectorAll('#features [aria-pressed="true"]').forEach(c => c.setAttribute('aria-pressed', 'false'));
+    input.style.fontFeatureSettings = 'normal'; grow();
+  });
+  input.addEventListener('input', grow);
+  new ResizeObserver(grow).observe(stage);
+  document.fonts.ready.then(grow);
+
+  // example text: language and reading weight
+  const LANGS = { en: 'English', id: 'Bahasa Indonesia', vi: 'Tiếng Việt' };
+  const WNAMES = { 300: 'Light', 400: 'Regular', 500: 'Medium' };
+  let lang = 'en', readW = 400;
+  const renderText = () => {
+    document.querySelectorAll('.prose').forEach(p => { p.hidden = p.dataset.lang !== lang; p.style.fontWeight = readW; });
+    document.querySelectorAll('#lang-seg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+    document.querySelectorAll('#read-w button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.w === readW)));
+    $('text-caption').textContent = `Example text, ${WNAMES[readW]} · ${LANGS[lang]}`;
+  };
+  $('lang-seg').addEventListener('click', e => { const b = e.target.closest('[data-lang]'); if (b) { lang = b.dataset.lang; renderText(); } });
+  $('read-w').addEventListener('click', e => { const b = e.target.closest('[data-w]'); if (b) { readW = +b.dataset.w; renderText(); } });
+  renderText();
+
+  // language support: filter by script, search English names and autonyms
+  const LANG = /*langs:start*/{"speakers":"2.99B","languages":[["Abaza","Абаза","Cyrillic"],["Adyghe","Адыгабзэ","Cyrillic"],["Aghul","Агъул","Cyrillic"],["Avaric","Авар","Cyrillic"],["Belarusian","Беларуская","Cyrillic"],["Budukh","Будад мез","Cyrillic"],["Bulgarian","Български","Cyrillic"],["Chamalal","Чамалалдуб","Cyrillic"],["Chechen","Нохчийн мотт","Cyrillic"],["Chinese Buriat","Буряад","Cyrillic"],["Crimean Tatar","Къырымтатар","Cyrillic"],["Dargwa","Дарган","Cyrillic"],["Dungan","Хуэйзў","Cyrillic"],["Erzya","Эрзянь","Cyrillic"],["Halh Mongolian","Монгол","Cyrillic"],["Ingush","Гӏалгӏай","Cyrillic"],["Judeo-Tat","Жугьури","Cyrillic"],["Kabardian","Адыгэбзэ","Cyrillic"],["Kalmyk","Хальмг","Cyrillic"],["Karachay-Balkar","Къарачай-Малкъар","Cyrillic"],["Karata","Кӏкӏирлӏи мацӏцӏи","Cyrillic"],["Kazakh","Қазақ тілі","Cyrillic"],["Kirghiz","Кыргызча","Cyrillic"],["Kumyk","Къумукъ","Cyrillic"],["Lak","Лак","Cyrillic"],["Lezghian","Лезги","Cyrillic"],["Macedonian","Македонски","Cyrillic"],["Moksha","Мокшень кяль","Cyrillic"],["Mongolian Buriat","Буряад","Cyrillic"],["Muslim Tat","","Cyrillic"],["Nogai","Ногай","Cyrillic"],["Russian","Русский","Cyrillic"],["Russian Buriat","Буряад","Cyrillic"],["Rusyn","Руски","Cyrillic"],["Rutul","Мыхӏабишды","Cyrillic"],["Serbian","Српски","Cyrillic"],["Shughni","Хуг̌ну̊н зив","Cyrillic"],["Tabassaran","Табасаран","Cyrillic"],["Tajik","Тоҷикӣ","Cyrillic"],["Tatar","Татарча","Cyrillic"],["Tsakhur","Цӏаӏхна миз","Cyrillic"],["Tuvinian","Тыва","Cyrillic"],["Ukrainian","Українська","Cyrillic"],["Acheron","Garme","Latin"],["Achinese","Bahsa Acèh","Latin"],["Acholi","Acoli","Latin"],["Achuar-Shiwiar","Achúar chícham","Latin"],["Afar","Qafar","Latin"],["Afrikaans","","Latin"],["Aguaruna","iinia chichama","Latin"],["Ahtna","Atnakenaegeʼ","Latin"],["Alekano","Gahuku","Latin"],["Aleut","Unangam Tunuu","Latin"],["Algonquin","","Latin"],["Amahuaca","","Latin"],["Amarakaeri","","Latin"],["Amis","Pangcah","Latin"],["Anaang","Anaañ","Latin"],["Andaandi","","Latin"],["Anuta","","Latin"],["Aragonese","Aragonés","Latin"],["Arbëreshë Albanian","Arbërisht","Latin"],["Arutani","","Latin"],["Asháninka","","Latin"],["Ashéninka Perené","","Latin"],["Atayal","Tayal","Latin"],["Balinese","Bali","Latin"],["Banjar","Basa Banjar","Latin"],["Bari","","Latin"],["Basque","Euskara","Latin"],["Batak Dairi","Pakpak Dairi","Latin"],["Batak Karo","Karo","Latin"],["Batak Mandailing","Mandailing","Latin"],["Batak Simalungun","Simalungun","Latin"],["Batak Toba","","Latin"],["Bemba (Zambia)","Chibemba","Latin"],["Bena (Tanzania)","Ekibena","Latin"],["Bikol","Pandan Bikol","Latin"],["Bini","Ẹ̀dó","Latin"],["Bislama","","Latin"],["Borana-Arsi-Guji Oromo","Borana","Latin"],["Bosnian","Bosanski","Latin"],["Breton","Brezhoneg","Latin"],["Buginese","Basa Ugi","Latin"],["Candoshi-Shapra","","Latin"],["Caquinte","Poyenisati","Latin"],["Caribbean Hindustani","","Latin"],["Cashibo-Cacataibo","Cacataibo","Latin"],["Cashinahua","Hantxa Kuin","Latin"],["Catalan","Català","Latin"],["Cebuano","Binisaya","Latin"],["Central Aymara","Aymar","Latin"],["Central Kurdish","Soranî","Latin"],["Chachi","Cha'palaa","Latin"],["Chamorro","Chamorru","Latin"],["Chavacano","","Latin"],["Chiga","Rukiga","Latin"],["Chiltepec Chinantec","","Latin"],["Chokwe","Ucokwe","Latin"],["Chuukese","Chuuk","Latin"],["Cimbrian","Zimbar","Latin"],["Cofán","A’ingae","Latin"],["Cook Islands Māori","Māori Kūki 'Āirani","Latin"],["Cornish","Kernewek","Latin"],["Corsican","Corsu","Latin"],["Creek","Mvskoke","Latin"],["Crimean Tatar","Qırımtatar","Latin"],["Croatian","Hrvatski","Latin"],["Czech","Čeština","Latin"],["Danish","Dansk","Latin"],["Dehu","Drehu","Latin"],["Dimli","Dimlî","Latin"],["Dutch","Nederlands","Latin"],["Eastern Arrernte","Arrernte","Latin"],["Eastern Oromo","Harar","Latin"],["Efik","efi","Latin"],["English","","Latin"],["Esperanto","","Latin"],["Faroese","Føroyskt","Latin"],["Fijian","Vakaviti","Latin"],["Filipino","","Latin"],["Finnish","Suomi","Latin"],["French","Français","Latin"],["Friulian","Furlan","Latin"],["Gagauz","Gagauzça","Latin"],["Galician","Galego","Latin"],["Ganda","Luganda","Latin"],["Garifuna","Garífuna","Latin"],["German","Deutsch","Latin"],["Gheg Albanian","Gegnisht","Latin"],["Gilbertese","Kiribati","Latin"],["Gooniyandi","","Latin"],["Gourmanchéma","Gulimancema","Latin"],["Guadeloupean Creole French","Kreyol","Latin"],["Guarani Mbyá","Mbyá Ayvu ou Nhandeayvu","Latin"],["Guató","","Latin"],["Gusii","Ekegusii","Latin"],["Haitian","Kreyòl Ayisyen","Latin"],["Hani","Haqniqdoq","Latin"],["Hiligaynon","Ilonggo","Latin"],["Hopi","Hopilàvayi","Latin"],["Huastec","Teenek","Latin"],["Hungarian","Magyar","Latin"],["Hän","Tr’ondëk Hwëch’in","Latin"],["Icelandic","Íslenska","Latin"],["Ido","","Latin"],["Iloko","Ilokano","Latin"],["Inari Sami","Anarâškielâ","Latin"],["Indonesian","Indonesia","Latin"],["Interglossa","","Latin"],["Interlingua","","Latin"],["Interlingue","","Latin"],["Irish","Gaeilge","Latin"],["Istro Romanian","Rumârește","Latin"],["Italian","Italiano","Latin"],["Ixcatlán Mazatec","","Latin"],["Jamaican Creole English","Jamiekan","Latin"],["Javanese","Jawa","Latin"],["Jola-Fonyi","Jóola-Fóoñi","Latin"],["K'iche'","Qatzijob'al","Latin"],["Kaapor","Urubú-Kaapor, Urubú, Kaaporté, Caapor, Ka'apor, Anambé, Guajá, Urubú, Amanajé, Manaze, Amanage, Manaxo, Manajo, Manazo, Ka'apór, Urubú-Ka'apór","Latin"],["Kabuverdianu","","Latin"],["Kaingang","Kanhgág","Latin"],["Kalaallisut","","Latin"],["Kalenjin","Markweta","Latin"],["Kamba (Kenya)","Kikamba","Latin"],["Kaonde","kiiKaonde","Latin"],["Kaqchikel","Kaqchikel Chʼabʼäl","Latin"],["Karajá","","Latin"],["Karelian","Karjala","Latin"],["Kashubian","Kaszëbsczi","Latin"],["Kekchí","Q’eqchi’","Latin"],["Kenzi/Mattokki","","Latin"],["Khasi","Ka Ktien Khasi","Latin"],["Kikuyu","Gĩgĩkũyũ","Latin"],["Kimbundu","","Latin"],["Kinyarwanda","","Latin"],["Kirmanjki","Shar Ma","Latin"],["Kituba (DRC)","Kikongo ya leta","Latin"],["Klingon","tlhIngan Hol","Latin"],["Kongo","","Latin"],["Konzo","Lhukonzo","Latin"],["Korubo","","Latin"],["Kven Finnish","Kvääni","Latin"],["Kölsch","","Latin"],["Ladin","","Latin"],["Ladino","Djudeo-Espanyol","Latin"],["Latgalian","Latgalīšu","Latin"],["Lithuanian","Lietuviškai","Latin"],["Lojban","","Latin"],["Lombard","","Latin"],["Low German","Niedersächsisch","Latin"],["Lower Sorbian","Dolnoserbšćina","Latin"],["Lozi","siLozi","Latin"],["Luba-Lulua","Tshiluba","Latin"],["Lule Sami","Julevusámegiella","Latin"],["Luo (Kenya and Tanzania)","Dholuo","Latin"],["Luxembourgish","Lëtzebuergesch","Latin"],["Macedo-Romanian","Armani","Latin"],["Makonde","Chimakonde","Latin"],["Malagasy","","Latin"],["Malaysian","Melayu","Latin"],["Maltese","Malti","Latin"],["Mandinka","","Latin"],["Mandjak","Manjak","Latin"],["Mankanya","Mankaañ","Latin"],["Manx","Gaelg","Latin"],["Maore Comorian","Shikomori","Latin"],["Maori","Māori","Latin"],["Mapudungun","","Latin"],["Marshallese","Kajin M̧ajeļ","Latin"],["Matsés","","Latin"],["Mauritian Creole","Kreol Morisien","Latin"],["Meriam Mir","","Latin"],["Meru","Kimîîru","Latin"],["Minangkabau","Baso Minangkabau","Latin"],["Mirandese","Mirandés","Latin"],["Mohawk","Kanien’kéha","Latin"],["Montenegrin","Crnogorski","Latin"],["Moré-Kuyubim","","Latin"],["Munduruku","Wuyjuḡu","Latin"],["Munsee","Huluníixsuwaakan","Latin"],["Murrinh-Patha","","Latin"],["Muslim Tat","Tati","Latin"],["Mwani","Kimwani","Latin"],["Mískito","Mískitu","Latin"],["Naga Pidgin","Nagamiz","Latin"],["Ndonga","","Latin"],["Neapolitan","Napulitano","Latin"],["Ngazidja Comorian","Shikomori","Latin"],["Niuean","Niuē","Latin"],["Nobiin","","Latin"],["Nomatsiguenga","inato","Latin"],["North Azerbaijani","","Latin"],["North Ndebele","isiNdebele","Latin"],["Northern Kurdish","Kurmancî","Latin"],["Northern Qiandong Miao","hveb Hmub","Latin"],["Northern Sami","Sámegiella","Latin"],["Northern Uzbek","O‘zbekcha","Latin"],["Norwegian","Norsk","Latin"],["Novial","","Latin"],["Nyanja","Chicheŵa","Latin"],["Nyankole","Runyankore","Latin"],["Occitan","","Latin"],["Ojitlán Chinantec","Chinanteco de San Lucas Ojitlán","Latin"],["Orma","","Latin"],["Oroqen","","Latin"],["Otuho","","Latin"],["Palauan","Tekoi ra Belau","Latin"],["Pampanga","Kapampangan","Latin"],["Papantla Totonac","Tutunakú","Latin"],["Papiamento","Papiamentu","Latin"],["Paraguayan Guaraní","Avañeʼẽ","Latin"],["Pedi","Sepedi","Latin"],["Pemon","Përepepɨ/Përe","Latin"],["Picard","","Latin"],["Pichis Ashéninka","","Latin"],["Piemontese","Piemontèis","Latin"],["Pijin","","Latin"],["Pintupi-Luritja","","Latin"],["Pipil","Náhuat","Latin"],["Pite Sami","Bidumsámegiella","Latin"],["Pohnpeian","Pohnpei","Latin"],["Polish","Polski","Latin"],["Portuguese","Português","Latin"],["Potawatomi","Bodéwadmimwen","Latin"],["Purepecha","P'urhépecha","Latin"],["Páez","Nasa Yuwe","Latin"],["Quechua","Runa Simi","Latin"],["Romanian","Română","Latin"],["Romansh","Rumantsch","Latin"],["Rotokas","","Latin"],["Rundi","Ikirundi","Latin"],["Samoan","Sāmoa","Latin"],["Sango","Sängö","Latin"],["Sangu (Tanzania)","Shisango","Latin"],["Saramaccan","Saamáka","Latin"],["Sardinian","Sardu","Latin"],["Scots","Scots Leid","Latin"],["Scottish Gaelic","Gàidhlig","Latin"],["Sena","Cisena","Latin"],["Serbian","Srpski","Latin"],["Seri","Cmiique Iitom","Latin"],["Seselwa Creole French","Seselwa","Latin"],["Shanenawa","","Latin"],["Shawnee","Sawanwa","Latin"],["Shipibo-Conibo","","Latin"],["Shona","Chishona","Latin"],["Shuar","Shiwar chicham","Latin"],["Sicilian","Sicilianu","Latin"],["Silesian","Ślůnsko godka","Latin"],["Slovak","Slovenčina","Latin"],["Slovenian","Slovenščina","Latin"],["Soga","Lusoga","Latin"],["Somali","Soomaali","Latin"],["Soninke","Sooninkanxanne","Latin"],["South Ndebele","isiNdebele","Latin"],["Southern Aymara","Aymar","Latin"],["Southern Qiandong Miao","hveb Hmub","Latin"],["Southern Sami","Åarjelsaemiengïele","Latin"],["Southern Sotho","Sesotho","Latin"],["Spanish","Español","Latin"],["Sranan Tongo","","Latin"],["Standard Estonian","Eesti","Latin"],["Standard Latvian","Latviešu","Latin"],["Standard Malay","Malaysia","Latin"],["Sundanese","Basa Sunda","Latin"],["Swahili","Kiswahili","Latin"],["Swedish","Svenska","Latin"],["Swiss German","Schwyzerdütsch","Latin"],["Tagalog","","Latin"],["Tahitian","Reo Tahiti","Latin"],["Talysh","Tolışi","Latin"],["Tedim Chin","","Latin"],["Tetum","Lia Tetun","Latin"],["Tetun Dili","","Latin"],["Toba","","Latin"],["Tojolabal","Tojolꞌabꞌal","Latin"],["Tok Pisin","","Latin"],["Tokelau","","Latin"],["Tonga (Zambia)","Faka-Tonga","Latin"],["Tosk Albanian","Shqip","Latin"],["Tsakhur","Ts‘əxna miz","Latin"],["Tumbuka","Chitumbuka","Latin"],["Turkish","Türkçe","Latin"],["Turkmen","Türkmençe","Latin"],["Tzeltal","Batz'il K'op","Latin"],["Tzotzil","Bats’i k’op","Latin"],["Uab Meto","Uab Metô","Latin"],["Umbundu","Úmbúndú","Latin"],["Ume Sami","Ubmejesámiengiälla","Latin"],["Upper Guinea Crioulo","Kriolu","Latin"],["Upper Sorbian","Hornjoserbšćina","Latin"],["Uru-Eu-Wau-Wau","Kagwahiva","Latin"],["Venetian","Vèneto","Latin"],["Veps","Vepsä","Latin"],["Vietnamese","Tiếng Việt","Latin"],["Volapük","","Latin"],["Võro","","Latin"],["Waiwai","","Latin"],["Walloon","Walon","Latin"],["Walser","Walscher","Latin"],["Waray (Philippines)","Waray-Waray","Latin"],["Warekena (Guarequena)","","Latin"],["Warlpiri","","Latin"],["Wayuu","Wayuunaiki","Latin"],["Welsh","Cymraeg","Latin"],["West Central Oromo","Afaan Oromoo","Latin"],["Western Abnaki","Wôbanakiôdwawôgan","Latin"],["Western Frisian","Frysk","Latin"],["Wiradjuri","","Latin"],["Wolof","","Latin"],["Xhosa","isiXhosa","Latin"],["Yanesha'","","Latin"],["Yao","chiYao","Latin"],["Yaroamë","Ỹaroamë tëma","Latin"],["Ye’Kwana","Soto","Latin"],["Yucateco","Màaya t'àan","Latin"],["Zapotec","","Latin"],["Zulu","isiZulu","Latin"],["Zuni","Shiwiʼma","Latin"],["Záparo","","Latin"]]}/*langs:end*/;
+  const esc = t => t.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const twoScripts = new Set(LANG.languages.map(r => r[0]).filter((n, i, all) => all.indexOf(n) !== i));
+  let langScript = 'All', langQuery = '', langOpen = false;
+  const scripts = ['All', 'Latin', 'Cyrillic'];
+  $('lang-script').innerHTML = scripts.map(s => {
+    const n = s === 'All' ? LANG.languages.length : LANG.languages.filter(r => r[2] === s).length;
+    return `<button type="button" data-s="${s}" aria-pressed="${s === langScript}">${s}<small>${n}</small></button>`;
+  }).join('');
+  const renderLangs = () => {
+    const q = langQuery.trim().toLowerCase();
+    const rows = LANG.languages.filter(r => (langScript === 'All' || r[2] === langScript) && (!q || (r[0] + ' ' + r[1]).toLowerCase().includes(q)))
+      .sort((a, b) => a[0].localeCompare(b[0]));
+    $('lang-list').innerHTML = rows.map(([n, a, s]) =>
+      `<li><span>${esc(n)}${langScript === 'All' && twoScripts.has(n) ? `<span class="sc">${s}</span>` : ''}</span>${a ? `<span class="auto">${esc(a)}</span>` : ''}</li>`).join('');
+    // collapsed by default; a search shows its matches without opening the full list
+    const showList = langOpen || q !== '';
+    $('lang-list').hidden = !showList;
+    $('lang-toggle').hidden = q !== '';
+    $('lang-toggle').setAttribute('aria-expanded', String(langOpen));
+    const shown = langScript === 'All' ? LANG.languages.length : LANG.languages.filter(r => r[2] === langScript).length;
+    $('lang-toggle').textContent = langOpen ? 'Hide the list' : `Show all ${shown} ${langScript === 'All' ? '' : langScript + ' '}languages`;
+    $('lang-empty').hidden = rows.length > 0 || !showList;
+    $('lang-empty').textContent = `No language matches “${langQuery.trim()}”.`;
+    document.querySelectorAll('#lang-script button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.s === langScript)));
+  };
+  $('lang-script').addEventListener('click', e => { const b = e.target.closest('[data-s]'); if (b) { langScript = b.dataset.s; renderLangs(); } });
+  $('lang-q').addEventListener('input', e => { langQuery = e.target.value; renderLangs(); });
+  $('lang-toggle').addEventListener('click', () => {
+    langOpen = !langOpen; renderLangs();
+    if (!langOpen) $('languages').scrollIntoView({ block: 'start' });
+  });
+  renderLangs();
+
+  // weights list
+  const weights = [
+    ['Thin', 100, 'Quiet morning light', 'Field notes'],
+    ['ExtraLight', 200, 'Twelve floors up', 'Paper and ink'],
+    ['Light', 300, 'Notes from the margin', 'Slow reading'],
+    ['Regular', 400, 'Body text at 16px', 'Settings and profile'],
+    ['Medium', 500, 'Labels and buttons', 'Save changes'],
+    ['SemiBold', 600, 'Section headings', 'Weekly report'],
+    ['Bold', 700, '362 languages', 'Get started'],
+    ['ExtraBold', 800, 'Big news today!', 'Open late?'],
+    ['Black', 900, 'LOUD & CLEAR!', 'Hello, world!']
+  ];
+  $('wlist').innerHTML = weights.map(([n, w, a, b]) =>
+    `<div class="wrow"><div class="meta"><b style="font-weight:600">${n}</b><span class="mono" style="color:var(--muted)">${w}</span></div>` +
+    `<div class="s" style="font-weight:${w}">${a}</div><div class="s it" style="font-weight:${w}">${b}</div></div>`).join('');
+
+  // weights: rows grow from Thin to their own weight, top to bottom, when the list arrives
+  onceInView($('wlist'), () => {
+    if (reduce) return;
+    document.querySelectorAll('#wlist .wrow').forEach((row, i) => row.querySelectorAll('.s').forEach(s =>
+      s.animate([{ fontWeight: 100 }, { fontWeight: +s.style.fontWeight }], { duration: 1000, delay: i * 70, easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'backwards' })));
+  });
+
+  // code tabs: CSS, Next.js, Tailwind
+  let codeTab = 'css';
+  $('code-tabs').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    codeTab = b.dataset.tab;
+    $('code-tabs').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    document.querySelectorAll('.code [data-tab]:not(button)').forEach(el => el.hidden = el.dataset.tab !== codeTab);
+  });
+
+  // copy the open snippet
+  $('copy').addEventListener('click', () => {
+    const pre = document.querySelector(`.code pre[data-tab="${codeTab}"]`), btn = $('copy');
+    const done = label => { btn.textContent = label; setTimeout(() => btn.textContent = 'Copy', 1600); };
+    if (navigator.clipboard) navigator.clipboard.writeText(pre.innerText).then(() => done('Copied'), () => select());
+    else select();
+    function select() { const r = document.createRange(); r.selectNodeContents(pre); const s = getSelection(); s.removeAllRanges(); s.addRange(r); done('Press ⌘C'); }
+  });
+})();
+</script>
+
+</body>
+</html>
