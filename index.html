@@ -146,8 +146,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   .has-shot .shot { flex-shrink: 0; }
   .has-shot .swap small { display: none; }
   .m-hide { display: none; } .m-only { display: inline; }
-  .slide:has(.spread) { padding-bottom: calc(46vh + 28px); }
-  .spread { position: absolute; left: 0; right: 0; bottom: 0; height: 46vh; margin: 0; grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr 1fr; gap: 3px; }
+  .slide:has(.spread) { padding-bottom: calc(46vh + 40px + env(safe-area-inset-bottom, 0px)); }
+  .spread { position: absolute; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom, 0px) + 12px); height: 46vh; margin: 0; grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr 1fr; gap: 3px; }
   .spread figure { position: relative; overflow: hidden; }
   .spread .ph { aspect-ratio: auto; height: 100%; }
   .spread figcaption { position: absolute; left: 8px; bottom: 7px; margin: 0; font-size: 9px; color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,.5); }
