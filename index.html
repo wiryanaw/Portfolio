@@ -308,6 +308,16 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
     el.addEventListener("pointerdown", function () { hold = setTimeout(function () { paused = true; setPP(); el.dataset.held = 1; }, 250); });
     el.addEventListener("pointerup", function () { clearTimeout(hold); if (el.dataset.held) { delete el.dataset.held; paused = false; setPP(); } });
   });
+  // Description runs exactly as wide as its title
+  function matchWidths() {
+    document.querySelectorAll(".slide .mid + .say").forEach(function (p) {
+      var r = document.createRange(); r.selectNodeContents(p.previousElementSibling);
+      p.style.maxWidth = Math.ceil(r.getBoundingClientRect().width) + "px";
+    });
+  }
+  matchWidths();
+  if (document.fonts) document.fonts.ready.then(matchWidths);
+  addEventListener("resize", matchWidths);
   document.addEventListener("visibilitychange", function () { t0 = performance.now(); });
 
   setPP();
