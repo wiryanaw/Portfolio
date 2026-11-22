@@ -311,6 +311,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   // Description runs exactly as wide as its title
   function matchWidths() {
     document.querySelectorAll(".slide .mid + .say").forEach(function (p) {
+      // On phones the description simply uses the full width
+      if (innerWidth <= 760) { p.style.maxWidth = "none"; return; }
       var r = document.createRange(); r.selectNodeContents(p.previousElementSibling);
       p.style.maxWidth = Math.ceil(r.getBoundingClientRect().width) + "px";
     });
