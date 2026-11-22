@@ -125,6 +125,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .tap { position: fixed; z-index: 1; top: 0; bottom: 0; width: 30%; outline: none !important; -webkit-tap-highlight-color: transparent; }
 .tap.l { left: 0; cursor: w-resize; } .tap.r { right: 0; width: 70%; cursor: e-resize; }
 .hint { position: fixed; z-index: 4; left: 0; right: 0; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); text-align: center; font: 500 12px var(--f); letter-spacing: .1em; text-transform: uppercase; opacity: .55; pointer-events: none; }
+.edge { position: fixed; left: 0; right: 0; height: 1px; z-index: 5; pointer-events: none; background: var(--edge, #D8FF2E); }
+.edge.t { top: 0; } .edge.b { bottom: 0; }
 .hint .h-touch { display: none; }
 @media (hover: none) and (pointer: coarse) { .hint .h-key { display: none; } .hint .h-touch { display: inline; } }
 .chrome { position: relative; z-index: 4; color: var(--white); transition: color .4s ease; }
@@ -229,6 +231,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 <div class="chrome" id="chrome">
   <div class="bars" id="bars" aria-hidden="true"></div>
   <div class="top"><span class="who"><i aria-hidden="true"></i>Wiryana</span><span class="ctl"><button id="pp" aria-label="Pause"><svg viewBox="0 0 16 16"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></svg></button></span></div>
+  <i class="edge t" aria-hidden="true"></i><i class="edge b" aria-hidden="true"></i>
   <div class="hint" id="hint"><span class="h-key">Click to continue · Space to pause</span><span class="h-touch">Tap to continue · Hold to pause</span></div>
 </div>
 
@@ -263,6 +266,9 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
     document.getElementById("tc").setAttribute("content", bg);
     document.documentElement.style.backgroundColor = bg;
     document.body.style.backgroundColor = bg;
+    document.getElementById("deck").style.backgroundColor = bg;
+    document.documentElement.style.setProperty("--edge", bg);
+    document.getElementById("hint").style.backgroundColor = "transparent";
     fills.forEach(function (b, k) { b.style.width = k < i ? "100%" : "0%"; });
     slides[i].querySelectorAll("[data-count]").forEach(countUp);
     document.getElementById("hint").style.opacity = (i === slides.length - 1 || slides[i].querySelector(".spread")) ? 0 : "";
