@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="theme-color" content="#D8FF2E" id="tc">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Wiryana - a software designer</title>
 <meta name="description" content="Wiryana — Software Designer based in Jakarta, Indonesia. Designing digital products that scale with clarity and impact.">
@@ -257,6 +258,11 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
     if (i >= 0) slides[i].classList.remove("on");
     i = n; slides[i].classList.add("on");
     chrome.classList.toggle("dark", slides[i].dataset.c === "dark");
+    // Keep the mobile browser bars in the slide's colour
+    var bg = getComputedStyle(slides[i]).backgroundColor;
+    document.getElementById("tc").setAttribute("content", bg);
+    document.documentElement.style.backgroundColor = bg;
+    document.body.style.backgroundColor = bg;
     fills.forEach(function (b, k) { b.style.width = k < i ? "100%" : "0%"; });
     slides[i].querySelectorAll("[data-count]").forEach(countUp);
     document.getElementById("hint").style.opacity = (i === slides.length - 1 || slides[i].querySelector(".spread")) ? 0 : "";
