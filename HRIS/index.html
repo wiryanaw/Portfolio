@@ -1,998 +1,608 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Built a Custom HRIS — Wiryana</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pantry HRIS · Wiryana</title>
+<meta property="og:title" content="Built a Custom HRIS That Saved USD 60K Annually — Wiryana">
+<meta property="og:description" content="I led the end to end design of Pantry, an internal HRIS that replaced a third party subscription and saved USD 60K annually across 165+ outlets.">
+<meta property="og:image" content="https://wiryanaw.com/og-image-v3.png">
+<meta property="og:url" content="https://wiryanaw.com/HRIS/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wiryanaw.com/og-image-v3.png">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --f: "Bricolage Grotesque", system-ui, sans-serif;
+  --black: #0B0B0B; --ink: #161616; --white: #FFFFFF; --cobalt: #1B3BFF; --lime: #D8FF2E; 
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --pad: max(24px, 6vw);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+body { margin: 0; font: 400 18px/1.55 var(--f); font-optical-sizing: auto; -webkit-font-smoothing: antialiased; background: var(--ink); color: var(--black); }
+a { color: inherit; }
+img, video { display: block; max-width: 100%; }
+:focus-visible { outline: 3px solid currentColor; outline-offset: 4px; border-radius: 6px; }
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Built a Custom HRIS That Saved USD 60K Annually — Wiryana">
-  <meta property="og:description" content="I led the end to end design of Pantry, an internal HRIS that replaced a third party subscription and saved USD 60K annually across 165+ outlets.">
-  <meta property="og:image" content="https://wiryanaw.com/og-image-v3.png">
-  <meta property="og:url" content="https://wiryanaw.com/HRIS/">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://wiryanaw.com/og-image-v3.png">
+/* Colour bands, same palette as the review */
+.band { position: relative; padding: 120px var(--pad); }
+.dark { background: var(--ink); color: rgba(255,255,255,.86); --hl: var(--lime); --line: rgba(255,255,255,.12); --card: rgba(255,255,255,.055); }
+.dark + .dark { border-top: 1px solid rgba(255,255,255,.08); }
+.dark h1, .dark h2, .dark h3, .dark .stat b, .dark .eq b { color: var(--white); }
+.dark .eq .hl b, .dark h1 .hl, .dark h2 .hl { color: var(--hl); }
+.dark h1, .dark h1 .hl { color: var(--lime); }
+.glance-band, .next { background: var(--cobalt); color: var(--white); --hl: var(--lime); --line: rgba(255,255,255,.25); padding-top: 88px; padding-bottom: 88px; border-top: 0 !important; }
+.glance-band + .dark { border-top: 0; }
+/* Cobalt panels carry the key moments */
+.panel { color: var(--white); }
+.hl { color: var(--hl); }
+.glance-band, .next { background: var(--cobalt); color: var(--white); --hl: var(--lime); --line: rgba(255,255,255,.25); padding-top: 88px; padding-bottom: 88px; border-top: 0 !important; }
+.glance-band + .dark { border-top: 0; }
+.hero { padding-bottom: 88px; }
+.wrap { max-width: 1240px; margin: 0 auto; }
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="stylesheet" href="/toc.css">
+/* Type */
+.k { font: 600 13px var(--f); letter-spacing: .1em; text-transform: uppercase; opacity: .7; }
+.k b { font-weight: 600; opacity: .55; margin-right: 10px; font-variant-numeric: tabular-nums; }
+h1 { margin: 18px 0 0; font: 800 clamp(48px, 8.4vw, 136px) var(--f); line-height: .9; letter-spacing: -0.05em; text-wrap: balance; max-width: 13ch; }
+h2 { margin: 16px 0 0; font: 800 clamp(36px, 5.4vw, 84px) var(--f); line-height: .95; letter-spacing: -0.045em; text-wrap: balance; max-width: 16ch; }
+h3 { margin: 0; font: 700 22px/1.2 var(--f); letter-spacing: -0.02em; }
+.lead { margin: 28px 0 0; max-width: 40ch; font-size: clamp(20px, 1.9vw, 27px); font-weight: 300; line-height: 1.3; letter-spacing: -0.015em; text-wrap: pretty; }
+.lead b { font-weight: 600; }
+p { margin: 0; max-width: 62ch; text-wrap: pretty; }
+p + p { margin-top: 14px; }
 
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css">
+/* Sticky chapter bar: the review's progress bars, one per chapter */
+.bar { position: fixed; z-index: 10; top: 0; left: 0; right: 0; padding: 14px var(--pad) 12px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 24px; color: var(--white); background: rgba(22,22,22,.92); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); transition: color .3s ease, background-color .3s ease; }
+.bar.light { color: var(--white); }
+.bar .home { display: flex; align-items: center; gap: 10px; font: 600 14px var(--f); text-decoration: none; }
+.orb { width: 24px; height: 24px; border-radius: 50%; background: radial-gradient(circle at 32% 28%, #FF9A6A, #E8390F 72%); box-shadow: inset 0 1px 2px rgba(255,255,255,.45), inset 0 -2px 4px rgba(150,25,0,.35); }
+.segs { display: flex; gap: 6px; }
+.segs a { position: relative; flex: 1; height: 24px; display: flex; align-items: center; text-decoration: none; }
+.segs a i { position: relative; display: block; width: 100%; height: 3px; border-radius: 2px; background: currentColor; opacity: .25; }
+.segs a b { position: absolute; left: 0; top: 50%; height: 3px; margin-top: -1.5px; width: 0; border-radius: 2px; background: var(--lime); }
+.segs a span { position: absolute; top: 22px; left: 0; font: 600 11px var(--f); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; opacity: 0; transform: translateY(-4px); transition: opacity .2s ease, transform .2s ease; pointer-events: none; }
+.segs a:hover span, .segs a.cur span { opacity: .8; transform: none; }
+.bar .now { font: 600 12px var(--f); letter-spacing: .08em; text-transform: uppercase; opacity: .8; min-width: 7ch; text-align: right; }
 
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+/* Hero */
+.hero { min-height: 100vh; padding-top: 150px; display: flex; flex-direction: column; justify-content: flex-end; }
+.meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 56px; border-top: 1.5px solid var(--line); }
+.meta div { padding: 16px 20px 0 0; }
+.meta dt { font: 600 11px var(--f); letter-spacing: .1em; text-transform: uppercase; opacity: .6; }
+.meta dd { margin: 6px 0 0; font-size: 16px; line-height: 1.35; font-weight: 500; }
+.shot { margin-top: 64px; border-radius: 18px; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,.22), 0 8px 24px rgba(0,0,0,.1); }
+.shot img { width: 100%; }
 
-    :root {
-      --bg:      #FFFFFF;
-      --ink:     #0D0B09;
-      --ink-2:   #7A7570;
-      --ink-3:   #BEB9B3;
-      --accent:  #FF5530;
-      --border:  #DDD8CF;
-      --font:    'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
+/* At a glance */
+.glance { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+.stat b { display: block; font: 800 clamp(56px, 7.4vw, 120px) var(--f); line-height: .9; letter-spacing: -0.05em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.stat > span { display: block; margin-top: 14px; font-size: 17px; line-height: 1.35; opacity: .85; max-width: 24ch; }
 
-    html { scroll-behavior: smooth; }
-    body { font-family: var(--font); background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
-    a { text-decoration: none; color: inherit; }
-    img { display: block; max-width: 100%; height: auto; }
+/* Chapter layout: takeaway on the left, detail on the right */
+.chap { display: grid; grid-template-columns: 5fr 7fr; gap: 64px; margin-top: 56px; align-items: start; }
+.chap > :first-child { position: sticky; top: 96px; }
+.note { font-size: 15px; opacity: .75; margin-top: 12px; }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border);
-      height: 52px; display: flex; align-items: center;
-      justify-content: space-between; padding: 0 48px;
-    }
-    .nav-back { font-size: 13px; color: var(--ink-2); display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
-    .nav-back:hover { color: var(--ink); }
-    .nav-title { font-size: 13px; color: var(--ink-3); max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; opacity: 0; transition: opacity 0.3s; }
-    .nav-title.visible { opacity: 1; }
+/* 20 x 3 = 60 x 8 = 480 */
+.eq { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 6px 22px; margin-top: 56px; }
+.eq span { display: flex; flex-direction: column; }
+.eq .brk { display: none; }
+.eq b { font: 800 clamp(48px, 6.6vw, 108px) var(--f); line-height: .9; letter-spacing: -0.05em; }
+.eq small { margin-top: 10px; font: 600 12px var(--f); letter-spacing: .1em; text-transform: uppercase; opacity: .7; }
+.eq i { font: 300 clamp(40px, 5vw, 80px) var(--f); line-height: .95; font-style: normal; opacity: .45; }
 
-    /* ── WRAP ── */
-    .wrap { max-width: 720px; margin: 0 auto; padding: 0 48px; }
+.facts { display: grid; gap: 14px; }
+.fact { padding: 22px 24px; border-radius: 16px; background: var(--card); }
+.fact b { display: block; font: 800 40px var(--f); letter-spacing: -0.04em; line-height: 1; color: var(--hl); }
+.fact p { margin-top: 10px; font-size: 17px; }
 
-    /* ── HEADER ── */
-    .cs-header { padding: 100px 0 0; }
-    .cs-eyebrow { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
-    .cs-tag, .cs-year {
-      font-size: 11px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
-      color: var(--ink-2); border: 1px solid var(--border); border-radius: 100px; padding: 3px 10px;
-    }
-    .cs-title { font-size: clamp(26px, 3.8vw, 46px); font-weight: 600; letter-spacing: -.03em; line-height: 1.1; color: var(--ink); }
+/* 8 brands, 8 phones, 3 delivery apps on each, and the next brand's phone */
+.phones { display: grid; grid-template-columns: repeat(9, 1fr); gap: 10px; align-items: end; }
+.ph1 { position: relative; aspect-ratio: 9 / 18; border-radius: 12px; border: 1.5px solid rgba(255,255,255,.55); padding: 0 12%; display: flex; flex-direction: column; justify-content: center; gap: 9%; }
+.ph1::before { content: ""; position: absolute; top: 6%; left: 50%; width: 30%; height: 3px; margin-left: -15%; border-radius: 3px; background: rgba(255,255,255,.4); }
+.ph1 u { display: block; height: 12%; border-radius: 4px; background: var(--cobalt); }
+.ph1 u:nth-child(2) { opacity: .75; } .ph1 u:nth-child(3) { opacity: .5; }
+.ph1.new { border: 1.5px dashed var(--lime); display: grid; place-items: center; padding: 0; color: var(--lime); font: 800 22px var(--f); }
+.ph1.new::before { display: none; }
+.phones-key { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 18px; font-size: 14px; opacity: .8; }
+.phones-key span { display: inline-flex; align-items: center; gap: 8px; }
+.phones-key i { width: 18px; height: 6px; border-radius: 3px; background: var(--cobalt); }
+.phones-key i.n { height: 14px; width: 10px; border-radius: 3px; background: none; border: 1.5px dashed var(--lime); }
 
-    /* ── META ── */
-    .cs-meta {
-      display: grid; grid-template-columns: 100px 1fr; gap: 10px 20px;
-      margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--border);
-      padding-bottom: 36px; border-bottom: 1px solid var(--border);
-    }
-    .meta-label { font-size: 11px; font-weight: 500; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-3); padding-top: 1px; }
-    .meta-value { font-size: 13px; color: var(--ink-2); line-height: 1.5; }
-    .meta-value.accent { color: var(--accent); font-weight: 600; }
+/* Lists */
+.ticks { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.ticks li { position: relative; padding: 18px 20px 18px 56px; border-radius: 14px; background: var(--card); font-size: 17px; line-height: 1.45; }
+.ticks li::before { content: ""; position: absolute; left: 20px; top: 21px; width: 20px; height: 20px; border-radius: 50%; background: var(--hl); }
+.ticks li::after { content: ""; position: absolute; left: 26px; top: 26px; width: 8px; height: 4px; border: 2px solid var(--ink); border-top: 0; border-right: 0; transform: rotate(-45deg); }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 56px; }
+.cols h3 { margin-bottom: 18px; }
+.cols .ticks { grid-auto-rows: 1fr; }
+.cols .ticks li { min-height: 116px; display: flex; align-items: center; padding-top: 0; padding-bottom: 0; }
+.cols .ticks li::before { top: 50%; margin-top: -10px; }
+.cols .ticks li::after { top: 50%; margin-top: -5px; }
 
-    /* ── HERO IMAGE ── */
-    .cs-hero-img { margin-top: 28px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
-    .cs-hero-img img { width: 100%; height: auto; display: block; }
+.ladder { list-style: none; margin: 0; padding: 0; counter-reset: s; }
+.ladder li { counter-increment: s; display: grid; grid-template-columns: 56px 1fr; gap: 8px; padding: 18px 0; border-top: 1.5px solid var(--line); font-size: 18px; }
+.ladder li::before { content: counter(s, decimal-leading-zero); font: 700 14px var(--f); letter-spacing: .06em; opacity: .55; padding-top: 3px; }
+.ask { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 8px; }
+.ask li { padding: 12px 16px; border-radius: 12px; background: var(--card); font-size: 17px; }
 
-    /* ── OVERVIEW ── */
-    .cs-overview { padding: 28px 0 36px; }
-    .overview-text { font-size: 16px; line-height: 1.75; color: var(--ink-2); }
+figure { margin: 0; }
+.pic { border-radius: 16px; overflow: hidden; background: #fff; }
+.pic img, .pic video { width: 100%; }
+figcaption { margin-top: 12px; font: 600 12px var(--f); letter-spacing: .08em; text-transform: uppercase; opacity: .65; }
+.wide { margin-top: 64px; }
 
-    /* ── BODY ── */
-    .cs-body { padding-bottom: 80px; }
-    .cs-section { padding: 52px 0; border-top: 1px solid var(--border); }
+/* Terms and modules */
+.terms { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+.term { padding: 26px 24px; border-radius: 16px; background: var(--card); }
+.term h3 { font-size: 26px; color: var(--hl); }
+.term p { margin-top: 12px; font-size: 16px; line-height: 1.5; }
+.mods { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.mods span { padding: 12px 20px; border-radius: 999px; border: 1.5px solid currentColor; font-weight: 600; font-size: 16px; }
 
-    .section-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px; }
-    .section-num { font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
-    .section-title { font-size: 18px; font-weight: 600; letter-spacing: -.02em; color: var(--ink); }
+.cons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+.con { padding: 24px; border-radius: 16px; background: var(--card); }
+.con b { display: block; font: 700 22px/1.15 var(--f); letter-spacing: -0.02em; }
+.con p { margin-top: 10px; font-size: 16px; }
 
-    .section-body p { font-size: 15px; line-height: 1.75; color: var(--ink-2); margin-bottom: 14px; }
-    .section-body p:last-child { margin-bottom: 0; }
+.flows { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
+.flows h3 { margin-top: 18px; font-size: 20px; }
+.flows p { margin-top: 6px; font-size: 16px; opacity: .85; }
 
-    /* ── SUBSECTIONS ── */
-    .subsection { margin-top: 32px; }
-    .subsection + .subsection { margin-top: 36px; }
-    .subsection-title {
-      font-size: 13px; font-weight: 600; letter-spacing: .04em;
-      text-transform: uppercase; color: var(--ink-3);
-      margin-bottom: 14px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--border);
-    }
-    .subsection-body p { font-size: 15px; line-height: 1.75; color: var(--ink-2); margin-bottom: 12px; }
-    .subsection-body p:last-child { margin-bottom: 0; }
+/* Results */
+.results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 56px; }
+.results .stat { padding-top: 22px; border-top: 1.5px solid var(--line); }
+.results .stat p { margin-top: 18px; font-size: 16px; opacity: .85; }
 
-    /* ── LISTS ── */
-    .bullet-list { margin-top: 12px; display: flex; flex-direction: column; gap: 10px; }
-    .bullet-item { display: flex; align-items: flex-start; gap: 12px; font-size: 15px; line-height: 1.6; color: var(--ink-2); }
-    .bullet-item::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 9px; }
+/* Next project: one big cobalt link */
+.nextcase { display: flex; flex-direction: column; gap: 14px; color: var(--white); text-decoration: none; }
+.nc-title { font: 800 clamp(44px, 7vw, 112px) var(--f); line-height: .92; letter-spacing: -0.05em; }
+.nc-title .hl { display: inline-block; color: var(--lime); transition: transform .3s var(--ease); }
+.nextcase:hover .nc-title .hl { transform: translateX(10px); }
+.nc-sub { font-size: 18px; opacity: .85; }
 
-    /* ── FEATURES ── */
-    .features-list { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
-    .feature-item {
-      display: flex; align-items: flex-start; gap: 14px;
-      padding: 14px 16px; border-radius: 8px;
-      border: 1px solid var(--border); background: rgba(255,255,255,0.4);
-    }
-    .feature-num { font-size: 11px; font-weight: 600; color: var(--accent); letter-spacing: .06em; flex-shrink: 0; padding-top: 2px; }
-    .feature-text { font-size: 14px; line-height: 1.6; color: var(--ink-2); }
-    .feature-text strong { color: var(--ink); font-weight: 500; }
+/* Footer */
+.foot { padding: 72px var(--pad) 32px; color: rgba(255,255,255,.86); }
+.foot .home { display: inline-flex; align-items: center; gap: 10px; font: 600 16px var(--f); text-decoration: none; color: var(--white); }
+.foot-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; }
+.foot-line { margin-top: 8px; font-size: 20px; font-weight: 300; line-height: 1.3; max-width: 26ch; }
+.cta { display: inline-block; margin-top: 16px; font: 700 clamp(22px, 2.4vw, 32px) var(--f); letter-spacing: -0.02em; color: var(--lime); text-decoration: none; border-bottom: 2px solid currentColor; padding-bottom: 2px; }
+.foot-links { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.foot-links div { display: flex; flex-direction: column; gap: 12px; }
+.foot-links .k { margin-bottom: 4px; }
+.foot-links a { text-decoration: none; font-size: 17px; width: fit-content; }
+.foot-links a:hover, .foot-base a:hover { color: var(--lime); }
+.foot-base { display: flex; justify-content: space-between; margin-top: 72px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.08); font-size: 14px; opacity: .6; }
+.foot-base a { text-decoration: none; }
 
-    /* ── IMAGE SLOT ── */
-    .img-slot { width: 100%; border-radius: 8px; overflow: hidden; margin: 28px 0; }
-    .img-slot img { width: 100%; height: auto; display: block; cursor: zoom-in; transition: opacity 0.2s; }
-    .img-slot img:hover { opacity: 0.9; }
-    .img-placeholder {
-      width: 100%; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center;
-      background: #E8E3DB; color: var(--ink-3); font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
-    }
+/* Reveal on scroll */
+.rv { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .9s var(--ease); }
+.rv.in { opacity: 1; transform: none; }
 
-    /* ── RESULTS ── */
-    .result-metrics { margin-top: 28px; display: flex; flex-direction: column; }
-    .result-metric { display: flex; align-items: baseline; gap: 20px; padding: 24px 0; border-bottom: 1px solid var(--border); }
-    .result-metric:first-child { border-top: 1px solid var(--border); }
-    .metric-value { font-size: clamp(32px, 5vw, 52px); font-weight: 700; letter-spacing: -.04em; color: var(--accent); white-space: nowrap; flex-shrink: 0; min-width: 130px; }
-    .metric-desc { font-size: 14px; line-height: 1.6; color: var(--ink-2); }
+@media (max-width: 860px) {
+  body { font-size: 17px; }
+  .band { padding: 96px var(--pad); }
+  .bar { grid-template-columns: auto 1fr; gap: 16px; }
+  .bar .now { display: none; }
+  .segs a span { display: none; }
+  .meta { grid-template-columns: 1fr 1fr; row-gap: 18px; }
+  .glance, .results, .terms, .cons, .flows, .cols { grid-template-columns: 1fr; }
+  .chap { grid-template-columns: 1fr; gap: 32px; }
+  .chap > :first-child { position: static; }
+  .phones { gap: 6px; }
+  .eq { flex-wrap: nowrap; gap: 6px; justify-content: space-between; margin-top: 36px; }
+  .eq b { font-size: 32px; }
+  .eq i { font-size: 22px; padding-top: 4px; }
+  .eq small { font-size: 9px; letter-spacing: .05em; max-width: 7ch; line-height: 1.2; }
+  .glance { gap: 0; margin-top: 20px; }
+  .glance .stat { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 16px; padding: 16px 0; border-top: 1px solid var(--line); }
+  .glance .stat b { font-size: 40px; }
+  .glance .stat > span { margin: 0; font-size: 15px; }
+  .phones { grid-template-columns: repeat(9, 1fr); gap: 5px; }
+  .ph1 { border-radius: 7px; }
+  .ph1.new { font-size: 13px; }
+  .results { gap: 28px; }
+  .foot-grid, .foot-links { grid-template-columns: 1fr; }
+  .nc-sub { font-size: 16px; }
+  .nc-title { font-size: 40px; white-space: nowrap; }
+  .glance-band, .next { padding-top: 64px; padding-bottom: 64px; }
+  .hero { min-height: 0; padding-top: 120px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rv { opacity: 1; transform: none; transition: none; }
+}
 
-    /* ── LIGHTBOX ── */
-    .lightbox { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(13,11,9,0.92); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); cursor: zoom-out; align-items: center; justify-content: center; padding: 24px; }
-    .lightbox.open { display: flex; }
-    .lightbox img { max-width: 100%; max-height: 90vh; object-fit: contain; border-radius: 6px; box-shadow: 0 32px 80px rgba(0,0,0,0.5); cursor: default; }
-    .lightbox-close { position: fixed; top: 20px; right: 24px; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.15); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #fff; transition: background 0.2s; }
-    .lightbox-close:hover { background: rgba(255,255,255,0.25); }
+/* Gate */
+.gate { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 24px; background: var(--ink); }
+.gate.open { display: none; }
+.gate-box { width: 100%; max-width: 460px; }
+.gate h1 { font-size: clamp(40px, 6vw, 64px); }
+.gate p { margin-top: 18px; font-size: 17px; }
+.gate p a { color: var(--lime); }
+.gate form { display: flex; gap: 10px; margin-top: 28px; }
+.gate input { flex: 1; min-width: 0; height: 54px; padding: 0 18px; border-radius: 999px; border: 1.5px solid rgba(255,255,255,.25); background: rgba(255,255,255,.06); color: #fff; font: 500 16px var(--f); outline: none; }
+.gate input:focus { border-color: var(--lime); }
+.gate input.err { border-color: #FF6B6B; }
+.gate button { height: 54px; padding: 0 26px; border: 0; border-radius: 999px; background: var(--lime); color: var(--ink); font: 700 16px var(--f); cursor: pointer; }
+.gate .msg { min-height: 22px; margin-top: 10px; font-size: 14px; color: #FF8A8A; }
+.gate .back { display: inline-block; margin-top: 18px; font-size: 15px; opacity: .7; text-decoration: none; }
 
-    /* ── FOOTER ── */
-    .cs-footer { border-top: 1px solid var(--border); padding: 32px 0; display: flex; justify-content: space-between; align-items: center; }
-    .footer-copy { font-size: 12px; color: var(--ink-3); }
-    .back-to-top { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-3); background: none; border: none; padding: 0; cursor: pointer; font-family: var(--font); transition: color 0.2s; }
-    .back-to-top:hover { color: var(--ink); }
-    .back-to-top:hover svg { transform: translateY(-2px); }
-    .back-to-top svg { transition: transform 0.2s; }
+/* Cards in a row */
+.row3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+.row2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 48px; }
+.card { padding: 26px; border-radius: 18px; background: var(--card); }
+.card .num { font: 700 13px var(--f); letter-spacing: .08em; opacity: .55; }
+.card b.big { display: block; font: 800 44px var(--f); letter-spacing: -0.04em; line-height: 1; color: var(--lime); }
+.card h3 { margin-top: 14px; }
+.card p { margin-top: 10px; font-size: 16px; }
+.sub-h { margin-top: 96px; }
+.sub-h .k { color: var(--lime); opacity: 1; }
+.sub-h h3 { margin-top: 10px; font: 800 clamp(28px, 3.4vw, 48px) var(--f); letter-spacing: -0.04em; line-height: 1; color: #fff; }
+.sub-h p { margin-top: 16px; font-size: 18px; }
 
-    /* ── REVEAL ── */
-    .reveal { opacity: 0; transform: translateY(12px); transition: opacity 0.5s ease, transform 0.5s ease; }
-    .reveal.in { opacity: 1; transform: none; }
+/* Old platform: one vendor, three surfaces */
+.surf { display: grid; grid-template-columns: 1fr auto 3fr; gap: 20px; align-items: stretch; margin-top: 40px; }
+.surf .vendor { padding: 26px; border-radius: 18px; background: var(--cobalt); color: #fff; display: flex; flex-direction: column; justify-content: center; }
+.surf .vendor b { font: 800 26px var(--f); letter-spacing: -0.03em; }
+.surf .arrow { align-self: center; font-size: 28px; opacity: .5; }
+.surf .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.chip { display: inline-block; margin-top: 12px; padding: 4px 10px; border-radius: 999px; font: 600 12px var(--f); letter-spacing: .04em; box-shadow: inset 0 0 0 1px rgba(255,255,255,.3); }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      nav { padding: 0 24px; }
-      .wrap { padding: 0 24px; }
-      .cs-header { padding: 80px 0 0; }
-      .cs-meta { grid-template-columns: 80px 1fr; gap: 8px 16px; }
-      .result-metric { flex-direction: column; gap: 6px; }
-      .nav-title { display: none; }
-    }
-    @media (max-width: 480px) {
-      .cs-meta { grid-template-columns: 70px 1fr; gap: 6px 12px; }
-    }
+/* 40+ features in 3 layers */
+.layers { display: grid; gap: 12px; margin-top: 40px; }
+.layer { display: grid; grid-template-columns: 220px 1fr; gap: 24px; padding: 22px 24px; border-radius: 18px; background: var(--card); }
+.layer > b { font: 700 18px var(--f); color: var(--lime); }
+.layer .mods { margin-top: 0; }
+.layer .mods span { border-color: rgba(255,255,255,.25); font-size: 14px; padding: 8px 14px; font-weight: 500; }
+.layer .mods span em { font-style: normal; font-weight: 700; margin-right: 6px; }
 
-    /* ── PASSWORD GATE ── */
-    .gate {
-      position: fixed; inset: 0; z-index: 9999;
-      background: var(--bg);
-      display: flex; align-items: center; justify-content: center;
-      padding: 24px;
-    }
-    .gate.unlocked { display: none; }
-    .gate-box {
-      width: 100%; max-width: 400px;
-      display: flex; flex-direction: column; align-items: center;
-      gap: 20px; text-align: center;
-    }
-    .gate-icon {
-      color: var(--ink-3);
-    }
-    .gate-title {
-      font-size: 22px; font-weight: 600; letter-spacing: -.03em; color: var(--ink);
-    }
-    .gate-sub {
-      font-size: 14px; line-height: 1.6; color: var(--ink-2); margin-top: -8px;
-    }
-    .gate-sub a {
-      color: var(--ink); font-weight: 500; text-decoration: underline;
-      text-underline-offset: 2px; text-decoration-color: var(--border);
-      transition: text-decoration-color 0.2s;
-    }
-    .gate-sub a:hover { text-decoration-color: var(--ink); }
-    .gate-input {
-      width: 100%; height: 48px; padding: 0 16px;
-      font-family: var(--font); font-size: 14px;
-      background: #fff; color: var(--ink);
-      border: 1.5px solid var(--border); border-radius: 8px;
-      outline: none; transition: border-color 0.2s; text-align: left;
-    }
-    .gate-input:focus { border-color: var(--ink); }
-    .gate-input.error { border-color: #D94F3D; }
-    .gate-btn {
-      width: 100%; height: 52px;
-      font-family: var(--font); font-size: 15px; font-weight: 600;
-      background: var(--ink); color: var(--bg);
-      border: none; border-radius: 8px; cursor: pointer;
-      transition: opacity 0.2s; letter-spacing: -.01em;
-    }
-    .gate-btn:hover { opacity: 0.8; }
-    .gate-error {
-      font-size: 12px; color: #D94F3D;
-      opacity: 0; transition: opacity 0.2s; margin-top: -12px;
-    }
-    .gate-error.show { opacity: 1; }
-    .gate-back {
-      font-size: 13px; color: var(--ink-3);
-      text-decoration: underline; text-underline-offset: 3px;
-      text-decoration-color: var(--border);
-      display: inline-flex; align-items: center; gap: 5px;
-      transition: color 0.2s, text-decoration-color 0.2s;
-    }
-    .gate-back:hover { color: var(--ink); text-decoration-color: var(--ink); }
+/* Cost breakdown */
+.cost { margin-top: 40px; }
+.costbar { display: flex; height: 64px; border-radius: 14px; overflow: hidden; gap: 3px; }
+.costbar i { display: block; }
+.costbar i:nth-child(1) { flex: 36; background: var(--lime); }
+.costbar i:nth-child(2) { flex: 17; background: var(--cobalt); }
+.costbar i:nth-child(3) { flex: 7.5; background: rgba(255,255,255,.55); }
+.costkey { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 20px; }
+.costkey div { padding-left: 16px; border-left: 4px solid var(--c); }
+.costkey b { display: block; font: 800 32px var(--f); letter-spacing: -0.03em; color: #fff; }
+.costkey span { font-size: 15px; opacity: .8; }
 
-    /* ── CONTEXT FLOW (helicopter · scope · cost · tradeoff · roadmap) ── */
-    .ctx{ --teal:#7FC6B8; --tealbg:#E7F4F0; margin-top:8px; }
-    .ctx .block{ padding:44px 0; border-top:1px solid var(--border); }
-    .ctx .block:first-child{ border-top:none; padding-top:8px; }
-    .ctx .num{ font-size:11px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); }
-    .ctx .h{ font-size:18px; font-weight:600; letter-spacing:-.02em; margin:6px 0 12px; color:var(--ink); }
-    .ctx .lead{ font-size:15px; line-height:1.75; color:var(--ink-2); max-width:70ch; }
-    .ctx .lead strong{ color:var(--ink); font-weight:600; }
+/* Go live plan */
+.phases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
+.phase { padding: 24px; border-radius: 18px; background: var(--card); }
+.phase > .k { color: var(--lime); opacity: 1; }
+.phase ol { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 14px; }
+.phase li { display: grid; grid-template-columns: 34px 1fr; font-size: 16px; }
+.phase li em { font-style: normal; font: 700 13px var(--f); opacity: .5; padding-top: 2px; }
+.phase li b { display: block; font-weight: 600; color: #fff; }
+.phase li span { font-size: 14px; opacity: .75; }
 
-    .ctx .hv{ display:grid; grid-template-columns:180px 40px 1fr; align-items:center; margin-top:26px; }
-    .ctx .hv-src{ background:var(--tealbg); border:1px solid var(--teal); border-radius:12px; padding:20px 16px; text-align:center; }
-    .ctx .hv-src .t{ font-size:14px; font-weight:600; }
-    .ctx .hv-src .s{ font-size:11.5px; color:var(--ink-2); margin-top:4px; }
-    .ctx .hv-arrow{ display:flex; align-items:center; justify-content:center; color:var(--teal); font-size:20px; }
-    .ctx .hv-surfaces{ display:flex; flex-direction:column; gap:14px; }
-    .ctx .surface{ border:1px solid var(--border); border-radius:12px; background:#fff; padding:16px 18px; display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
-    .ctx .surface .lead-col{ min-width:180px; }
-    .ctx .surface .st{ font-size:14.5px; font-weight:600; }
-    .ctx .surface .ss{ font-size:12px; color:var(--ink-3); margin-top:2px; }
-    .ctx .surface .desc{ font-size:13px; color:var(--ink-2); }
-    .ctx .sub{ display:flex; gap:8px; flex-wrap:wrap; }
-    .ctx .sub .chip{ font-size:12px; font-weight:500; color:var(--ink); background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:6px 12px; }
+/* Screens strip */
+.screens { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(180px, 1fr); gap: 18px; margin-top: 48px; overflow-x: auto; padding-bottom: 8px; scroll-snap-type: x mandatory; }
+.screens figure { scroll-snap-align: start; }
+.screens img { width: 100%; aspect-ratio: 828 / 1788; object-fit: cover; object-position: top; border-radius: 22px; border: 1px solid rgba(255,255,255,.12); background: #fff; }
+.screens .n { display: block; margin-top: 14px; font: 700 12px var(--f); letter-spacing: .08em; color: var(--lime); }
+.screens h3 { margin-top: 4px; font-size: 17px; }
+.screens p { margin-top: 4px; font-size: 14px; opacity: .75; }
+.screens.three { grid-auto-columns: minmax(200px, 1fr); max-width: 900px; }
 
-    .ctx .tiers{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:24px; }
-    .ctx .tier{ border:1px solid var(--border); border-radius:12px; background:#fff; padding:16px; }
-    .ctx .tier-h{ font-size:12px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-3); margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid var(--border); }
-    .ctx .tier-grp{ margin-bottom:12px; }
-    .ctx .tier-grp:last-child{ margin-bottom:0; }
-    .ctx .tier-grp .g{ font-size:13px; font-weight:600; margin-bottom:5px; }
-    .ctx .tier-grp .f{ font-size:12px; color:var(--ink-2); line-height:1.55; }
-    .ctx .count{ margin-top:20px; font-size:13px; color:var(--ink-2); }
-    .ctx .count b{ color:var(--accent); font-weight:600; }
+/* GPS tiers */
+.tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
+.tier dl { margin: 18px 0 0; display: grid; gap: 10px; }
+.tier dt { font: 600 11px var(--f); letter-spacing: .1em; text-transform: uppercase; opacity: .6; }
+.tier dd { margin: 2px 0 0; font: 700 20px var(--f); color: #fff; }
+.tier dd.hl { color: var(--lime); }
+.big-stat { display: flex; align-items: baseline; gap: 20px; flex-wrap: wrap; margin-top: 40px; }
+.big-stat b { font: 800 clamp(64px, 9vw, 140px) var(--f); letter-spacing: -0.05em; line-height: .9; color: var(--lime); }
+.big-stat span { font-size: 18px; max-width: 30ch; }
+.warn { margin-top: 24px; padding: 20px 24px; border-radius: 16px; box-shadow: inset 0 0 0 1.5px var(--lime); font-size: 17px; }
+.warn b { color: var(--lime); }
 
-    .ctx .cost{ margin-top:24px; display:flex; flex-direction:column; gap:18px; }
-    .ctx .cost-row{ display:grid; grid-template-columns:150px 1fr 120px; align-items:center; gap:16px; }
-    .ctx .cost-lbl{ font-size:13.5px; font-weight:600; }
-    .ctx .cost-lbl span{ display:block; font-size:11.5px; color:var(--ink-3); font-weight:400; }
-    .ctx .cost-bar{ height:34px; border-radius:8px; position:relative; background:var(--border); }
-    .ctx .cost-bar .fill{ height:100%; border-radius:8px; }
-    .ctx .cost-bar .fill.op{ background:var(--accent); width:100%; }
-    .ctx .cost-bar .fill.hq{ background:#C9C3B8; width:12.6%; }
-    .ctx .cost-val{ font-size:15px; font-weight:600; text-align:right; font-variant-numeric:tabular-nums; }
-    .ctx .cost-val span{ display:block; font-size:11px; color:var(--ink-3); font-weight:400; }
-    .ctx .cost-note{ margin-top:14px; font-size:13px; color:var(--ink-2); }
-    .ctx .cost-note b{ color:var(--accent); }
-
-    .ctx .decision{ margin-top:24px; border:1px solid var(--border); border-radius:12px; background:#fff; padding:22px 24px; }
-    .ctx .decision .d-h{ font-size:15px; font-weight:600; margin-bottom:4px; }
-    .ctx .decision .d-focus{ display:flex; gap:10px; margin:14px 0 18px; flex-wrap:wrap; }
-    .ctx .decision .d-focus .pill{ font-size:13px; font-weight:600; color:#fff; background:var(--accent); border-radius:999px; padding:8px 16px; }
-    .ctx .reasons{ display:flex; flex-direction:column; gap:10px; }
-    .ctx .reason{ display:flex; gap:12px; font-size:14px; line-height:1.55; color:var(--ink-2); }
-    .ctx .reason::before{ content:''; width:6px; height:6px; border-radius:50%; background:var(--accent); flex-shrink:0; margin-top:8px; }
-    .ctx .reason b{ color:var(--ink); font-weight:600; }
-
-    .ctx .stagelabels{ display:flex; gap:8px; margin-top:24px; margin-bottom:8px; }
-    .ctx .stagelabels span{ font-size:10.5px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); }
-    .ctx .flow{ display:flex; flex-wrap:wrap; gap:8px; }
-    .ctx .step{ border:1px solid var(--border); border-radius:10px; background:#fff; padding:10px 13px; min-width:150px; flex:1 1 150px; }
-    .ctx .step .n{ font-size:10px; font-weight:600; letter-spacing:.06em; color:var(--ink-3); }
-    .ctx .step .sn{ font-size:13px; font-weight:600; margin-top:3px; letter-spacing:-.01em; }
-    .ctx .step .sd{ font-size:11.5px; color:var(--ink-3); margin-top:2px; line-height:1.4; }
-    .ctx .step--live{ background:var(--accent); border-color:var(--accent); }
-    .ctx .step--live .n, .ctx .step--live .sn, .ctx .step--live .sd{ color:#fff; }
-    .ctx .step--live .n{ opacity:.85; }
-    .ctx .roadmap-cap{ margin-top:18px; font-size:13px; line-height:1.7; color:var(--ink-2); padding-left:14px; border-left:2px solid var(--accent); }
-    .ctx .roadmap-cap b{ color:var(--ink); font-weight:600; }
-
-    @media(max-width:760px){
-      .ctx .hv{ grid-template-columns:1fr; }
-      .ctx .hv-arrow{ transform:rotate(90deg); height:30px; }
-      .ctx .tiers{ grid-template-columns:1fr; }
-      .ctx .cost-row{ grid-template-columns:1fr; }
-      .ctx .step{ flex-basis:100%; }
-    }
-
-    /* ── PORTAL APP FLOW (phone carousel) ── */
-    .pflow{ --mono:ui-monospace,SFMono-Regular,Menlo,monospace; }
-    .pflow .pf{ display:flex; flex-direction:column; align-items:center; gap:20px; margin-top:28px; }
-    .pflow .phone{ width:260px; background:#17150f; border-radius:38px; padding:9px; box-shadow:0 24px 60px rgba(13,11,9,.18); }
-    .pflow .phone-screen{ border-radius:30px; overflow:hidden; background:#fff; position:relative; }
-    .pflow .phone-screen img{ width:100%; display:block; }
-    .pflow .meta{ text-align:center; max-width:46ch; }
-    .pflow .m-num{ font-family:var(--mono); font-size:11px; color:var(--accent); font-weight:600; letter-spacing:.06em; }
-    .pflow .m-name{ font-size:17px; font-weight:600; margin-top:4px; }
-    .pflow .m-cap{ font-size:13.5px; color:var(--ink-2); margin-top:8px; line-height:1.55; }
-    .pflow .ctrl{ display:flex; align-items:center; gap:20px; }
-    .pflow .cbtn{ width:42px; height:42px; border-radius:50%; border:1px solid var(--border); background:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--ink-2); transition:all .18s; }
-    .pflow .cbtn:hover{ border-color:var(--accent); color:var(--accent); }
-    .pflow .dots{ display:flex; gap:8px; }
-    .pflow .dots span{ width:7px; height:7px; border-radius:50%; background:var(--border); cursor:pointer; transition:all .18s; }
-    .pflow .dots span.on{ background:var(--accent); width:22px; border-radius:4px; }
-    .pflow .film{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
-    .pflow .thumb{ width:42px; height:84px; border:1.5px solid var(--border); border-radius:8px; background:#fff; cursor:pointer; overflow:hidden; position:relative; transition:all .18s; padding:0; }
-    .pflow .thumb.on{ border-color:var(--accent); }
-    .pflow .thumb img{ width:100%; height:100%; object-fit:cover; object-position:top; }
-    .pflow .thumb .tn{ position:absolute; top:3px; left:5px; font-family:var(--mono); font-size:9px; color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.5); }
-    .pflow .feats{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:22px; }
-    .pflow .feat{ border:1px solid var(--border); border-radius:12px; background:#fff; padding:20px; }
-    .pflow .feat-ic{ width:38px; height:38px; border-radius:10px; background:#FDECE7; display:flex; align-items:center; justify-content:center; color:var(--accent); margin-bottom:14px; }
-    .pflow .feat-ic svg{ width:20px; height:20px; }
-    .pflow .feat-t{ font-size:14.5px; font-weight:600; letter-spacing:-.01em; }
-    .pflow .feat-d{ font-size:13px; color:var(--ink-2); margin-top:7px; line-height:1.6; }
-    @media(max-width:760px){ .pflow .feats{ grid-template-columns:1fr; } }
-    .pflow .nda{ margin-top:16px; font-family:var(--mono); font-size:11.5px; color:var(--ink-3); text-align:center; }
-    .pflow .stat-card{ display:grid; grid-template-columns:200px 1fr; gap:28px; align-items:center; border:1px solid var(--border); border-radius:14px; background:#fff; padding:28px 30px; margin-top:22px; }
-    .pflow .stat-big{ font-size:clamp(44px,6vw,60px); font-weight:700; letter-spacing:-.04em; color:var(--accent); line-height:1; }
-    .pflow .stat-sub{ font-size:13px; color:var(--ink-3); margin-top:6px; line-height:1.5; }
-    .pflow .stat-txt{ font-size:14.5px; color:var(--ink-2); line-height:1.7; }
-    .pflow .stat-txt b{ color:var(--ink); font-weight:600; }
-    .pflow .notes{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:16px; }
-    .pflow .note{ border:1px solid var(--border); border-radius:12px; background:#fff; padding:18px 20px; }
-    .pflow .note-t{ font-size:14px; font-weight:600; }
-    .pflow .note-d{ font-size:13px; color:var(--ink-2); margin-top:6px; line-height:1.6; }
-    @media(max-width:760px){ .pflow .stat-card{ grid-template-columns:1fr; } .pflow .notes{ grid-template-columns:1fr; } }
-
-    /* ── TRIAL SECTION ── */
-    .trial{ --ok:#4E7A56; --ok-bg:#E7F0E2; --warn:#B37A1E; --warn-bg:#FBEEDC; --bad:#C0503C; --bad-bg:#F8E1DC; --card:#fff; }
-    .trial .sub{ font-size:13px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-3); margin:40px 0 14px; padding-bottom:10px; border-bottom:1px solid var(--border); }
-    .trial .lead{ font-size:15px; line-height:1.75; color:var(--ink-2); max-width:72ch; }
-    /* setup */
-    .trial .setup{ display:flex; gap:16px; align-items:stretch; margin-top:24px; flex-wrap:wrap; }
-    .trial .ts-stat{ border:1px solid var(--border); border-radius:12px; background:var(--card); padding:18px 22px; min-width:150px; }
-    .trial .ts-stat b{ font-size:30px; font-weight:700; letter-spacing:-.03em; display:block; }
-    .trial .ts-stat span{ font-size:12.5px; color:var(--ink-3); }
-    .trial .ts-chips{ display:flex; flex-direction:column; gap:10px; justify-content:center; }
-    .trial .ts-chip{ font-size:13px; border:1px solid var(--border); border-radius:10px; padding:10px 14px; background:var(--card); }
-    .trial .ts-chip b{ font-weight:600; }
-    .trial .ts-chip.ghost{ color:var(--ink-2); background:var(--bg); border-style:dashed; }
-    /* problem */
-    .trial .problem{ border:1px solid #EBCFC8; border-radius:14px; background:var(--bad-bg); padding:26px 28px; margin-top:8px; }
-    .trial .p-head{ display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; margin-bottom:18px; padding-bottom:18px; border-bottom:1px solid #EBCFC8; }
-    .trial .p-stat{ font-size:clamp(40px,6vw,54px); font-weight:700; letter-spacing:-.04em; color:var(--bad); line-height:1; }
-    .trial .p-stat-sub{ font-size:13px; font-weight:500; color:var(--bad); line-height:1.5; }
-    .trial .p-list{ list-style:none; display:flex; flex-direction:column; gap:12px; }
-    .trial .p-list li{ position:relative; padding-left:20px; font-size:14px; color:var(--ink); line-height:1.55; }
-    .trial .p-list li::before{ content:''; position:absolute; left:2px; top:8px; width:6px; height:6px; border-radius:50%; background:var(--bad); }
-    .trial .p-list li b{ font-weight:600; }
-    .trial .scale-risk{ margin-top:14px; font-size:13.5px; color:var(--ink-2); padding-left:14px; border-left:2px solid var(--bad); }
-    .trial .scale-risk b{ color:var(--ink); font-weight:600; }
-    /* gps tiers */
-    .trial .tiers{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
-    .trial .tier{ border:1px solid var(--border); border-radius:12px; background:var(--card); padding:18px; display:flex; flex-direction:column; gap:12px; }
-    .trial .tier-name{ font-size:14px; font-weight:600; }
-    .trial .tier-loc{ font-size:12px; color:var(--ink-3); font-style:italic; }
-    .trial .tier-badge{ border-radius:9px; padding:9px 12px; font-size:12.5px; font-weight:500; }
-    .trial .tier-badge b{ font-weight:700; }
-    .trial .tier-note{ font-size:12.5px; color:var(--ink-2); line-height:1.55; margin-top:2px; }
-    .trial .g .tier-badge{ background:var(--ok-bg); color:var(--ok); }
-    .trial .a .tier-badge{ background:var(--warn-bg); color:var(--warn); }
-    .trial .r .tier-badge{ background:var(--bad-bg); color:var(--bad); }
-    /* fix */
-    .trial .fix-cards{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:8px; align-items:stretch; }
-    .trial .fix-card{ border:1px solid var(--border); border-radius:12px; background:var(--card); padding:22px 24px; display:flex; flex-direction:column; }
-    .trial .fix-tag{ font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); }
-    .trial .fix-h{ font-size:15px; font-weight:600; margin-top:8px; }
-    .trial .fix-big{ font-size:44px; font-weight:700; letter-spacing:-.04em; color:var(--accent); line-height:1; margin:14px 0 2px; }
-    .trial .fix-big span{ display:block; font-size:12px; font-weight:400; color:var(--ink-3); letter-spacing:0; margin-top:4px; }
-    .trial .fix-body{ font-size:13.5px; color:var(--ink-2); line-height:1.65; margin-top:10px; }
-    .trial .fix-body b{ color:var(--ink); font-weight:600; }
-    .trial .proof{ margin-top:16px; border:1px solid #CFE0C8; border-radius:12px; background:var(--ok-bg); padding:20px 24px; }
-    .trial .proof-t{ font-size:13px; font-weight:600; color:var(--ok); letter-spacing:.03em; text-transform:uppercase; }
-    .trial .proof-list{ list-style:none; display:flex; flex-direction:column; gap:11px; margin-top:12px; }
-    .trial .proof-list li{ position:relative; padding-left:20px; font-size:14px; color:var(--ink); line-height:1.55; }
-    .trial .proof-list li::before{ content:''; position:absolute; left:2px; top:8px; width:6px; height:6px; border-radius:50%; background:var(--ok); }
-    .trial .proof-list li b{ font-weight:600; }
-    @media(max-width:760px){ .trial .tiers{ grid-template-columns:1fr; } .trial .fix-cards{ grid-template-columns:1fr; } }
-  </style>
-
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="/case.css">
+@media (max-width: 860px) {
+  .row3, .row2, .phases, .tiers, .costkey { grid-template-columns: 1fr; }
+  .surf { grid-template-columns: 1fr; } .surf .arrow { transform: rotate(90deg); justify-self: start; }
+  .surf .three { grid-template-columns: 1fr; }
+  .layer { grid-template-columns: 1fr; gap: 14px; }
+  .screens { grid-auto-columns: 62%; margin-right: calc(var(--pad) * -1); }
+  .gate form { flex-direction: column; }
+}
+</style>
 </head>
+<body id="top">
 
-<body>
+<header class="bar" id="bar">
+  <a class="home" href="/"><i class="orb"></i>Wiryana</a>
+  <nav class="segs" id="segs" aria-label="Chapters"></nav>
+  <div class="now" id="now" aria-hidden="true"></div>
+</header>
 
-  <!-- PASSWORD GATE -->
-  <div class="gate" id="gate">
-    <div class="gate-box">
-      <svg class="gate-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/>
-        <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-      <h1 class="gate-title">This one's protected</h1>
-      <p class="gate-sub">This project covers internal work that isn't public. If you'd like to read it, drop me an email at <a href="mailto:wiryanaw@gmail.com">wiryanaw@gmail.com</a> and I'll send you the password.</p>
-      <input class="gate-input" id="gateInput" type="password" placeholder="Enter password" autocomplete="off">
-      <p class="gate-error" id="gateError">Incorrect password. Try again.</p>
-      <button class="gate-btn" id="gateBtn">Unlock</button>
-      <a href="/" class="gate-back">← Back to home</a>
-    </div>
+<div class="gate" id="gate" role="dialog" aria-labelledby="gt">
+  <div class="gate-box">
+    <div class="k">Pantry HRIS · Protected</div>
+    <h1 id="gt" style="color:var(--lime)">This one's protected.</h1>
+    <p>This project covers internal work that isn't public. If you'd like to read it, email me at <a href="mailto:wiryanaw@gmail.com">wiryanaw@gmail.com</a> and I'll send you the password.</p>
+    <form id="gateForm"><input id="gateInput" type="password" placeholder="Enter password" autocomplete="off" aria-label="Password"><button type="submit">Unlock</button></form>
+    <div class="msg" id="gateMsg" aria-live="polite"></div>
+    <a class="back" href="/">← Back to the review</a>
   </div>
+</div>
+<main>
+  <section class="band dark hero" data-name="Overview">
+    <div class="wrap">
+      <div class="k rv">Pantry HRIS · Hangry · Internal tool · 2026</div>
+      <h1 class="rv">USD 60K a year, saved by building our own HRIS.</h1>
+      <p class="lead rv">I led the end to end design and product management of Pantry, an in house HRIS that replaced Hangry's third party subscription. Built around our operations across <b>165+ outlets</b> and <b>1,000+ staff</b>, it saves USD 60K a year and gives us full control over workforce processes.</p>
+      <dl class="meta rv">
+        <div><dt>Role</dt><dd>Product Manager &amp; Designer, end to end</dd></div>
+        <div><dt>Timeline</dt><dd>Jan to Mar 2026</dd></div>
+        <div><dt>Team</dt><dd>1 Product Designer, 1 Engineer</dd></div>
+        <div><dt>Company</dt><dd>Hangry</dd></div>
+      </dl>
+      <figure class="shot rv"><img src="/thumb-hris.jpg" alt="Pantry HRIS"></figure>
+    </div>
+  </section>
 
-  <nav>
-    <a href="/" class="nav-back">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <path d="M9 11L5 7L9 3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      Wiryana
-    </a>
-    <span class="nav-title" id="navTitle">Built a Custom HRIS</span>
-  </nav>
-
-  <div class="wrap">
-
-    <!-- HEADER -->
-    <header class="cs-header reveal">
-      <div class="cs-eyebrow">
-        <span class="cs-tag">HRIS</span>
-        <span class="cs-tag">Internal Tool</span>
-        <span class="cs-year">2026</span>
+  <section class="band dark glance-band" data-name="At a glance">
+    <div class="wrap panel">
+      <div class="k rv">At a glance</div>
+      <div class="glance">
+        <div class="stat rv"><b>USD <span data-count="60">0</span>K</b><span>saved annually, recurring every year</span></div>
+        <div class="stat rv"><b><span data-count="1000" data-sep="1">0</span>+</b><span>staff across 165+ outlets</span></div>
+        <div class="stat rv"><b><span data-count="100">0</span>%</b><span>success rate in live attendance with face matching</span></div>
       </div>
-      <h1 class="cs-title">Saved USD 60K annually by building a custom HRIS for 1,000+ staff across 165+ outlets</h1>
-    </header>
-
-    <!-- HERO IMAGE -->
-    <div class="cs-hero-img reveal">
-      <img src="/thumb-hris.jpg" alt="Pantry HRIS, Hero" style="width:100%;height:auto;display:block;border-radius:8px;cursor:zoom-in;" class="lightbox-trigger">
     </div>
+  </section>
 
-    <!-- META -->
-    <div class="cs-meta reveal">
-      <span class="meta-label">Outcome</span>
-      <span class="meta-value accent">USD 60K Saved in 2026</span>
-
-      <span class="meta-label">Company</span>
-      <span class="meta-value">Hangry</span>
-
-      <span class="meta-label">Role</span>
-      <span class="meta-value">Product Manager & Designer (End to end product)</span>
-
-      <span class="meta-label">Timeline</span>
-      <span class="meta-value">Jan – Mar 2026</span>
-
-      <span class="meta-label">Team</span>
-      <span class="meta-value">1 Product Designer, 1 Engineer</span>
-
-      <span class="meta-label">Scale</span>
-      <span class="meta-value">1,000+ staff across 165+ outlet locations</span>
+  <section class="band dark" id="problem" data-name="Problem">
+    <div class="wrap">
+      <div class="k rv"><b>01</b>The problem</div>
+      <h2 class="rv">A bill that grew <span class="hl">with every hire.</span></h2>
+      <div class="row3">
+        <div class="card rv"><b class="big">USD 60K</b><h3>Escalating cost</h3><p>Projected subscription spend that grew with headcount without delivering proportional value.</p></div>
+        <div class="card rv"><b class="big">Locked in</b><h3>Vendor dependency</h3><p>Limited customization forced Operations to work around the platform instead of with it.</p></div>
+        <div class="card rv"><b class="big">Workarounds</b><h3>Misaligned platform</h3><p>Capabilities didn't match the business, so core HR processes needed manual workarounds.</p></div>
+      </div>
     </div>
+  </section>
 
-    <!-- OVERVIEW -->
-    <div class="cs-overview reveal">
-      <p class="overview-text">I led the end to end design and product management of Pantry, an internally built HRIS that replaced Hangry's third party subscription. By building a system tailored to our operations across 165+ outlets and 1,000+ staff, we saved USD 60K a year across vendor fees and the tools it replaced, while gaining full control over our workforce processes.</p>
+  <section class="band dark" id="solution" data-name="Solution">
+    <div class="wrap">
+      <div class="k rv"><b>02</b>The solution</div>
+      <h2 class="rv">Pantry, shaped around <span class="hl">how Hangry works.</span></h2>
+      <p class="lead rv">Instead of adapting to a generic platform, Pantry follows the workflows staff and admins already knew, with direct control over workforce processes across every outlet.</p>
+      <div class="row3">
+        <div class="card rv"><span class="num">01</span><h3>Operations user app</h3><p>Staff submit requests and open their payslips straight from the app.</p></div>
+        <div class="card rv"><span class="num">02</span><h3>Outlet attendance portal</h3><p>Real time clock in and out with face matching for accurate attendance.</p></div>
+        <div class="card rv"><span class="num">03</span><h3>Admin platform</h3><p>Shifts, approvals and workforce data managed centrally across all locations.</p></div>
+      </div>
     </div>
+  </section>
 
-    <!-- BODY -->
-    <div class="cs-body">
+  <section class="band dark" id="constraints" data-name="Constraints">
+    <div class="wrap">
+      <div class="k rv"><b>03</b>The constraints</div>
+      <h2 class="rv">Three platforms, three months, <span class="hl">two people.</span></h2>
+      <div class="row2">
+        <div class="card rv"><b class="big">~3 months</b><h3>Tight deadline</h3><p>All 3 platforms had to ship by end of March. The annual license renewal was due April 2nd, with no shorter cycle to fall back on.</p></div>
+        <div class="card rv"><b class="big">2 people</b><h3>Lean team</h3><p>Me on product management and design, and one engineer on front end and back end. A large scope for a very small team.</p></div>
+      </div>
+    </div>
+  </section>
 
-      <!-- 01 The Problem -->
-      <section class="cs-section reveal">
-        <div class="section-header">
-          <span class="section-num">01</span>
-          <span class="section-title">The Problem</span>
+  <section class="band dark" id="approach" data-name="Approach">
+    <div class="wrap">
+      <div class="k rv"><b>04</b>The approach</div>
+      <h2 class="rv">Map everything, then <span class="hl">build what pays.</span></h2>
+
+      <div class="sub-h rv"><span class="k">The platform we replaced</span><h3>One vendor, three surfaces, two audiences.</h3><p>Before Pantry, Hangry ran on Mekari Talenta. Understanding its full shape came first, so the scope of the rebuild was clear.</p></div>
+      <div class="surf rv">
+        <div class="vendor"><span class="k">3rd party HRIS</span><b>Mekari Talenta</b></div>
+        <div class="arrow">→</div>
+        <div class="three">
+          <div class="card"><h3>Consumer (user) app</h3><p>Two audiences</p><span class="chip">HQ</span> <span class="chip">Operational</span></div>
+          <div class="card"><h3>Portal (outlet) app</h3><p>Shared outlet device</p><span class="chip">Live attendance</span></div>
+          <div class="card"><h3>Admin (web)</h3><p>Back office</p><span class="chip">HR and ops PIC</span></div>
         </div>
-        <div class="section-body">
-          <p>The organization faced three compounding issues that made continuing with the existing vendor unsustainable.</p>
+      </div>
+
+      <div class="sub-h rv"><span class="k">The scope</span><h3>40+ features across 3 HR layers.</h3><p>Rebuilding all of it was never realistic in the time we had, which made auditing the full surface essential.</p></div>
+      <div class="layers">
+        <div class="layer rv"><b>Core HR</b><div class="mods"><span><em>HRIS</em>Employee database, transfers, announcements, files, templates</span><span><em>Attendance</em>Live attendance, time off, overtime</span><span><em>Payroll</em>Calculation, report, disbursement, reimbursement, loans</span><span><em>Self service</em>Payslip, time off, overtime and reimbursement requests</span></div></div>
+        <div class="layer rv"><b>Employee experience</b><div class="mods"><span><em>Recruitment</em>Manpower planning, applicant tracking</span><span><em>Mobility</em>Portal, liveness, on call</span><span><em>Expense</em>Reimbursement, cash advance, business trips</span><span><em>Benefits</em>Earned wage access, flexible benefits, installments</span></div></div>
+        <div class="layer rv"><b>Strategic HR</b><div class="mods"><span><em>Talent</em>Performance review, development plans, succession</span><span><em>Analytics</em>Forms+, report builder, Talenta Insight+</span></div></div>
+      </div>
+
+      <div class="sub-h rv"><span class="k">The deciding variable</span><h3>Where the subscription cost actually sat.</h3><p>Three operational line items made up the full saving once Pantry replaced them.</p></div>
+      <div class="cost rv">
+        <div class="costbar" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="costkey">
+          <div style="--c: var(--lime)"><b>USD 36K</b><span>Operational accounts, per year</span></div>
+          <div style="--c: var(--cobalt)"><b>USD 17K</b><span>Live attendance features, per year</span></div>
+          <div style="--c: rgba(255,255,255,.55)"><b>USD 7.5K</b><span>Portal accounts, per year</span></div>
         </div>
+      </div>
 
-        <div class="bullet-list" style="margin-top: 20px;">
-          <div class="bullet-item">Escalating subscription expenses, projected to reach USD 60K, a cost that grew with headcount without delivering proportional value</div>
-          <div class="bullet-item">Vendor dependency that limited customization, forcing the operations team to work around the platform rather than with it</div>
-          <div class="bullet-item">Misalignment between platform capabilities and business requirements, resulting in manual workarounds for core HR processes</div>
-        </div>
+      <div class="sub-h rv"><span class="k">The tradeoff</span><h3>Operational first. HQ could wait.</h3></div>
+      <div class="row3">
+        <div class="card rv"><h3>Highest cost</h3><p>Operational accounts, the portal and live attendance made up the full ~USD 60K, the entire savings opportunity.</p></div>
+        <div class="card rv"><h3>Heaviest reliance</h3><p>Operational staff use the platform daily for live attendance, overtime and requests.</p></div>
+        <div class="card rv"><h3>HQ deferred</h3><p>HQ only checked payslips and requested leave, nothing operationally critical, so their app came after launch.</p></div>
+      </div>
 
-      </section>
+      <div class="sub-h rv"><span class="k">The plan to go live</span><h3>From requirement to live, then improve.</h3><p>Every step below was P0. The HQ app and deferred features became the P1 and P2 roadmap after launch.</p></div>
+      <div class="phases">
+        <div class="phase rv"><span class="k">Build</span><ol><li><em>01</em><div><b>Requirement gathering</b><span>Portal, Admin and Operational user app</span></div></li><li><em>02</em><div><b>Concept and design</b><span>Reviewed with the design team and stakeholders</span></div></li><li><em>03</em><div><b>Testing</b><span>Internal tech testing and user testing</span></div></li></ol></div>
+        <div class="phase rv"><span class="k">Pre launch</span><ol><li><em>04</em><div><b>Outlet trial</b><span>5 outlets, 7 days in the live environment</span></div></li><li><em>05</em><div><b>Socialization</b><span>All outlets, walkthrough and Q&amp;A over Google Meet</span></div></li><li><em>06</em><div><b>Live preparation</b><span>Validate and migrate all employee data</span></div></li></ol></div>
+        <div class="phase rv"><span class="k">Launch and stabilize</span><ol><li><em>07</em><div><b>Go live</b><span>Migrated to our own HRIS</span></div></li><li><em>08</em><div><b>After live monitoring</b><span>Watch the live environment closely</span></div></li><li><em>09</em><div><b>Improvement and report</b><span>Fixes, learnings and a wrap up report</span></div></li></ol></div>
+      </div>
+    </div>
+  </section>
 
-      <!-- 02 The Solution -->
-      <section class="cs-section reveal">
-        <div class="section-header">
-          <span class="section-num">02</span>
-          <span class="section-title">The Solution</span>
-        </div>
-        <div class="section-body">
-          <p>We built Pantry, a custom HRIS designed specifically for Hangry's operational structure. Rather than adapting to a generic platform, Pantry was shaped around the workflows our staff and admins already knew, giving us direct control over workforce processes across all outlets.</p>
-        </div>
+  <section class="band dark" id="portal" data-name="Portal app">
+    <div class="wrap">
+      <div class="k rv"><b>05</b>The portal app</div>
+      <h2 class="rv">One shared device, <span class="hl">built to resist abuse.</span></h2>
+      <p class="lead rv">The portal runs on one shared device per outlet. Staff find their name, confirm their shift and clock in with a face scan. It's the most safeguarded surface, because attendance ties directly to payroll.</p>
+      <div class="row3">
+        <div class="card rv"><h3>Face matching</h3><p>Verifies the person clocking in is who they claim to be, closing the door on buddy punching.</p></div>
+        <div class="card rv"><h3>Location range</h3><p>Clock in only works within 100m of the outlet, with a GPS buffer for outlets inside malls.</p></div>
+        <div class="card rv"><h3>No clock tricks</h3><p>Attendance runs on server time, so changing the device clock does nothing, and tampering is detected and blocked.</p></div>
+      </div>
+      <div class="screens rv"><figure><img src="/HRIS/screens/portal-1.png" alt="Portal home" loading="lazy"><span class="n">01</span><h3>Portal home</h3><p>Staff open the portal on the shared outlet device and see the full roster.</p></figure><figure><img src="/HRIS/screens/portal-2.png" alt="Search" loading="lazy"><span class="n">02</span><h3>Search</h3><p>Search by name or ID to find yourself in seconds.</p></figure><figure><img src="/HRIS/screens/portal-3.png" alt="Employee details" loading="lazy"><span class="n">03</span><h3>Employee details</h3><p>Start a Working shift or a Training shift from the profile.</p></figure><figure><img src="/HRIS/screens/portal-4.png" alt="Confirmation" loading="lazy"><span class="n">04</span><h3>Confirmation</h3><p>A confirmation step guards against accidental taps before the face scan.</p></figure><figure><img src="/HRIS/screens/portal-5.png" alt="Face scan" loading="lazy"><span class="n">05</span><h3>Face scan</h3><p>Face matching verifies the right person, with a brightness helper for dim outlets.</p></figure><figure><img src="/HRIS/screens/portal-6.png" alt="Clocked in" loading="lazy"><span class="n">06</span><h3>Clocked in</h3><p>The shift starts against server time, with a clear clock out.</p></figure></div>
+    </div>
+  </section>
 
-        <div class="subsection">
-          <div class="subsection-title">Live Features</div>
-          <div class="features-list">
-            <div class="feature-item">
-              <span class="feature-num">01</span>
-              <div class="feature-text"><strong>Operations user application</strong>: Staff can submit requests and access their payslips directly from the app</div>
-            </div>
-            <div class="feature-item">
-              <span class="feature-num">02</span>
-              <div class="feature-text"><strong>Outlet attendance portal</strong>: Real-time clock-in/out with face-matching verification for accurate attendance tracking</div>
-            </div>
-            <div class="feature-item">
-              <span class="feature-num">03</span>
-              <div class="feature-text"><strong>Administrative platform</strong>: Centralized management of shifts, approvals, and workforce data across all locations</div>
-            </div>
-          </div>
-        </div>
+  <section class="band dark" id="ops" data-name="User app">
+    <div class="wrap">
+      <div class="k rv"><b>06</b>The operational user app</div>
+      <h2 class="rv">Built around the <span class="hl">two things</span> staff do most.</h2>
+      <p class="lead rv">Operational staff use their own phone to request overtime and leave, check payslips and keep their profile current. Every step we didn't have time to build was cut.</p>
+      <div class="big-stat rv"><b>99.99%</b><span>of 3,941 new joiners (Feb 2023 to Nov 2025) already onboarded with a Gmail account.</span></div>
+      <p class="rv" style="margin-top:20px">With no time to build account provisioning, Continue with Google removed an entire onboarding step and matched how staff already signed in. One tap, no passwords to manage.</p>
+      <div class="row2">
+        <div class="card rv"><h3>Requests, front and center</h3><p>Overtime and leave sit at the top of the home screen as prominent cards with a direct New Request action.</p></div>
+        <div class="card rv"><h3>Self service profile</h3><p>Staff view and edit their own personal, employment and payroll details, cutting back and forth with HR.</p></div>
+      </div>
+      <div class="screens three rv"><figure><img src="/HRIS/screens/ops-app-1.png" alt="Sign in" loading="lazy"><span class="n">01</span><h3>Sign in</h3><p>One tap Google sign in for new joiners, no account provisioning needed.</p></figure><figure><img src="/HRIS/screens/ops-app-2.png" alt="Home" loading="lazy"><span class="n">02</span><h3>Home</h3><p>Overtime and leave requests lead the home screen; payslip, attendance and announcements sit below.</p></figure><figure><img src="/HRIS/screens/ops-app-3.png" alt="My data" loading="lazy"><span class="n">03</span><h3>My data</h3><p>Staff view and edit their own personal, employment and payroll details.</p></figure></div>
+      <p class="note rv" style="margin-top:20px">A limited selection of screens. The full app is under NDA.</p>
+    </div>
+  </section>
 
-      </section>
+  <section class="band dark" id="trial" data-name="Trial">
+    <div class="wrap">
+      <div class="k rv"><b>07</b>The trial</div>
+      <h2 class="rv">5 outlets, 5 days, and <span class="hl">one big surprise.</span></h2>
+      <p class="lead rv">Before rolling out to 165 outlets, we trialed live attendance from 6 to 10 March. Three outlets ran with geo fencing on, and two warehouses ran without it, since warehouse staff are highly mobile.</p>
+      <div class="sub-h rv"><span class="k">What went wrong</span></div>
+      <div class="big-stat rv"><b>76.7%</b><span>of valid check ins were out of range: 174 of 227, on the first two days (6 to 7 March).</span></div>
+      <ol class="ladder rv" style="margin-top:28px;max-width:820px"><li>Operations had defined both the range and the stored coordinates for every outlet.</li><li>Some ranges were as low as 1.9 to 2.5m, below what phone GPS can achieve.</li><li>Several outlet coordinates were themselves inaccurate.</li><li>With natural drift of 15 to 30m in malls and shophouses, staff standing at the counter were rejected.</li></ol>
+      <div class="warn rv"><b>Scale risk.</b> With 165 outlets going live at the end of March, the same misconfiguration would have multiplied platform wide.</div>
 
-      <!-- 03 The Constraints -->
-      <section class="cs-section reveal">
-        <div class="section-header">
-          <span class="section-num">03</span>
-          <span class="section-title">The Constraints</span>
-        </div>
-        <div class="section-body">
-          <div class="features-list">
-            <div class="feature-item">
-              <span class="feature-num">01</span>
-              <div class="feature-text"><strong>Tight deadline.</strong> All 3 platforms had to ship by end of March, roughly 3 months from kickoff. The constraint was hard: the annual license renewal payment was due April 2nd, with no option to extend on a shorter cycle.</div>
-            </div>
-            <div class="feature-item">
-              <span class="feature-num">02</span>
-              <div class="feature-text"><strong>Lean team.</strong> Two people: me covering product management and design, and one engineer responsible for both front and back-end. A large scope for a very small team.</div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <div class="sub-h rv"><span class="k">Why</span><h3>GPS accuracy isn't fixed.</h3><p>The error depends heavily on the environment, so one tiny threshold could never work everywhere.</p></div>
+      <div class="tiers">
+        <div class="card tier rv"><h3>Open sky, street facing</h3><p>Street kiosks, open car parks, outdoor counters.</p><dl><div><dt>Typical GPS error</dt><dd>3 to 10m</dd></div><div><dt>Recommended threshold</dt><dd class="hl">15 to 25m</dd></div></dl></div>
+        <div class="card tier rv"><h3>Mall, urban block</h3><p>Ground floor retail, shophouses, dense city blocks.</p><dl><div><dt>Typical GPS error</dt><dd>15 to 30m</dd></div><div><dt>Recommended threshold</dt><dd class="hl">25 to 50m</dd></div></dl></div>
+        <div class="card tier rv"><h3>Indoor, basement, upper floor</h3><p>Mall basements, upper floor units, enclosed offices.</p><dl><div><dt>Typical GPS error</dt><dd>30 to 100m</dd></div><div><dt>Recommended threshold</dt><dd class="hl">50 to 100m</dd></div></dl></div>
+      </div>
 
-      <!-- 04 The Approach -->
-      <section class="cs-section reveal">
-        <div class="section-header">
-          <span class="section-num">04</span>
-          <span class="section-title">The Approach</span>
-        </div>
-        <div class="ctx">
+      <div class="sub-h rv"><span class="k">The fix</span><h3>Two root causes, two fixes.</h3></div>
+      <div class="row2">
+        <div class="card rv"><span class="num">FIX 1 · DATA</span><h3>Correct the coordinates</h3><p>Each outlet shared its live location, and we updated the invalid latitude and longitude so the geo fence centred on the real spot.</p></div>
+        <div class="card rv"><span class="num">FIX 2 · RANGE</span><b class="big" style="margin-top:12px">50m</b><h3>One universal range</h3><p>GPS buffer included, applied as a single admin config change. No development, no manager workload, still requiring staff to be at the outlet.</p></div>
+      </div>
+      <div class="sub-h rv"><span class="k">Validated in the trial</span></div>
+      <div class="big-stat rv"><b>100%</b><span>successful check ins once coordinates were corrected, with no more location complaints.</span></div>
+      <p class="rv" style="margin-top:20px">With the 50m range, every clock in fell inside the boundary. Of 22 records on 9 March (15:40 to 23:19), the mean distance was 7.20m, the minimum 1.22m and the maximum 15.19m.</p>
+    </div>
+  </section>
 
-          <div class="block">
-            <div class="num">The platform we replaced</div>
-            <h3 class="h">One platform, three surfaces</h3>
-            <p class="lead">Before Pantry, Hangry ran on a third party HRIS (Mekari Talenta) that fanned out across three separate surfaces and two very different audiences. Understanding its full shape came first, so the scope of what we would rebuild in house was clear.</p>
-            <div class="hv">
-              <div class="hv-src"><div class="t">3rd party HRIS</div><div class="s">Mekari Talenta</div></div>
-              <div class="hv-arrow">&rarr;</div>
-              <div class="hv-surfaces">
-                <div class="surface">
-                  <div class="lead-col"><div class="st">Consumer (User) App</div><div class="ss">Two audiences</div></div>
-                  <div class="sub"><span class="chip">HQ</span><span class="chip">Operational</span></div>
-                </div>
-                <div class="surface">
-                  <div class="lead-col"><div class="st">Portal (Outlet) App</div><div class="ss">Shared outlet device</div></div>
-                  <div class="desc">Outlet live attendance</div>
-                </div>
-                <div class="surface">
-                  <div class="lead-col"><div class="st">Admin (Web)</div><div class="ss">Back office</div></div>
-                  <div class="desc">HR and operational PIC teams</div>
-                </div>
-              </div>
-            </div>
-          </div>
+  <section class="band dark" id="results" data-name="Results">
+    <div class="wrap">
+      <div class="k rv"><b>08</b>Results</div>
+      <h2 class="rv">Live since <span class="hl">April 21st.</span></h2>
+      <div class="results" style="grid-template-columns:repeat(2,1fr)">
+        <div class="stat rv"><b>USD 60K</b><p>Saved annually by bringing HR in house, across vendor fees and the tools it replaced, recurring every year.</p></div>
+        <div class="stat rv"><b>100%</b><p>Success rate in live attendance with face matching verification.</p></div>
+      </div>
+    </div>
+  </section>
 
-          <div class="block">
-            <div class="num">The scope</div>
-            <h3 class="h">Dozens of features across the stack</h3>
-            <p class="lead">The platform spanned three layers of HR, from day to day core operations to strategic tooling. Rebuilding all of it in house was never realistic in the time we had, which made auditing the full surface area essential.</p>
-            <div class="tiers">
-              <div class="tier">
-                <div class="tier-h">Core HR</div>
-                <div class="tier-grp"><div class="g">HRIS</div><div class="f">Employee database, multi branch transfer, announcements, files, document template</div></div>
-                <div class="tier-grp"><div class="g">Attendance</div><div class="f">Live attendance, time off administration, overtime management</div></div>
-                <div class="tier-grp"><div class="g">Payroll</div><div class="f">Calculation, report, disbursement, benefit reimbursement, employee loan</div></div>
-                <div class="tier-grp"><div class="g">Self service</div><div class="f">Payslip, request time off, overtime, and reimbursement</div></div>
-              </div>
-              <div class="tier">
-                <div class="tier-h">Employee experience</div>
-                <div class="tier-grp"><div class="g">Recruitment</div><div class="f">Manpower planning, applicant tracking</div></div>
-                <div class="tier-grp"><div class="g">Employee mobility</div><div class="f">Portal, liveness, on call management</div></div>
-                <div class="tier-grp"><div class="g">Expense management</div><div class="f">Reimbursement, cash advance, business trip planning</div></div>
-                <div class="tier-grp"><div class="g">Employee benefits</div><div class="f">Earned wage access, flexible benefit, flexible installments</div></div>
-              </div>
-              <div class="tier">
-                <div class="tier-h">Strategic HR</div>
-                <div class="tier-grp"><div class="g">Talent management</div><div class="f">Performance review, individual development plan, succession planning</div></div>
-                <div class="tier-grp"><div class="g">Analytics</div><div class="f">Forms+, report builder, Talenta Insight+</div></div>
-              </div>
-            </div>
-            <p class="count"><b>40+ features</b> across 3 HR layers, 3 surfaces, and 2 audiences.</p>
-          </div>
+  <section class="band dark next" data-name="Next">
+    <div class="wrap">
+      <a class="nextcase" href="/Menu-management/">
+        <span class="k">Next project</span>
+        <span class="nc-title">Menu Management <span class="hl">→</span></span>
+        <span class="nc-sub">Three delivery platforms, one tool · 97.8% efficiency</span>
+      </a>
+    </div>
+  </section>
+</main>
 
-          <div class="block">
-            <div class="num">The deciding variable</div>
-            <h3 class="h">Where the subscription cost actually sat</h3>
-            <p class="lead">The clearest signal for what to prioritize was the third party subscription bill. Operational accounts, the outlet portal, and the extra live-attendance features made up the entire annual cost we stood to recover.</p>
-            <div class="cost">
-              <div class="cost-row">
-                <div class="cost-lbl">Operational accounts<span>Akun Ops</span></div>
-                <div class="cost-bar"><div class="fill op" style="width:59%"></div></div>
-                <div class="cost-val">USD 36K<span>per year</span></div>
-              </div>
-              <div class="cost-row">
-                <div class="cost-lbl">Live attendance<span>Additional features</span></div>
-                <div class="cost-bar"><div class="fill op" style="width:28%"></div></div>
-                <div class="cost-val">USD 17K<span>per year</span></div>
-              </div>
-              <div class="cost-row">
-                <div class="cost-lbl">Portal accounts<span>Portal APs</span></div>
-                <div class="cost-bar"><div class="fill hq" style="width:13%"></div></div>
-                <div class="cost-val">USD 7.5K<span>per year</span></div>
-              </div>
-            </div>
-            <p class="cost-note">Three operational line items added up to <b>USD 60K a year</b>, the full saving once Pantry replaced them.</p>
-          </div>
-
-          <div class="block">
-            <div class="num">The tradeoff</div>
-            <h3 class="h">Operational first</h3>
-            <p class="lead">With cost and reliance both pointing the same way, I made the call: build the operational surfaces and the admin back office first, and defer only the HQ user app to after launch.</p>
-            <div class="decision">
-              <div class="d-h">Build for go live</div>
-              <div class="d-focus"><span class="pill">Portal App</span><span class="pill">Operational User App</span><span class="pill">Admin (Web)</span></div>
-              <div class="reasons">
-                <div class="reason"><span><b>Highest cost.</b> Operational accounts, the portal, and live attendance made up the full ~USD 60K subscription, the entire savings opportunity.</span></div>
-                <div class="reason"><span><b>Heaviest reliance.</b> Operational staff depend on the platform daily for live attendance, overtime, and requests.</span></div>
-                <div class="reason"><span><b>HQ could wait.</b> HQ users only checked payslips and requested leave, nothing operationally critical, so their app was deferred to after launch.</span></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="block">
-            <div class="num">The plan to go live</div>
-            <h3 class="h">From requirement to live, then improve</h3>
-            <p class="lead">With scope set to operational first, this was the P0 plan to reach go live before April. Everything here shipped for launch. The HQ app and deferred features became P1 and P2 after live.</p>
-            <div class="stagelabels"><span>Build</span></div>
-            <div class="flow">
-              <div class="step"><div class="n">01</div><div class="sn">Requirement gathering</div><div class="sd">Portal, Admin, and Operational user app</div></div>
-              <div class="step"><div class="n">02</div><div class="sn">Concept and design</div><div class="sd">Including reviews with design team and stakeholders</div></div>
-              <div class="step"><div class="n">03</div><div class="sn">Testing</div><div class="sd">Internal tech testing and user testing</div></div>
-            </div>
-            <div class="stagelabels" style="margin-top:14px"><span>Pre launch</span></div>
-            <div class="flow">
-              <div class="step"><div class="n">04</div><div class="sn">Outlet trial</div><div class="sd">5 outlets, 7 days in the live environment</div></div>
-              <div class="step"><div class="n">05</div><div class="sn">Socialization</div><div class="sd">All outlets, walkthrough and QnA over Google Meet</div></div>
-              <div class="step"><div class="n">06</div><div class="sn">Live preparation</div><div class="sd">Validate and migrate all employee data</div></div>
-            </div>
-            <div class="stagelabels" style="margin-top:14px"><span>Launch and stabilize</span></div>
-            <div class="flow">
-              <div class="step step--live"><div class="n">07</div><div class="sn">Go live</div><div class="sd">Migrated to our own HRIS</div></div>
-              <div class="step"><div class="n">08</div><div class="sn">After live monitoring</div><div class="sd">Watch the live environment closely</div></div>
-              <div class="step"><div class="n">09</div><div class="sn">Improvement and report</div><div class="sd">Fixes, learnings, and a wrap up report</div></div>
-            </div>
-            <p class="roadmap-cap">Every step above was <b>P0</b>, delivered before and around go live. The HQ app and the features we deferred became the <b>P1 and P2</b> roadmap after launch.</p>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- 05 The Portal App -->
-      <section class="cs-section reveal">
-        <div class="section-header">
-          <span class="section-num">05</span>
-          <span class="section-title">The Portal App</span>
-        </div>
-        <div class="section-body">
-          <p>The Portal App runs on one shared device per outlet. Any staff member finds their name, confirms their shift, and clocks in with a face scan. It is the most safeguarded surface in the system, because attendance ties directly to payroll.</p>
-        </div>
-        <div class="pflow">
-          <div class="pf" id="portalPf"></div>
-
-          <div class="subsection" style="margin-top:44px">
-            <div class="subsection-title">Built to prevent abuse</div>
-          </div>
-          <div class="feats">
-            <div class="feat">
-              <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 15c1 1.3 2.4 2 4 2s3-.7 4-2M9 10h.01M15 10h.01"/></svg></div>
-              <div class="feat-t">Face matching</div>
-              <div class="feat-d">Verifies the person clocking in is who they claim to be, closing the door on buddy punching.</div>
-            </div>
-            <div class="feat">
-              <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
-              <div class="feat-t">Location range</div>
-              <div class="feat-d">Clock-in only works within 100m of the outlet, including a GPS buffer for outlets inside shopping malls.</div>
-            </div>
-            <div class="feat">
-              <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
-              <div class="feat-t">No clock tricks</div>
-              <div class="feat-d">Staff sometimes change the device clock to hide a late clock-in. Attendance runs on server time, so it has no effect, and tampering is detected and blocked.</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 06 The Operational User App -->
-      <section class="cs-section reveal">
-        <div class="section-header">
-          <span class="section-num">06</span>
-          <span class="section-title">The Operational User App</span>
-        </div>
-        <div class="section-body">
-          <p>Operational staff use their own phone to request overtime and leave, check payslips, and keep their profile current. The design leaned into the two things they do most, and cut every step we did not have time to build.</p>
-        </div>
-        <div class="pflow">
-          <div class="pf" id="opsPf"></div>
-          <p class="nda">A limited selection of screens is shown. The full app is under NDA.</p>
-
-          <div class="subsection" style="margin-top:44px">
-            <div class="subsection-title">A design decision, backed by data</div>
-          </div>
-          <div class="stat-card">
-            <div>
-              <div class="stat-big">99.99%</div>
-              <div class="stat-sub">of 3,941 new joiners<br>Feb 2023 to Nov 2025</div>
-            </div>
-            <div class="stat-txt">Nearly every new joiner already onboarded with a Gmail account. With no time to build user account provisioning before the deadline, <b>Continue with Google</b> removed an entire onboarding step and matched how staff already signed in. One tap, no passwords to manage.</div>
-          </div>
-          <div class="notes">
-            <div class="note">
-              <div class="note-t">Requests, front and center</div>
-              <div class="note-d">Overtime and leave are what staff open the app for, so both sit at the top of the home screen as prominent cards with a direct New Request action.</div>
-            </div>
-            <div class="note">
-              <div class="note-t">Self-service profile</div>
-              <div class="note-d">Staff view and edit their own personal, employment, and payroll details, cutting the back and forth with HR and keeping data current at the source.</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 07 The Trial -->
-      <section class="cs-section reveal">
-        <div class="section-header">
-          <span class="section-num">07</span>
-          <span class="section-title">The Trial</span>
-        </div>
-        <div class="section-body">
-          <p>Before rolling out to 165 outlets, we trialed live attendance at 5 outlets over 5 days, 6 to 10 March. Three ran with geo-fence restrictions, and two warehouses ran without, since warehouse staff are highly mobile.</p>
-        </div>
-        <div class="trial">
-          <div class="setup">
-            <div class="ts-stat"><b>5</b><span>outlets · 5-day trial (6 to 10 March)</span></div>
-            <div class="ts-chips">
-              <div class="ts-chip"><b>3 outlets</b> · geo-fence on</div>
-              <div class="ts-chip ghost"><b>2 warehouses</b> · geo-fence off (mobile staff)</div>
-            </div>
-          </div>
-
-          <div class="sub">What went wrong</div>
-          <div class="problem">
-            <div class="p-head">
-              <div class="p-stat">76.7%</div>
-              <div class="p-stat-sub">of valid check-ins out of range<br>174 of 227 · first two trial days (6 to 7 March)</div>
-            </div>
-            <ul class="p-list">
-              <li>The <b>Operations team</b> had initially defined both the range and the stored coordinates for every outlet.</li>
-              <li>Some ranges were set as low as <b>1.9 to 2.5m</b>, below what phone GPS can achieve.</li>
-              <li>Several outlet <b>coordinates were themselves inaccurate</b>.</li>
-              <li>With natural GPS drift of <b>15 to 30m</b> in malls and shophouses, staff standing at the counter were rejected.</li>
-            </ul>
-          </div>
-          <p class="scale-risk">Scale risk: with <b>165 outlets going live end of March</b>, the same misconfiguration would not stay in the trial. It would multiply platform-wide.</p>
-
-          <div class="sub">Why: GPS accuracy is not fixed</div>
-          <p class="lead">I dug into GPS accuracy and found the error depends heavily on the environment, so a single tiny threshold could never work everywhere.</p>
-          <div class="tiers">
-            <div class="tier g">
-              <div><div class="tier-name">Open sky / street facing</div><div class="tier-loc">Street kiosks, open car parks, outdoor counters</div></div>
-              <div class="tier-badge">Typical GPS error <b>3 to 10m</b></div>
-              <div class="tier-badge">Recommended threshold <b>15 to 25m</b></div>
-              <div class="tier-note">Clean signal with good satellite visibility. A 15 to 25m threshold absorbs natural drift while keeping the boundary tight.</div>
-            </div>
-            <div class="tier a">
-              <div><div class="tier-name">Mall / urban block</div><div class="tier-loc">Ground floor retail, shophouse, dense city block</div></div>
-              <div class="tier-badge">Typical GPS error <b>15 to 30m</b></div>
-              <div class="tier-badge">Recommended threshold <b>25 to 50m</b></div>
-              <div class="tier-note">Concrete walls and nearby buildings cause multipath reflection. Drift of 20 to 30m is common even inside the outlet.</div>
-            </div>
-            <div class="tier r">
-              <div><div class="tier-name">Indoor / basement / upper floor</div><div class="tier-loc">Mall basement, upper-floor units, enclosed offices</div></div>
-              <div class="tier-badge">Typical GPS error <b>30 to 100m</b></div>
-              <div class="tier-badge">Recommended threshold <b>50 to 100m</b></div>
-              <div class="tier-note">GPS often fails to penetrate fully indoors. Accuracy degrades sharply, needing a larger threshold or Wi-Fi assisted location.</div>
-            </div>
-          </div>
-
-          <div class="sub">The fix</div>
-          <p class="lead">The rejections had two root causes, so the fix had two parts.</p>
-          <div class="fix-cards">
-            <div class="fix-card">
-              <div class="fix-tag">Fix 1 · Data</div>
-              <div class="fix-h">Correct the coordinates</div>
-              <div class="fix-body">Rather than relying on the Operations team's data, we asked each outlet to share their live location, then updated the invalid longitude and latitude so the geo-fence centred on the real spot.</div>
-            </div>
-            <div class="fix-card">
-              <div class="fix-tag">Fix 2 · Range</div>
-              <div class="fix-h">Set a universal range</div>
-              <div class="fix-big">50m<span>GPS buffer included</span></div>
-              <div class="fix-body">One standard for every outlet, applied as a single admin config change. <b>No development, no manager workload.</b> It covers real GPS drift while still requiring staff to be at the outlet.</div>
-            </div>
-          </div>
-          <div class="proof">
-            <div class="proof-t">Validated in the trial</div>
-            <ul class="proof-list">
-              <li>With the coordinates corrected, no further complaints about inaccurate locations, and staff could check in successfully <b>100% of the time</b>.</li>
-              <li>With the 50m range applied, every clock-in fell within range. Of <b>22 records</b> on 9 March (15:40 to 23:19), the mean was <b>7.20m</b>, with a minimum of <b>1.22m</b> and a maximum of <b>15.19m</b>, all well under the 50m boundary.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- 08 Results -->
-      <section class="cs-section reveal">
-        <div class="section-header">
-          <span class="section-num">08</span>
-          <span class="section-title">Results</span>
-        </div>
-        <div class="section-body">
-          <p>Pantry went live on April 21st. These are the results captured from launch to date.</p>
-        </div>
-
-        <div class="result-metrics">
-          <div class="result-metric">
-            <span class="metric-value">USD 60K</span>
-            <span class="metric-desc">Saved annually by bringing HR in house, across vendor fees and the tools it replaced, recurring every year going forward</span>
-          </div>
-          <div class="result-metric">
-            <span class="metric-value">100%</span>
-            <span class="metric-desc">Success rate in live attendance with face-matching verification</span>
-          </div>
-        </div>
-      </section>
-
-    </div><!-- /.cs-body -->
-
-    <!-- FOOTER -->
-    <footer class="cs-footer">
-      <span class="footer-copy">© 2026 Wiryana</span>
-      <button class="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M7 11V3M7 3L3.5 6.5M7 3L10.5 6.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        Back to top
-      </button>
-    </footer>
-
-  </div><!-- /.wrap -->
-
-  <!-- LIGHTBOX -->
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" id="lightboxClose" aria-label="Close">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-    </button>
-    <img id="lightboxImg" src="" alt="" />
+<footer class="foot">
+  <div class="wrap foot-grid">
+    <div>
+      <a class="home" href="/"><i class="orb"></i>Wiryana</a>
+      <p class="foot-line">Software designer in Jakarta.</p>
+      <a class="cta" href="mailto:wiryanaw@gmail.com">wiryanaw@gmail.com</a>
+    </div>
+    <nav class="foot-links" aria-label="Footer">
+      <div><span class="k">Work</span><a href="/Menu-management/">Menu Management</a><a href="/Loyalty/">QR Scanner</a><a href="/">The review</a></div>
+      <div><span class="k">Elsewhere</span><a href="https://www.linkedin.com/in/wiryanaw/" target="_blank" rel="noopener">LinkedIn</a><a href="https://dribbble.com/wiryanaw" target="_blank" rel="noopener">Dribbble</a><a href="https://trysplitface.com" target="_blank" rel="noopener">Splitface</a></div>
+    </nav>
   </div>
+  <div class="wrap foot-base"><span>© 2026 Wiryana</span><a href="#top">Back to top ↑</a></div>
+</footer>
 
-  <script>
-    // Password gate
-    const PASSWORD = 'pantry2026';
-    const gate     = document.getElementById('gate');
-    const gateInput = document.getElementById('gateInput');
-    const gateBtn   = document.getElementById('gateBtn');
-    const gateError = document.getElementById('gateError');
+<script>
+(function () {
+  var PASSWORD = 'pantry2026';
+  var gate = document.getElementById("gate"), form = document.getElementById("gateForm"), input = document.getElementById("gateInput"), msg = document.getElementById("gateMsg");
+  document.documentElement.style.overflow = "hidden";
+  input.focus();
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (input.value === PASSWORD) { gate.classList.add("open"); document.documentElement.style.overflow = ""; }
+    else { input.classList.add("err"); msg.textContent = "Incorrect password. Try again."; input.value = ""; input.focus(); setTimeout(function () { input.classList.remove("err"); }, 1200); }
+  });
+})();
+</script>
+<script>
+(function () {
+  var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var bands = [].slice.call(document.querySelectorAll(".band[data-name]")).filter(function (b) { return b.dataset.name !== "At a glance" && b.dataset.name !== "Next"; });
+  var segs = document.getElementById("segs"), bar = document.getElementById("bar"), now = document.getElementById("now");
+  bands.forEach(function (b, i) {
+    if (!b.id) b.id = "s" + i;
+    segs.insertAdjacentHTML("beforeend", '<a href="#' + b.id + '"><i></i><b></b><span>' + b.dataset.name + '</span></a>');
+  });
+  var links = segs.querySelectorAll("a"), fills = segs.querySelectorAll("b");
+  var all = [].slice.call(document.querySelectorAll(".band"));
 
-    function tryUnlock() {
-      if (gateInput.value === PASSWORD) {
-        gate.classList.add('unlocked');
-      } else {
-        gateInput.classList.add('error');
-        gateError.classList.add('show');
-        gateInput.value = '';
-        gateInput.focus();
-        setTimeout(() => gateInput.classList.remove('error'), 1200);
-      }
-    }
-
-    gateBtn.addEventListener('click', tryUnlock);
-    gateInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
-
-    // Nav title fade on scroll
-    const navTitle = document.getElementById('navTitle');
-    window.addEventListener('scroll', () => {
-      navTitle.classList.toggle('visible', window.scrollY > 120);
-    }, { passive: true });
-
-    // Scroll reveal
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, { threshold: 0.08 });
-    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-    // Lightbox
-    const lightbox    = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightboxImg');
-    document.querySelectorAll('.img-slot img, .lightbox-trigger').forEach(img => {
-      img.addEventListener('click', () => {
-        lightboxImg.src = img.src;
-        lightboxImg.alt = img.alt;
-        lightbox.classList.add('open');
-        document.body.style.overflow = 'hidden';
-      });
+  function update() {
+    var y = scrollY + 40, cur = 0;
+    bands.forEach(function (b, i) {
+      var top = b.offsetTop, end = top + b.offsetHeight;
+      var p = Math.max(0, Math.min(1, (y - top) / (end - top)));
+      fills[i].style.width = p * 100 + "%";
+      if (y >= top) cur = i;
     });
-    function closeLightbox() { lightbox.classList.remove('open'); document.body.style.overflow = ''; }
-    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
-    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
-  </script>
-  <script src="/toc.js"></script>
+    links.forEach(function (l, i) { l.classList.toggle("cur", i === cur); });
+    now.textContent = bands[cur].dataset.name;
+    // Bar colour follows the band under it
+    var under = all.filter(function (b) { return b.offsetTop <= y; }).pop() || all[0];
+  }
+  addEventListener("scroll", update, { passive: true });
+  addEventListener("resize", update);
+  update();
 
-  <!-- Portal App flow carousel -->
-  <script>
-  (function(){
-    var el=document.getElementById('portalPf'); if(!el) return;
-    var BASE='screens/';
-    var STEPS=[
-      {name:'Portal home', img:'portal-1.png', cap:'Staff open the portal on the shared outlet device and see the full roster.'},
-      {name:'Search', img:'portal-2.png', cap:'Search by name or ID to find yourself in seconds.'},
-      {name:'Employee details', img:'portal-3.png', cap:'Two entry points from the profile: start a Working shift or a Training shift.'},
-      {name:'Confirmation', img:'portal-4.png', cap:'A confirmation step guards against accidental taps before the face scan.'},
-      {name:'Face scan', img:'portal-5.png', cap:'Face matching verifies the right person is clocking in, with a brightness helper for dim outlets.'},
-      {name:'Clocked in', img:'portal-6.png', cap:'The shift starts, timestamped against server time, with a clear clock-out.'}
-    ];
-    var i=0;
-    var L='<svg viewBox="0 0 24 24" width="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>';
-    var R='<svg viewBox="0 0 24 24" width="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
-    function pad(n){return n<10?'0'+n:''+n;}
-    function render(){
-      var s=STEPS[i],n=STEPS.length,dots='',film='';
-      STEPS.forEach(function(st,j){
-        dots+='<span class="'+(j===i?'on':'')+'" data-step="'+j+'"></span>';
-        film+='<button class="thumb'+(j===i?' on':'')+'" data-step="'+j+'"><span class="tn">'+(j+1)+'</span><img src="'+BASE+st.img+'" alt="" onerror="this.style.display=\'none\'"></button>';
-      });
-      el.innerHTML=
-        '<div class="phone"><div class="phone-screen"><img src="'+BASE+s.img+'" alt="'+s.name+'"></div></div>'
-        +'<div class="meta"><div class="m-num">STEP '+pad(i+1)+' / '+pad(n)+'</div><div class="m-name">'+s.name+'</div><div class="m-cap">'+s.cap+'</div></div>'
-        +'<div class="ctrl"><button class="cbtn" data-nav="-1">'+L+'</button><div class="dots">'+dots+'</div><button class="cbtn" data-nav="1">'+R+'</button></div>'
-        +'<div class="film">'+film+'</div>';
-    }
-    el.addEventListener('click',function(e){
-      var st=e.target.closest('[data-step]'); if(st){i=+st.dataset.step;render();return;}
-      var nv=e.target.closest('[data-nav]'); if(nv){i=(i + +nv.dataset.nav + STEPS.length)%STEPS.length;render();return;}
+  // Reveal and count up
+  function countUp(el) {
+    var to = +el.dataset.count, dec = +(el.dataset.dec || 0), s0 = performance.now(), d = reduce ? 0 : 1200;
+    (function step(t) {
+      var p = d ? Math.min(1, (t - s0) / d) : 1, e = 1 - Math.pow(1 - p, 3);
+      var v = (to * e).toFixed(dec); el.textContent = el.dataset.sep ? Number(v).toLocaleString("en-US") : v;
+      if (p < 1) requestAnimationFrame(step);
+    })(s0);
+  }
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add("in");
+      e.target.querySelectorAll("[data-count]").forEach(countUp);
+      io.unobserve(e.target);
     });
-    render();
-  })();
-  </script>
-
-  <!-- Operational User App flow carousel -->
-  <script>
-  (function(){
-    var el=document.getElementById('opsPf'); if(!el) return;
-    var BASE='screens/';
-    var STEPS=[
-      {name:'Sign in', img:'ops-app-1.png', cap:'One-tap Google sign in for new joiners, no account provisioning needed.'},
-      {name:'Home', img:'ops-app-2.png', cap:'Overtime and leave requests lead the home screen; payslip, attendance, and announcements sit below.'},
-      {name:'My data', img:'ops-app-3.png', cap:'Staff view and edit their own personal, employment, and payroll details.'}
-    ];
-    var i=0;
-    var L='<svg viewBox="0 0 24 24" width="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>';
-    var R='<svg viewBox="0 0 24 24" width="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
-    function pad(n){return n<10?'0'+n:''+n;}
-    function render(){
-      var s=STEPS[i],n=STEPS.length,dots='',film='';
-      STEPS.forEach(function(st,j){
-        dots+='<span class="'+(j===i?'on':'')+'" data-step="'+j+'"></span>';
-        film+='<button class="thumb'+(j===i?' on':'')+'" data-step="'+j+'"><span class="tn">'+(j+1)+'</span><img src="'+BASE+st.img+'" alt="" onerror="this.style.display=\'none\'"></button>';
-      });
-      el.innerHTML=
-        '<div class="phone"><div class="phone-screen"><img src="'+BASE+s.img+'" alt="'+s.name+'"></div></div>'
-        +'<div class="meta"><div class="m-num">STEP '+pad(i+1)+' / '+pad(n)+'</div><div class="m-name">'+s.name+'</div><div class="m-cap">'+s.cap+'</div></div>'
-        +'<div class="ctrl"><button class="cbtn" data-nav="-1">'+L+'</button><div class="dots">'+dots+'</div><button class="cbtn" data-nav="1">'+R+'</button></div>'
-        +'<div class="film">'+film+'</div>';
-    }
-    el.addEventListener('click',function(e){
-      var st=e.target.closest('[data-step]'); if(st){i=+st.dataset.step;render();return;}
-      var nv=e.target.closest('[data-nav]'); if(nv){i=(i + +nv.dataset.nav + STEPS.length)%STEPS.length;render();return;}
-    });
-    render();
-  })();
-  </script>
-
+  }, { rootMargin: "0px 0px -10% 0px" });
+  document.querySelectorAll(".rv").forEach(function (el) { io.observe(el); });
+})();
+</script>
 </body>
 </html>

@@ -1,927 +1,449 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Streamlined Menu Management — Wiryana</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Menu Management · Wiryana</title>
+<meta property="og:title" content="Streamlined Menu Management Across 3 Platforms — Wiryana">
+<meta property="og:description" content="Unified menu control across 8 brands and 3 platforms into a single interface, increasing operational efficiency by 97.78% and saving USD 4K in hardware costs.">
+<meta property="og:image" content="https://wiryanaw.com/og-image-v3.png">
+<meta property="og:url" content="https://wiryanaw.com/Menu-management/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wiryanaw.com/og-image-v3.png">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --f: "Bricolage Grotesque", system-ui, sans-serif;
+  --black: #0B0B0B; --ink: #161616; --white: #FFFFFF; --cobalt: #1B3BFF; --lime: #D8FF2E; 
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --pad: max(24px, 6vw);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+body { margin: 0; font: 400 18px/1.55 var(--f); font-optical-sizing: auto; -webkit-font-smoothing: antialiased; background: var(--ink); color: var(--black); }
+a { color: inherit; }
+img, video { display: block; max-width: 100%; }
+:focus-visible { outline: 3px solid currentColor; outline-offset: 4px; border-radius: 6px; }
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Streamlined Menu Management Across 3 Platforms — Wiryana">
-  <meta property="og:description" content="Unified menu control across 8 brands and 3 platforms into a single interface, increasing operational efficiency by 97.78% and saving USD 4K in hardware costs.">
-  <meta property="og:image" content="https://wiryanaw.com/og-image-v3.png">
-  <meta property="og:url" content="https://wiryanaw.com/Menu-management/">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://wiryanaw.com/og-image-v3.png">
+/* Colour bands, same palette as the review */
+.band { position: relative; padding: 120px var(--pad); }
+.dark { background: var(--ink); color: rgba(255,255,255,.86); --hl: var(--lime); --line: rgba(255,255,255,.12); --card: rgba(255,255,255,.055); }
+.dark + .dark { border-top: 1px solid rgba(255,255,255,.08); }
+.dark h1, .dark h2, .dark h3, .dark .stat b, .dark .eq b { color: var(--white); }
+.dark .eq .hl b, .dark h1 .hl, .dark h2 .hl { color: var(--hl); }
+.dark h1, .dark h1 .hl { color: var(--lime); }
+.glance-band, .next { background: var(--cobalt); color: var(--white); --hl: var(--lime); --line: rgba(255,255,255,.25); padding-top: 88px; padding-bottom: 88px; border-top: 0 !important; }
+.glance-band + .dark { border-top: 0; }
+/* Cobalt panels carry the key moments */
+.panel { color: var(--white); }
+.hl { color: var(--hl); }
+.glance-band, .next { background: var(--cobalt); color: var(--white); --hl: var(--lime); --line: rgba(255,255,255,.25); padding-top: 88px; padding-bottom: 88px; border-top: 0 !important; }
+.glance-band + .dark { border-top: 0; }
+.hero { padding-bottom: 88px; }
+.wrap { max-width: 1240px; margin: 0 auto; }
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="stylesheet" href="/toc.css">
+/* Type */
+.k { font: 600 13px var(--f); letter-spacing: .1em; text-transform: uppercase; opacity: .7; }
+.k b { font-weight: 600; opacity: .55; margin-right: 10px; font-variant-numeric: tabular-nums; }
+h1 { margin: 18px 0 0; font: 800 clamp(48px, 8.4vw, 136px) var(--f); line-height: .9; letter-spacing: -0.05em; text-wrap: balance; max-width: 13ch; }
+h2 { margin: 16px 0 0; font: 800 clamp(36px, 5.4vw, 84px) var(--f); line-height: .95; letter-spacing: -0.045em; text-wrap: balance; max-width: 16ch; }
+h3 { margin: 0; font: 700 22px/1.2 var(--f); letter-spacing: -0.02em; }
+.lead { margin: 28px 0 0; max-width: 40ch; font-size: clamp(20px, 1.9vw, 27px); font-weight: 300; line-height: 1.3; letter-spacing: -0.015em; text-wrap: pretty; }
+.lead b { font-weight: 600; }
+p { margin: 0; max-width: 62ch; text-wrap: pretty; }
+p + p { margin-top: 14px; }
 
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css">
+/* Sticky chapter bar: the review's progress bars, one per chapter */
+.bar { position: fixed; z-index: 10; top: 0; left: 0; right: 0; padding: 14px var(--pad) 12px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 24px; color: var(--white); background: rgba(22,22,22,.92); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); transition: color .3s ease, background-color .3s ease; }
+.bar.light { color: var(--white); }
+.bar .home { display: flex; align-items: center; gap: 10px; font: 600 14px var(--f); text-decoration: none; }
+.orb { width: 24px; height: 24px; border-radius: 50%; background: radial-gradient(circle at 32% 28%, #FF9A6A, #E8390F 72%); box-shadow: inset 0 1px 2px rgba(255,255,255,.45), inset 0 -2px 4px rgba(150,25,0,.35); }
+.segs { display: flex; gap: 6px; }
+.segs a { position: relative; flex: 1; height: 24px; display: flex; align-items: center; text-decoration: none; }
+.segs a i { position: relative; display: block; width: 100%; height: 3px; border-radius: 2px; background: currentColor; opacity: .25; }
+.segs a b { position: absolute; left: 0; top: 50%; height: 3px; margin-top: -1.5px; width: 0; border-radius: 2px; background: var(--lime); }
+.segs a span { position: absolute; top: 22px; left: 0; font: 600 11px var(--f); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; opacity: 0; transform: translateY(-4px); transition: opacity .2s ease, transform .2s ease; pointer-events: none; }
+.segs a:hover span, .segs a.cur span { opacity: .8; transform: none; }
+.bar .now { font: 600 12px var(--f); letter-spacing: .08em; text-transform: uppercase; opacity: .8; min-width: 7ch; text-align: right; }
 
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+/* Hero */
+.hero { min-height: 100vh; padding-top: 150px; display: flex; flex-direction: column; justify-content: flex-end; }
+.meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 56px; border-top: 1.5px solid var(--line); }
+.meta div { padding: 16px 20px 0 0; }
+.meta dt { font: 600 11px var(--f); letter-spacing: .1em; text-transform: uppercase; opacity: .6; }
+.meta dd { margin: 6px 0 0; font-size: 16px; line-height: 1.35; font-weight: 500; }
+.shot { margin-top: 64px; border-radius: 18px; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,.22), 0 8px 24px rgba(0,0,0,.1); }
+.shot img { width: 100%; }
 
-    :root {
-      --bg:      #FFFFFF;
-      --ink:     #0D0B09;
-      --ink-2:   #7A7570;
-      --ink-3:   #BEB9B3;
-      --accent:  #FF5530;
-      --border:  #DDD8CF;
-      --font:    'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
+/* At a glance */
+.glance { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+.stat b { display: block; font: 800 clamp(56px, 7.4vw, 120px) var(--f); line-height: .9; letter-spacing: -0.05em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.stat > span { display: block; margin-top: 14px; font-size: 17px; line-height: 1.35; opacity: .85; max-width: 24ch; }
 
-    html { scroll-behavior: smooth; }
-    body { font-family: var(--font); background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
-    a { text-decoration: none; color: inherit; }
-    img { display: block; max-width: 100%; height: auto; }
+/* Chapter layout: takeaway on the left, detail on the right */
+.chap { display: grid; grid-template-columns: 5fr 7fr; gap: 64px; margin-top: 56px; align-items: start; }
+.chap > :first-child { position: sticky; top: 96px; }
+.note { font-size: 15px; opacity: .75; margin-top: 12px; }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border);
-      height: 52px; display: flex; align-items: center;
-      justify-content: space-between; padding: 0 48px;
-    }
-    .nav-back { font-size: 13px; color: var(--ink-2); display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
-    .nav-back:hover { color: var(--ink); }
-    .nav-title { font-size: 13px; color: var(--ink-3); max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; opacity: 0; transition: opacity 0.3s; }
-    .nav-title.visible { opacity: 1; }
+/* 20 x 3 = 60 x 8 = 480 */
+.eq { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 6px 22px; margin-top: 56px; }
+.eq span { display: flex; flex-direction: column; }
+.eq .brk { display: none; }
+.eq b { font: 800 clamp(48px, 6.6vw, 108px) var(--f); line-height: .9; letter-spacing: -0.05em; }
+.eq small { margin-top: 10px; font: 600 12px var(--f); letter-spacing: .1em; text-transform: uppercase; opacity: .7; }
+.eq i { font: 300 clamp(40px, 5vw, 80px) var(--f); line-height: .95; font-style: normal; opacity: .45; }
 
-    /* ── WRAP ── */
-    .wrap { max-width: 720px; margin: 0 auto; padding: 0 48px; }
+.facts { display: grid; gap: 14px; }
+.fact { padding: 22px 24px; border-radius: 16px; background: var(--card); }
+.fact b { display: block; font: 800 40px var(--f); letter-spacing: -0.04em; line-height: 1; color: var(--hl); }
+.fact p { margin-top: 10px; font-size: 17px; }
 
-    /* ── HEADER ── */
-    .cs-header { padding: 100px 0 0; }
-    .cs-eyebrow { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
-    .cs-tag, .cs-year {
-      font-size: 11px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
-      color: var(--ink-2); border: 1px solid var(--border); border-radius: 100px; padding: 3px 10px;
-    }
-    .cs-title { font-size: clamp(26px, 3.8vw, 46px); font-weight: 600; letter-spacing: -.03em; line-height: 1.1; color: var(--ink); }
+/* 8 brands, 8 phones, 3 delivery apps on each, and the next brand's phone */
+.phones { display: grid; grid-template-columns: repeat(9, 1fr); gap: 10px; align-items: end; }
+.ph1 { position: relative; aspect-ratio: 9 / 18; border-radius: 12px; border: 1.5px solid rgba(255,255,255,.55); padding: 0 12%; display: flex; flex-direction: column; justify-content: center; gap: 9%; }
+.ph1::before { content: ""; position: absolute; top: 6%; left: 50%; width: 30%; height: 3px; margin-left: -15%; border-radius: 3px; background: rgba(255,255,255,.4); }
+.ph1 u { display: block; height: 12%; border-radius: 4px; background: var(--cobalt); }
+.ph1 u:nth-child(2) { opacity: .75; } .ph1 u:nth-child(3) { opacity: .5; }
+.ph1.new { border: 1.5px dashed var(--lime); display: grid; place-items: center; padding: 0; color: var(--lime); font: 800 22px var(--f); }
+.ph1.new::before { display: none; }
+.phones-key { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 18px; font-size: 14px; opacity: .8; }
+.phones-key span { display: inline-flex; align-items: center; gap: 8px; }
+.phones-key i { width: 18px; height: 6px; border-radius: 3px; background: var(--cobalt); }
+.phones-key i.n { height: 14px; width: 10px; border-radius: 3px; background: none; border: 1.5px dashed var(--lime); }
 
-    /* ── META ── */
-    .cs-meta {
-      display: grid; grid-template-columns: 100px 1fr; gap: 10px 20px;
-      margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--border);
-      padding-bottom: 36px; border-bottom: 1px solid var(--border);
-    }
-    .meta-label { font-size: 11px; font-weight: 500; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-3); padding-top: 1px; }
-    .meta-value { font-size: 13px; color: var(--ink-2); line-height: 1.5; }
-    .meta-value.accent { color: var(--accent); font-weight: 600; }
+/* Lists */
+.ticks { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.ticks li { position: relative; padding: 18px 20px 18px 56px; border-radius: 14px; background: var(--card); font-size: 17px; line-height: 1.45; }
+.ticks li::before { content: ""; position: absolute; left: 20px; top: 21px; width: 20px; height: 20px; border-radius: 50%; background: var(--hl); }
+.ticks li::after { content: ""; position: absolute; left: 26px; top: 26px; width: 8px; height: 4px; border: 2px solid var(--ink); border-top: 0; border-right: 0; transform: rotate(-45deg); }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 56px; }
+.cols h3 { margin-bottom: 18px; }
+.cols .ticks { grid-auto-rows: 1fr; }
+.cols .ticks li { min-height: 116px; display: flex; align-items: center; padding-top: 0; padding-bottom: 0; }
+.cols .ticks li::before { top: 50%; margin-top: -10px; }
+.cols .ticks li::after { top: 50%; margin-top: -5px; }
 
-    /* ── HERO IMAGE ── */
-    .cs-hero-img { margin-top: 28px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
-    .cs-hero-img img { width: 100%; height: auto; display: block; }
+.ladder { list-style: none; margin: 0; padding: 0; counter-reset: s; }
+.ladder li { counter-increment: s; display: grid; grid-template-columns: 56px 1fr; gap: 8px; padding: 18px 0; border-top: 1.5px solid var(--line); font-size: 18px; }
+.ladder li::before { content: counter(s, decimal-leading-zero); font: 700 14px var(--f); letter-spacing: .06em; opacity: .55; padding-top: 3px; }
+.ask { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 8px; }
+.ask li { padding: 12px 16px; border-radius: 12px; background: var(--card); font-size: 17px; }
 
-    /* ── OVERVIEW ── */
-    .cs-overview { padding: 28px 0 0; }
-    .overview-text { font-size: 16px; line-height: 1.75; color: var(--ink-2); }
+figure { margin: 0; }
+.pic { border-radius: 16px; overflow: hidden; background: #fff; }
+.pic img, .pic video { width: 100%; }
+figcaption { margin-top: 12px; font: 600 12px var(--f); letter-spacing: .08em; text-transform: uppercase; opacity: .65; }
+.wide { margin-top: 64px; }
 
-    /* ── BODY ── */
-    .cs-body { padding-bottom: 80px; }
-    .cs-section { padding: 52px 0; border-top: 1px solid var(--border); }
+/* Terms and modules */
+.terms { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+.term { padding: 26px 24px; border-radius: 16px; background: var(--card); }
+.term h3 { font-size: 26px; color: var(--hl); }
+.term p { margin-top: 12px; font-size: 16px; line-height: 1.5; }
+.mods { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.mods span { padding: 12px 20px; border-radius: 999px; border: 1.5px solid currentColor; font-weight: 600; font-size: 16px; }
 
-    .section-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px; }
-    .section-num { font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
-    .section-title { font-size: 18px; font-weight: 600; letter-spacing: -.02em; color: var(--ink); }
+.cons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+.con { padding: 24px; border-radius: 16px; background: var(--card); }
+.con b { display: block; font: 700 22px/1.15 var(--f); letter-spacing: -0.02em; }
+.con p { margin-top: 10px; font-size: 16px; }
 
-    .section-body p { font-size: 15px; line-height: 1.75; color: var(--ink-2); margin-bottom: 14px; }
-    .section-body p:last-child { margin-bottom: 0; }
+.flows { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
+.flows h3 { margin-top: 18px; font-size: 20px; }
+.flows p { margin-top: 6px; font-size: 16px; opacity: .85; }
 
-    /* ── SUBSECTIONS ── */
-    .subsection { margin-top: 32px; }
-    .subsection + .subsection { margin-top: 36px; }
-    .subsection-title {
-      font-size: 13px; font-weight: 600; letter-spacing: .04em;
-      text-transform: uppercase; color: var(--ink-3);
-      margin-bottom: 14px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--border);
-    }
-    .subsection-body p { font-size: 15px; line-height: 1.75; color: var(--ink-2); margin-bottom: 12px; }
-    .subsection-body p:last-child { margin-bottom: 0; }
+/* Results */
+.results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 56px; }
+.results .stat { padding-top: 22px; border-top: 1.5px solid var(--line); }
+.results .stat p { margin-top: 18px; font-size: 16px; opacity: .85; }
 
-    /* ── LISTS ── */
-    .bullet-list { margin-top: 12px; display: flex; flex-direction: column; gap: 10px; }
-    .bullet-item { display: flex; align-items: flex-start; gap: 12px; font-size: 15px; line-height: 1.6; color: var(--ink-2); }
-    .bullet-item::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 9px; }
+/* Next project: one big cobalt link */
+.nextcase { display: flex; flex-direction: column; gap: 14px; color: var(--white); text-decoration: none; }
+.nc-title { font: 800 clamp(44px, 7vw, 112px) var(--f); line-height: .92; letter-spacing: -0.05em; }
+.nc-title .hl { display: inline-block; color: var(--lime); transition: transform .3s var(--ease); }
+.nextcase:hover .nc-title .hl { transform: translateX(10px); }
+.nc-sub { font-size: 18px; opacity: .85; }
 
-    .findings-list { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
-    .finding-item { display: flex; align-items: baseline; gap: 16px; }
-    .finding-index { font-size: 11px; color: var(--ink-3); font-weight: 500; letter-spacing: .06em; flex-shrink: 0; width: 20px; }
-    .finding-text { font-size: 14px; line-height: 1.6; color: var(--ink-2); }
+/* Footer */
+.foot { padding: 72px var(--pad) 32px; color: rgba(255,255,255,.86); }
+.foot .home { display: inline-flex; align-items: center; gap: 10px; font: 600 16px var(--f); text-decoration: none; color: var(--white); }
+.foot-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; }
+.foot-line { margin-top: 8px; font-size: 20px; font-weight: 300; line-height: 1.3; max-width: 26ch; }
+.cta { display: inline-block; margin-top: 16px; font: 700 clamp(22px, 2.4vw, 32px) var(--f); letter-spacing: -0.02em; color: var(--lime); text-decoration: none; border-bottom: 2px solid currentColor; padding-bottom: 2px; }
+.foot-links { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.foot-links div { display: flex; flex-direction: column; gap: 12px; }
+.foot-links .k { margin-bottom: 4px; }
+.foot-links a { text-decoration: none; font-size: 17px; width: fit-content; }
+.foot-links a:hover, .foot-base a:hover { color: var(--lime); }
+.foot-base { display: flex; justify-content: space-between; margin-top: 72px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.08); font-size: 14px; opacity: .6; }
+.foot-base a { text-decoration: none; }
 
-    /* ── CONSTRAINTS ── */
-    .constraints-list { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
-    .constraint-item {
-      display: flex; align-items: flex-start; gap: 14px;
-      padding: 14px 16px; border-radius: 8px;
-      border: 1px solid var(--border); background: rgba(255,255,255,0.4);
-    }
-    .constraint-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
-    .constraint-text { font-size: 14px; line-height: 1.6; color: var(--ink-2); }
-    .constraint-text strong { color: var(--ink); font-weight: 500; }
+/* Reveal on scroll */
+.rv { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .9s var(--ease); }
+.rv.in { opacity: 1; transform: none; }
 
-    /* ── IMAGE SLOT ── */
-    .img-slot { width: 100%; border-radius: 8px; overflow: hidden; margin: 28px 0; }
-    .img-slot img { width: 100%; height: auto; display: block; cursor: zoom-in; transition: opacity 0.2s; }
-    .img-slot img:hover { opacity: 0.9; }
-    .img-placeholder {
-      width: 100%; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center;
-      background: #E8E3DB; color: var(--ink-3); font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
-    }
-
-    /* ── RESULTS ── */
-    .result-metrics { margin-top: 40px; }
-    .result-metric {
-      display: grid;
-      grid-template-columns: 240px 1fr;
-      gap: 0 64px;
-      padding: 40px 0;
-      border-bottom: 1px solid var(--border);
-      align-items: center;
-    }
-    .result-metric:first-child { border-top: 1px solid var(--border); }
-    .metric-value {
-      font-size: clamp(36px, 4.5vw, 60px);
-      font-weight: 700;
-      letter-spacing: -.04em;
-      line-height: 1;
-      color: var(--accent);
-    }
-    .metric-text { display: flex; flex-direction: column; gap: 6px; }
-    .metric-label {
-      font-size: 15px;
-      font-weight: 500;
-      color: var(--ink);
-      line-height: 1.4;
-    }
-    .metric-desc { font-size: 13px; line-height: 1.65; color: var(--ink-2); max-width: 560px; }
-
-    /* ── LIGHTBOX ── */
-    .lightbox { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(13,11,9,0.92); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); cursor: zoom-out; align-items: center; justify-content: center; padding: 24px; }
-    .lightbox.open { display: flex; }
-    .lightbox img { max-width: 100%; max-height: 90vh; object-fit: contain; border-radius: 6px; box-shadow: 0 32px 80px rgba(0,0,0,0.5); cursor: default; }
-    .lightbox-close { position: fixed; top: 20px; right: 24px; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.15); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #fff; transition: background 0.2s; }
-    .lightbox-close:hover { background: rgba(255,255,255,0.25); }
-
-    /* ── FOOTER ── */
-    .cs-footer { border-top: 1px solid var(--border); padding: 32px 0; display: flex; justify-content: space-between; align-items: center; }
-    .footer-copy { font-size: 12px; color: var(--ink-3); }
-    .back-to-top { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-3); background: none; border: none; padding: 0; cursor: pointer; font-family: var(--font); transition: color 0.2s; }
-    .back-to-top:hover { color: var(--ink); }
-    .back-to-top:hover svg { transform: translateY(-2px); }
-    .back-to-top svg { transition: transform 0.2s; }
-
-    /* ── REVEAL ── */
-    .reveal { opacity: 0; transform: translateY(12px); transition: opacity 0.5s ease, transform 0.5s ease; }
-    .reveal.in { opacity: 1; transform: none; }
-
-    .accent-text { color: var(--accent); }
-    /* ── MATH INLINE BAR ── */
-    .math-bar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      padding: 12px 16px;
-      background: rgba(13,11,9,0.04);
-      border-radius: 8px;
-      margin-top: 10px;
-    }
-    .math-bar .mb-step {
-      display: flex;
-      align-items: baseline;
-      gap: 4px;
-    }
-    .math-bar .mb-num {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--ink);
-      line-height: 1;
-    }
-    .math-bar .mb-unit {
-      font-size: 11px;
-      color: var(--ink-2);
-    }
-    .math-bar .mb-op {
-      font-size: 12px;
-      color: var(--ink-3);
-    }
-    .math-bar .mb-step--result .mb-num { color: var(--accent); }
-
-    /* ── SCALE VISUALIZATION ── */
-    .scale-viz { margin: 28px 0 0; }
-    .scale-growth-note {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      margin-top: 10px;
-      padding: 12px 14px;
-      border: 1px dashed rgba(255,85,48,0.35);
-      border-radius: 8px;
-      background: rgba(255,85,48,0.03);
-      font-size: 12px;
-      line-height: 1.6;
-      color: var(--ink-2);
-    }
-    .scale-growth-note svg { flex-shrink: 0; margin-top: 2px; color: var(--accent); }
-    .scale-flow {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      margin-top: 20px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .flow-node {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      padding: 24px 16px 20px;
-      background: var(--bg);
-      border-right: 1px solid var(--border);
-      position: relative;
-    }
-    .flow-node:last-child { border-right: none; }
-    .arr-h { display: inline; }
-    .arr-v { display: none; }
-    .flow-arrow {
-      flex-shrink: 0;
-      width: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      color: var(--ink-3);
-      background: var(--bg);
-      align-self: stretch;
-      position: relative;
-      z-index: 1;
-      margin: 0 -1px;
-    }
-    /* brand dots grid */
-    .brand-dots {
-      display: grid;
-      grid-template-columns: repeat(4, 10px);
-      gap: 6px;
-    }
-    .bdot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: var(--ink);
-      opacity: 0.25;
-    }
-    /* phone cluster */
-    .phone-cluster {
-      display: grid;
-      grid-template-columns: repeat(4, 16px);
-      gap: 5px;
-    }
-    .pico {
-      width: 16px; height: 26px;
-      border: 1.5px solid var(--ink-2);
-      border-radius: 3px;
-      position: relative;
-    }
-    .pico::after {
-      content: '';
-      position: absolute;
-      bottom: 2px; left: 50%; transform: translateX(-50%);
-      width: 4px; height: 4px;
-      border-radius: 50%;
-      border: 1px solid var(--ink-2);
-    }
-    /* platform stack */
-    .plat-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      width: 100%;
-    }
-    .plat-pill {
-      font-size: 11px; font-weight: 500;
-      padding: 4px 10px;
-      border-radius: 4px;
-      text-align: center;
-      white-space: nowrap;
-    }
-    .plat-pill.grab   { background: #E6F5EE; color: #076B35; }
-    .plat-pill.gofood { background: #FDECEA; color: #B52B1C; }
-    .plat-pill.shopee { background: #FEF0E7; color: #B84A00; }
-    /* node labels */
-    .flow-label { text-align: center; }
-    .flow-num {
-      display: block;
-      font-size: 22px; font-weight: 700;
-      color: var(--ink); line-height: 1;
-      margin-bottom: 3px;
-    }
-    .flow-desc { font-size: 11px; color: var(--ink-2); }
-    /* result bar */
-    .flow-result {
-      margin-top: 10px;
-      padding: 14px 20px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      display: flex;
-      align-items: baseline;
-      justify-content: center;
-      gap: 6px;
-      font-size: 13px;
-      color: var(--ink-2);
-    }
-    .flow-result-num {
-      font-size: 22px; font-weight: 700;
-      color: var(--accent);
-    }
-
-    /* ── TERMS DIAGRAM ── */
-    .diagram-section { margin: 32px 0 0; }
-    .diagram-heading {
-      display: block;
-      font-size: 11px; font-weight: 600; letter-spacing: .1em;
-      text-transform: uppercase; color: var(--accent);
-      margin-bottom: 20px;
-    }
-    .terms-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .term-card { background: var(--bg); padding: 20px 18px; }
-    .term-chip {
-      display: inline-block;
-      font-size: 12px; font-weight: 400; color: var(--ink-2);
-      background: rgba(13,11,9,0.06);
-      border-radius: 4px;
-      padding: 5px 12px;
-      margin-bottom: 14px;
-    }
-    .term-def { font-size: 13px; line-height: 1.65; color: var(--ink-2); }
-
-    /* ── MODULES TREE ── */
-    .modules-intro-text {
-      font-size: 14px; line-height: 1.65; color: var(--ink-2);
-      margin-bottom: 28px; margin-top: 4px;
-    }
-    .tree-diagram {
-      display: flex; flex-direction: column; align-items: center;
-      padding: 8px 0 8px; position: relative;
-    }
-    .tree-trunk {
-      display: flex; justify-content: center;
-      position: relative; width: 100%; padding-bottom: 24px;
-    }
-    .tree-trunk::after {
-      content: ''; position: absolute;
-      bottom: 0; left: 50%; transform: translateX(-50%);
-      width: 1px; height: 24px; background: var(--border);
-    }
-    .tree-branches {
-      display: flex; width: 100%;
-      position: relative; padding-top: 24px;
-    }
-    .tree-branches::before {
-      content: ''; position: absolute;
-      top: 0;
-      left: calc(100% / 8);
-      right: calc(100% / 8);
-      height: 1px; background: var(--border);
-    }
-    .tree-branch {
-      flex: 1; display: flex;
-      justify-content: center; position: relative;
-    }
-    .tree-branch::before {
-      content: ''; position: absolute;
-      top: -24px; left: 50%; transform: translateX(-50%);
-      width: 1px; height: 24px; background: var(--border);
-    }
-    .tree-node {
-      font-size: 12px; font-weight: 400; color: var(--ink-2);
-      border: 1px solid var(--border); border-radius: 6px;
-      padding: 8px 14px; background: var(--bg);
-      white-space: nowrap; text-align: center;
-    }
-    .tree-node--root {
-      font-size: 13px; font-weight: 500; color: var(--ink);
-      background: rgba(13,11,9,0.04);
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      nav { padding: 0 24px; }
-      .wrap { padding: 0 24px; }
-      .cs-header { padding: 80px 0 0; }
-      .cs-meta { grid-template-columns: 80px 1fr; gap: 8px 16px; }
-      .result-metric { grid-template-columns: 1fr; gap: 8px; padding: 28px 0; }
-      .result-metric:last-child { border-bottom: none; }
-      .nav-title { display: none; }
-    }
-    @media (max-width: 480px) {
-      .cs-meta { grid-template-columns: 70px 1fr; gap: 6px 12px; }
-      .terms-grid { grid-template-columns: 1fr; }
-      .scale-flow { flex-direction: column; }
-      .flow-arrow { width: 100%; height: 24px; align-self: auto; }
-      .flow-node { border-right: none; border-bottom: none; width: 100%; }
-      .flow-node:last-child { border-bottom: none; }
-      .arr-h { display: none; }
-      .arr-v { display: inline; }
-
-      /* 2×2 grid, no lines on mobile */
-      .tree-trunk::after,
-      .tree-branches::before,
-      .tree-branch::before { display: none; }
-      .tree-branches {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-        padding-top: 16px;
-        width: 100%;
-      }
-      .tree-branch { flex: none; width: 100%; justify-content: stretch; }
-      .tree-node { width: 100%; font-size: 12px; padding: 8px 10px; text-align: center; }
-    }
-
-    /* ── FLOW VIDEOS ─────────────────────────────────────────── */
-    .fv { margin: 32px 0 8px; display: flex; flex-direction: column; gap: 56px; }
-    .fv-name { font-size: 15px; font-weight: 600; color: var(--ink); }
-    .fv-cap { font-size: 14px; color: var(--ink-2); margin-top: 4px; line-height: 1.55; max-width: 60ch; }
-    .fv-stage { margin-top: 18px; background: #F2F1EE; border-radius: 12px; padding: clamp(16px, 4vw, 48px); }
-    .fv-stage video { display: block; width: 100%; aspect-ratio: 16 / 10; border-radius: 8px; background: #fff; box-shadow: 0 1px 2px rgba(13,11,9,.04), 0 12px 32px rgba(13,11,9,.08); }
-  </style>
-
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="/case.css">
+@media (max-width: 860px) {
+  body { font-size: 17px; }
+  .band { padding: 96px var(--pad); }
+  .bar { grid-template-columns: auto 1fr; gap: 16px; }
+  .bar .now { display: none; }
+  .segs a span { display: none; }
+  .meta { grid-template-columns: 1fr 1fr; row-gap: 18px; }
+  .glance, .results, .terms, .cons, .flows, .cols { grid-template-columns: 1fr; }
+  .chap { grid-template-columns: 1fr; gap: 32px; }
+  .chap > :first-child { position: static; }
+  .phones { gap: 6px; }
+  .eq { flex-wrap: nowrap; gap: 6px; justify-content: space-between; margin-top: 36px; }
+  .eq b { font-size: 32px; }
+  .eq i { font-size: 22px; padding-top: 4px; }
+  .eq small { font-size: 9px; letter-spacing: .05em; max-width: 7ch; line-height: 1.2; }
+  .glance { gap: 0; margin-top: 20px; }
+  .glance .stat { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 16px; padding: 16px 0; border-top: 1px solid var(--line); }
+  .glance .stat b { font-size: 40px; }
+  .glance .stat > span { margin: 0; font-size: 15px; }
+  .phones { grid-template-columns: repeat(9, 1fr); gap: 5px; }
+  .ph1 { border-radius: 7px; }
+  .ph1.new { font-size: 13px; }
+  .results { gap: 28px; }
+  .foot-grid, .foot-links { grid-template-columns: 1fr; }
+  .nc-sub { font-size: 16px; }
+  .nc-title { font-size: 40px; white-space: nowrap; }
+  .glance-band, .next { padding-top: 64px; padding-bottom: 64px; }
+  .hero { min-height: 0; padding-top: 120px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rv { opacity: 1; transform: none; transition: none; }
+}
+</style>
 </head>
+<body id="top">
 
-<body>
+<header class="bar" id="bar">
+  <a class="home" href="/"><i class="orb"></i>Wiryana</a>
+  <nav class="segs" id="segs" aria-label="Chapters"></nav>
+  <div class="now" id="now" aria-hidden="true"></div>
+</header>
 
-  <nav>
-    <a href="/" class="nav-back">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <path d="M9 11L5 7L9 3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      Wiryana
-    </a>
-    <span class="nav-title" id="navTitle">Streamlined Menu Management</span>
-  </nav>
+<main>
+  <section class="band dark hero" data-name="Overview">
+    <div class="wrap">
+      <div class="k rv">Menu Management · Hangry · 2022</div>
+      <h1 class="rv">Menu updates went from 90 minutes to <span class="hl">2.</span></h1>
+      <p class="lead rv">I led the design of a tool that unified menu control across <b>8 brands</b> and <b>3 delivery platforms</b> into a single interface. It increased operational efficiency by 97.78% and saved USD 4K in hardware costs.</p>
+      <dl class="meta rv">
+        <div><dt>Role</dt><dd>Product Designer &amp; Researcher</dd></div>
+        <div><dt>Timeline</dt><dd>May to Sep 2022</dd></div>
+        <div><dt>Team</dt><dd>1 Designer, 2 Engineers, 1 Head of Product, 1 Head of Operations</dd></div>
+        <div><dt>Company</dt><dd>Hangry</dd></div>
+      </dl>
+      <figure class="shot rv"><img src="/thumb-menu.jpg" alt="Menu Management system on the outlet POS"></figure>
+    </div>
+  </section>
 
-  <div class="wrap">
-
-    <!-- HEADER -->
-    <header class="cs-header reveal">
-      <div class="cs-eyebrow">
-        <span class="cs-tag">POS</span>
-        <span class="cs-tag">Internal Tool</span>
-        <span class="cs-year">2022</span>
+  <section class="band dark glance-band" data-name="At a glance">
+    <div class="wrap panel">
+      <div class="k rv">At a glance</div>
+      <div class="glance">
+        <div class="stat rv"><b><span data-count="97.78" data-dec="2">0</span>%</b><span>efficiency increase in daily menu updates</span></div>
+        <div class="stat rv"><b>USD <span data-count="4">0</span>K</b><span>saved in hardware costs</span></div>
+        <div class="stat rv"><b>45 <span class="hl">→</span> 5</b><span>phones across 5 newly opened outlets</span></div>
       </div>
-      <h1 class="cs-title">Scaling multi platform operations with 97.8% efficiency improvement</h1>
-    </header>
-
-    <!-- HERO IMAGE -->
-    <div class="cs-hero-img reveal">
-      <img src="/thumb-menu.jpg" alt="Menu Management System — Hero" style="width:100%;height:auto;display:block;border-radius:8px;cursor:zoom-in;" class="lightbox-trigger">
     </div>
+  </section>
 
-    <!-- OVERVIEW -->
-    <div class="cs-overview reveal">
-      <p class="overview-text">I led the design of the menu management project, one of the key initiatives aimed at helping the company reduce costs. By unifying menu control across 8 brands and 3 platforms into a single interface, the tool increased operational efficiency by 97.78% and saved USD 4K in hardware costs.</p>
+  <section class="band dark" id="problem" data-name="Problem">
+    <div class="wrap">
+      <div class="k rv"><b>01</b>The problem</div>
+      <h2 class="rv">Every morning, <span class="hl">480 items</span> switched by hand.</h2>
+      <div class="eq rv" aria-label="20 items times 3 platforms equals 60 per brand, times 8 brands equals 480 items managed daily">
+        <span><b>20</b><small>items</small></span><i>×</i>
+        <span><b>3</b><small>platforms</small></span><hr class="brk"><i>=</i>
+        <span><b>60</b><small>per brand</small></span><i>×</i>
+        <span><b>8</b><small>brands</small></span><hr class="brk"><i>=</i>
+        <span class="hl"><b>480</b><small>items daily</small></span>
+      </div>
+      <div class="chap">
+        <div class="rv">
+          <p class="lead" style="margin-top:0">Before the outlet opens, staff update menus based on stock and availability. Each of the 8 brands has its own phone, connected to GoFood, GrabFood and ShopeeFood.</p>
+        </div>
+        <div class="facts">
+          <div class="fact rv"><b>1.5 hours</b><p>every day to update the menu based on availability.</p></div>
+          <div class="fact rv"><b>3 hours</b><p>of non productive cashier time a day, since menus could be turned off up to 2 times daily.</p></div>
+          <div class="fact rv"><b>USD 100</b><p>per outlet for a new phone with every new brand. 5 new outlets opened in the first half of 2023, so hardware costs scaled with growth.</p></div>
+        </div>
+      </div>
+      <div class="chap">
+        <div class="rv">
+          <h3>Why it doesn't scale</h3>
+          <p class="note">One phone per brand, each running all 3 delivery apps. Growth meant buying more phones.</p>
+        </div>
+        <div class="rv"><div class="phones" aria-hidden="true"><div class="ph1"><u></u><u></u><u></u></div><div class="ph1"><u></u><u></u><u></u></div><div class="ph1"><u></u><u></u><u></u></div><div class="ph1"><u></u><u></u><u></u></div><div class="ph1"><u></u><u></u><u></u></div><div class="ph1"><u></u><u></u><u></u></div><div class="ph1"><u></u><u></u><u></u></div><div class="ph1"><u></u><u></u><u></u></div><div class="ph1 new">+1</div></div><div class="phones-key"><span><i></i>GoFood, GrabFood, ShopeeFood on every phone</span><span><i class="n"></i>The next brand: another phone, about USD 100</span></div></div>
+      </div>
+      <figure class="wide rv"><div class="pic"><img src="/cs2-workflow.png" alt="Current menu management workflow"></div><figcaption>The workflow before</figcaption></figure>
     </div>
+  </section>
 
-    <!-- META -->
-    <div class="cs-meta reveal">
-      <span class="meta-label">Outcome</span>
-      <span class="meta-value accent">97.78% Efficiency Increase</span>
-      <span class="meta-label">Company</span>
-      <span class="meta-value">Hangry</span>
-      <span class="meta-label">Role</span>
-      <span class="meta-value">Product Designer & Researcher</span>
-      <span class="meta-label">Timeline</span>
-      <span class="meta-value">May – Sep 2022</span>
-      <span class="meta-label">Team</span>
-      <span class="meta-value">1 Designer, 2 Engineers, 1 Head of Product, 1 Head of Operations</span>
+  <section class="band dark" id="objectives" data-name="Objectives">
+    <div class="wrap">
+      <div class="k rv"><b>02</b>Objectives</div>
+      <h2 class="rv">Less time for staff. <span class="hl">No more phones</span> per brand.</h2>
+      <div class="cols">
+        <div class="rv"><h3>For outlet staff</h3>
+          <ul class="ticks"><li>Streamline menu management and reduce the time outlet staff spend on it</li><li>Give PPIC a reliable history to plan deliveries, with easy report downloads</li></ul></div>
+        <div class="rv"><h3>For the business</h3>
+          <ul class="ticks"><li>Eliminate the need to buy a separate phone for each brand</li><li>Replace the third party POS with an in house solution to cut ongoing platform fees</li></ul></div>
+      </div>
     </div>
+  </section>
 
-    <!-- BODY -->
-    <div class="cs-body">
-
-      <!-- 01 Problems -->
-      <section class="cs-section reveal">
-        <div class="section-header">
-          <span class="section-num">01</span>
-          <h2 class="section-title">Problems</h2>
+  <section class="band dark" id="process" data-name="Process">
+    <div class="wrap">
+      <div class="k rv"><b>03</b>The process</div>
+      <h2 class="rv">I went to the outlet to <span class="hl">watch it happen.</span></h2>
+      <div class="chap">
+        <figure class="rv"><div class="pic"><img src="/cs2-observation.png" alt="On site observation at the outlet"></div><figcaption>On site observation</figcaption></figure>
+        <div class="rv">
+          <h3>Understanding the current flow</h3>
+          <p class="note">How do staff usually manage the menu?</p>
+          <ul class="ask"><li>Per menu, per reason?</li><li>Multiple menus in one brand, per reason?</li><li>Multiple menus in multiple brands, per reason?</li><li>Multiple menus in multiple brands, with multiple reasons?</li></ul>
+          <p style="margin-top:22px">The requirements from the PM weren't detailed enough, so I gathered them myself from the Ops team and asked for the documents they use to manage menus.</p>
         </div>
-
-        <div class="subsection">
-          <div class="subsection-title">User Problems</div>
-          <div class="subsection-body">
-            <p>Every morning before the outlet opens, staff need to update menus based on stock and availability. Hangry has 8 brands, each with approximately 20 menu items, and each brand has its own phone connected to 3 food platforms: GoFood, GrabFood, and ShopeeFood.</p>
-            <div class="math-bar">
-              <div class="mb-step"><span class="mb-num">20</span><span class="mb-unit">items</span></div>
-              <span class="mb-op">×</span>
-              <div class="mb-step"><span class="mb-num">3</span><span class="mb-unit">platforms</span></div>
-              <span class="mb-op">=</span>
-              <div class="mb-step"><span class="mb-num">60</span><span class="mb-unit">/ brand</span></div>
-              <span class="mb-op">×</span>
-              <div class="mb-step"><span class="mb-num">8</span><span class="mb-unit">brands</span></div>
-              <span class="mb-op">=</span>
-              <div class="mb-step mb-step--result"><span class="mb-num">480</span><span class="mb-unit">items managed daily</span></div>
-            </div>
-          </div>
-          <div class="bullet-list" style="margin-top: 16px;">
-            <div class="bullet-item">It takes 1.5 hours every day to update the menu based on availability</div>
-            <div class="bullet-item">Turning off menus due to availability could happen up to 2 times daily, resulting in 3 non-productive hours for the cashier each day</div>
-          </div>
-
-          <!-- Scale visualization -->
-          <div class="scale-viz reveal">
-            <span class="diagram-heading">Why it doesn't scale</span>
-            <div class="scale-flow">
-
-              <div class="flow-node">
-                <div class="brand-dots">
-                  <span class="bdot"></span><span class="bdot"></span><span class="bdot"></span><span class="bdot"></span>
-                  <span class="bdot"></span><span class="bdot"></span><span class="bdot"></span><span class="bdot"></span>
-                </div>
-                <div class="flow-label">
-                  <span class="flow-num">8</span>
-                  <span class="flow-desc">brands</span>
-                </div>
-              </div>
-
-              <div class="flow-arrow flow-arrow--dir"><span class="arr-h">→</span><span class="arr-v">↓</span></div>
-
-              <div class="flow-node">
-                <div class="phone-cluster">
-                  <div class="pico"></div><div class="pico"></div><div class="pico"></div><div class="pico"></div>
-                  <div class="pico"></div><div class="pico"></div><div class="pico"></div><div class="pico"></div>
-                </div>
-                <div class="flow-label">
-                  <span class="flow-num">8</span>
-                  <span class="flow-desc">dedicated phones</span>
-                </div>
-              </div>
-
-              <div class="flow-arrow">×</div>
-
-              <div class="flow-node">
-                <div class="plat-stack">
-                  <span class="plat-pill grab">GrabFood</span>
-                  <span class="plat-pill gofood">GoFood</span>
-                  <span class="plat-pill shopee">ShopeeFood</span>
-                </div>
-                <div class="flow-label">
-                  <span class="flow-num">3</span>
-                  <span class="flow-desc">platforms each</span>
-                </div>
-              </div>
-
-            </div>
-            <div class="scale-growth-note">
-              <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1.5v11M1.5 7h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-              Every new brand requires a new phone. With Hangry expanding into new outlets and adding more brands, hardware costs grow with every launch.
-            </div>
-          </div>
-        </div>
-
-        <div class="img-slot">
-          <img src="/cs2-workflow.png" alt="Current menu management workflow" loading="lazy">
-        </div>
-
-        <div class="subsection">
-          <div class="subsection-title">Business Problem</div>
-          <div class="subsection-body">
-            <p>A new phone is required for each new brand at approximately USD 100 per outlet. In the first half of 2023, 5 new outlets opened across Indonesia, and with continued expansion planned, hardware costs were scaling unsustainably alongside business growth.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- 02 Objectives -->
-      <section class="cs-section reveal">
-        <div class="section-header">
-          <span class="section-num">02</span>
-          <h2 class="section-title">Objectives</h2>
-        </div>
-
-        <div class="subsection">
-          <div class="subsection-title">User Objectives</div>
-          <div class="bullet-list">
-            <div class="bullet-item">Streamline the process of menu management and reduce the time spent by outlet staff</div>
-            <div class="bullet-item">Provide reliable historical data sources for PPIC to plan deliveries, including easy access to download reports</div>
-          </div>
-        </div>
-
-        <div class="subsection">
-          <div class="subsection-title">Business Objectives</div>
-          <div class="bullet-list">
-            <div class="bullet-item">Eliminate the need to buy a separate phone for each brand</div>
-            <div class="bullet-item">Replace the existing third-party POS platform with an in-house solution to reduce ongoing platform fees</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 03 The Process -->
-      <section class="cs-section reveal">
-        <div class="section-header">
-          <span class="section-num">03</span>
-          <h2 class="section-title">The Process</h2>
-        </div>
-        <div class="section-body">
-          <p>I visited one of the outlets to observe how staff typically manage menus and orders on-site.</p>
-        </div>
-
-        <div class="img-slot">
-          <img src="/cs2-observation.png" alt="On-site observation at the outlet" loading="lazy">
-        </div>
-
-        <div class="subsection">
-          <div class="subsection-title">Understanding the Current Flow</div>
-          <div class="subsection-body">
-            <p>At this point, I want to understand how they usually manage the menu:</p>
-          </div>
-          <div class="findings-list" style="margin-top: 12px;">
-            <div class="finding-item">
-              <span class="finding-index">—</span>
-              <span class="finding-text">Is it per menu and per reason?</span>
-            </div>
-            <div class="finding-item">
-              <span class="finding-index">—</span>
-              <span class="finding-text">Is it multiple menus in one brand and per reason?</span>
-            </div>
-            <div class="finding-item">
-              <span class="finding-index">—</span>
-              <span class="finding-text">Is it multiple menus in multiple brands and per reason?</span>
-            </div>
-            <div class="finding-item">
-              <span class="finding-index">—</span>
-              <span class="finding-text">Is it multiple menus in multiple brands with multiple reasons?</span>
-            </div>
-          </div>
-          <div class="subsection-body" style="margin-top: 16px;">
-            <p>Since the requirements given by the PM are still unclear or not detailed enough, I have to gather requirements myself by reaching out to the stakeholders (Ops team). At this stage, I asked them to provide me with any documents they use to manage the menu. After receiving the documents, I discovered that the outlet staff usually turn off multiple menus across multiple brands.</p>
-          </div>
-        </div>
-
-        <div class="img-slot">
-          <img src="/cs2-ops.png" alt="Operations documentation — menu management spreadsheet" loading="lazy">
-        </div>
-
-        <div class="subsection">
-          <div class="subsection-title">Findings</div>
-          <div class="subsection-body">
-            <p>From the image shown above, I found out that the outlet staff can turn off/on multiple menus and brands for one reason. So, another requirement is gathered.</p>
-            <p>From the file above, we can see that the outlet staff are able to:</p>
-          </div>
-          <div class="findings-list">
-            <div class="finding-item">
-              <span class="finding-index">01</span>
-              <span class="finding-text">Turn on/off one menu in one brand on one platform</span>
-            </div>
-            <div class="finding-item">
-              <span class="finding-index">02</span>
-              <span class="finding-text">Turn on/off multiple menus in one brand on one platform</span>
-            </div>
-            <div class="finding-item">
-              <span class="finding-index">03</span>
-              <span class="finding-text">Turn on/off multiple menus in multiple brands on one platform only</span>
-            </div>
-            <div class="finding-item">
-              <span class="finding-index">04</span>
-              <span class="finding-text">Turn on/off multiple menus in multiple brands on multiple platforms</span>
-            </div>
-            <div class="finding-item">
-              <span class="finding-index">—</span>
-              <span class="finding-text">And so on…</span>
-            </div>
-          </div>
-        </div>
-
-      </section>
-
-      <!-- 04 Context -->
-      <section class="cs-section reveal">
-        <div class="section-header">
-          <span class="section-num">04</span>
-          <h2 class="section-title">Context</h2>
-        </div>
-
-        <!-- The terms diagram -->
-        <div class="diagram-section reveal">
-          <span class="diagram-heading">The terms</span>
-          <div class="terms-grid">
-            <div class="term-card">
-              <span class="term-chip">Materials</span>
-              <p class="term-def">Physical items or ingredients required to prepare or serve menu items. Materials are essential components for both parent and child menus, and their availability impacts the ability to offer related menu items.</p>
-            </div>
-            <div class="term-card">
-              <span class="term-chip">Parent menu</span>
-              <p class="term-def">The main menu item or dish that is offered on the menu. It is the primary option that may have various variants or sizes (child menus) associated with it.</p>
-            </div>
-            <div class="term-card">
-              <span class="term-chip">Child menu</span>
-              <p class="term-def">A variant or specific option related to a parent menu item, such as different sizes, flavors, or customization choices. Child menus depend on the parent menu and may be affected by the availability of materials.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Phone annotation: Parent menu vs Child menu -->
-        <div class="img-slot reveal">
-          <img src="/cs2-phones.png" alt="Parent menu and Child menu — Hangry app" loading="lazy">
-        </div>
-
-        <!-- The modules diagram -->
-        <div class="diagram-section reveal">
-          <span class="diagram-heading">The modules</span>
-          <p class="modules-intro-text">There are four main modules within the menu management, as follows:</p>
-          <div class="tree-diagram">
-            <div class="tree-trunk">
-              <div class="tree-node tree-node--root">Menu Management</div>
-            </div>
-            <div class="tree-branches">
-              <div class="tree-branch"><div class="tree-node">Parent Menu</div></div>
-              <div class="tree-branch"><div class="tree-node">Child menu</div></div>
-              <div class="tree-branch"><div class="tree-node">Materials</div></div>
-              <div class="tree-branch"><div class="tree-node">Status request</div></div>
-            </div>
-          </div>
-        </div>
-
-      </section>
-
-      <!-- 05 Design Explorations -->
-      <section class="cs-section reveal">
-        <div class="section-header">
-          <span class="section-num">05</span>
-          <h2 class="section-title">Design Explorations</h2>
-        </div>
-
-        <div class="subsection">
-          <div class="subsection-title">The Design Constraints</div>
-          <div class="constraints-list">
-            <div class="constraint-item">
-              <div class="constraint-text"><strong>POS screen size.</strong> Limited resolution of 1024 × 768 required a compact, scannable layout</div>
-            </div>
-            <div class="constraint-item">
-              <div class="constraint-text"><strong>Poor display quality</strong> — Colors needed to be high contrast and clearly visible under poor screen conditions</div>
-            </div>
-            <div class="constraint-item">
-              <div class="constraint-text"><strong>Familiar terminology.</strong> Used the language outlet staff already knew: Parent menu = Menu, Child menu = Kompleks menu</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="img-slot">
-          <img src="/cs2-explorations.png" alt="Design explorations" loading="lazy">
-        </div>
-
-        <div class="subsection">
-          <div class="subsection-title">Final UI</div>
-          <div class="subsection-body">
-            <p>Here's the final UI of one of the modules in the menu management system: the Child Menu module. We went through several rounds of testing before reaching this version, including internal testing and a trial at one of the outlets. Only after implementing improvements based on feedback were we able to release it to all Hangry outlets.</p>
-          </div>
-        </div>
-
-        <div class="img-slot">
-          <img src="/cs2-final-ui.png" alt="Final UI — child menu module" loading="lazy">
-        </div>
-
-        <div class="subsection">
-          <div class="subsection-title">Key flows</div>
-          <div class="subsection-body">
-            <p>Beyond the module screens, here are the core flows end to end.</p>
-          </div>
-        </div>
-
-        <div class="fv">
-          <div class="fv-item">
-            <div class="fv-name">Kompleks Menu</div>
-            <p class="fv-cap">Turning off a bundle: review every linked menu, pick a reason, done in one action.</p>
-            <div class="fv-stage"><video src="flows/kompleks-menu.mp4" poster="screens/kompleks-menu-1.png" autoplay muted loop playsinline preload="metadata" aria-label="Kompleks Menu flow"></video></div>
-          </div>
-          <div class="fv-item">
-            <div class="fv-name">Material</div>
-            <p class="fv-cap">Turning off a material switches off every menu and bundle that uses it.</p>
-            <div class="fv-stage"><video src="flows/material.mp4" poster="screens/material-matikan-1.png" autoplay muted loop playsinline preload="metadata" aria-label="Material flow"></video></div>
-          </div>
-          <div class="fv-item">
-            <div class="fv-name">Status Request</div>
-            <p class="fv-cap">Failed items are re-processed in bulk and land back in Sukses.</p>
-            <div class="fv-stage"><video src="flows/status-request.mp4" poster="screens/status-request-1.png" autoplay muted loop playsinline preload="metadata" aria-label="Status Request flow"></video></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 06 Results -->
-      <section class="cs-section reveal">
-        <div class="section-header">
-          <span class="section-num">06</span>
-          <h2 class="section-title">Results</h2>
-        </div>
-        <div class="result-metrics">
-          <div class="result-metric">
-            <div class="metric-value">97.78%</div>
-            <div class="metric-text">
-              <p class="metric-label">Efficiency increase</p>
-              <p class="metric-desc">Menu update time reduced from 90 min to 2 min per day. Staff can manage 480 items across 8 brands and 3 platforms from a single device</p>
-            </div>
-          </div>
-          <div class="result-metric">
-            <div class="metric-value">USD 4K</div>
-            <div class="metric-text">
-              <p class="metric-label">Saved in hardware costs</p>
-              <p class="metric-desc">Reduced from USD 4.6K (45 phones) to USD 500 (5 phones) across 5 newly opened outlets in the first half of 2023</p>
-            </div>
-          </div>
-          <div class="result-metric">
-            <div class="metric-value">45 → 5</div>
-            <div class="metric-text">
-              <p class="metric-label">Phones per outlet</p>
-              <p class="metric-desc">Each outlet previously needed 9 phones (8 brand-specific + 1 operational), now just 1, across 5 newly opened outlets in the first half of 2023</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      </div>
+      <figure class="wide rv"><div class="pic"><img src="/cs2-ops.png" alt="Operations spreadsheet used to manage menus"></div><figcaption>The Ops team's menu spreadsheet</figcaption></figure>
+      <div class="chap">
+        <div class="rv"><h3>Findings</h3><p class="note">Staff turn off multiple menus across multiple brands for one reason. They need to be able to:</p></div>
+        <ol class="ladder rv"><li>Turn on or off one menu in one brand on one platform</li><li>Turn on or off multiple menus in one brand on one platform</li><li>Turn on or off multiple menus in multiple brands on one platform</li><li>Turn on or off multiple menus in multiple brands on multiple platforms</li></ol>
+      </div>
     </div>
+  </section>
 
-    <!-- FOOTER -->
-    <footer class="cs-footer">
-      <span class="footer-copy">© 2026 Wiryana</span>
-      <button class="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M7 11V3M7 3L3.5 6.5M7 3L10.5 6.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        Back to top
-      </button>
-    </footer>
+  <section class="band dark" id="context" data-name="Context">
+    <div class="wrap">
+      <div class="k rv"><b>04</b>Context</div>
+      <h2 class="rv">Three words staff <span class="hl">already used.</span></h2>
+      <div class="terms">
+        <div class="term rv"><h3>Materials</h3><p>Physical items or ingredients needed to prepare or serve menu items. Their availability decides whether related menus can be offered.</p></div>
+        <div class="term rv"><h3>Parent menu</h3><p>The main dish on the menu. It can have variants or sizes, the child menus, attached to it.</p></div>
+        <div class="term rv"><h3>Child menu</h3><p>A variant of a parent menu, like a size, flavour or customization. It depends on the parent and on materials.</p></div>
+      </div>
+      <figure class="wide rv"><div class="pic"><img src="/cs2-phones.png" alt="Parent menu and child menu in the Hangry app"></div><figcaption>Parent and child menu in the Hangry app</figcaption></figure>
+      <div class="rv" style="margin-top:56px"><h3>Four modules</h3><div class="mods"><span>Parent menu</span><span>Child menu</span><span>Materials</span><span>Status request</span></div>
+      </div>
+    </div>
+  </section>
 
+  <section class="band dark" id="design" data-name="Design">
+    <div class="wrap">
+      <div class="k rv"><b>05</b>Design</div>
+      <h2 class="rv">Designed for a <span class="hl">1024 × 768</span> POS screen.</h2>
+      <div class="cons">
+        <div class="con rv"><b>Small screen</b><p>1024 × 768 meant a compact, scannable layout.</p></div>
+        <div class="con rv"><b>Poor display</b><p>High contrast colours that stay clear on weak screens.</p></div>
+        <div class="con rv"><b>Familiar words</b><p>Parent menu became Menu, child menu became Kompleks menu, the terms staff knew.</p></div>
+      </div>
+      <figure class="wide rv"><div class="pic"><img src="/cs2-explorations.png" alt="Design explorations" loading="lazy"></div><figcaption>Explorations</figcaption></figure>
+      <div class="rv" style="margin-top:72px"><h3>Final UI</h3><p class="note">The child menu module, after internal testing and an outlet trial. It shipped to all Hangry outlets only after those rounds of feedback.</p></div>
+      <figure class="wide rv" style="margin-top:28px"><div class="pic"><img src="/cs2-final-ui.png" alt="Final UI of the child menu module" loading="lazy"></div></figure>
+      <div class="flows">
+        <figure class="rv"><div class="pic"><video src="/Menu-management/flows/kompleks-menu.mp4" muted loop playsinline autoplay preload="metadata"></video></div><h3>Kompleks menu</h3><p>Turning off a bundle: review every linked menu, pick a reason, done in one action.</p></figure>
+        <figure class="rv"><div class="pic"><video src="/Menu-management/flows/material.mp4" muted loop playsinline autoplay preload="metadata"></video></div><h3>Material</h3><p>Turning off a material switches off every menu and bundle that uses it.</p></figure>
+        <figure class="rv"><div class="pic"><video src="/Menu-management/flows/status-request.mp4" muted loop playsinline autoplay preload="metadata"></video></div><h3>Status request</h3><p>Failed items are re processed in bulk and land back in Sukses.</p></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="band dark" id="results" data-name="Results">
+    <div class="wrap">
+      <div class="k rv"><b>06</b>Results</div>
+      <h2 class="rv">One device for <span class="hl">480 items.</span></h2>
+      <div class="results">
+        <div class="stat rv"><b>97.78%</b><p>Menu update time dropped from 90 minutes to 2 a day. Staff manage 480 items across 8 brands and 3 platforms from one device.</p></div>
+        <div class="stat rv"><b>USD 4K</b><p>Saved in hardware. From USD 4.6K (45 phones) to USD 500 (5 phones) across 5 outlets opened in the first half of 2023.</p></div>
+        <div class="stat rv"><b>9 <span class="hl">→</span> 1</b><p>Phones per outlet. 8 brand phones plus 1 operational phone became a single device.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band dark next" data-name="Next">
+    <div class="wrap">
+      <a class="nextcase" href="/Loyalty/">
+        <span class="k">Next project</span>
+        <span class="nc-title">QR Scanner <span class="hl">→</span></span>
+        <span class="nc-sub">Contextual loyalty scan flow · 54% fewer complaints</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-grid">
+    <div>
+      <a class="home" href="/"><i class="orb"></i>Wiryana</a>
+      <p class="foot-line">Software designer in Jakarta.</p>
+      <a class="cta" href="mailto:wiryanaw@gmail.com">wiryanaw@gmail.com</a>
+    </div>
+    <nav class="foot-links" aria-label="Footer">
+      <div><span class="k">Work</span><a href="/HRIS/">Pantry HRIS</a><a href="/Loyalty/">QR Scanner</a><a href="/">The review</a></div>
+      <div><span class="k">Elsewhere</span><a href="https://www.linkedin.com/in/wiryanaw/" target="_blank" rel="noopener">LinkedIn</a><a href="https://dribbble.com/wiryanaw" target="_blank" rel="noopener">Dribbble</a><a href="https://trysplitface.com" target="_blank" rel="noopener">Splitface</a></div>
+    </nav>
   </div>
+  <div class="wrap foot-base"><span>© 2026 Wiryana</span><a href="#top">Back to top ↑</a></div>
+</footer>
 
-  <!-- LIGHTBOX -->
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" id="lightboxClose" aria-label="Close">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-    </button>
-    <img id="lightboxImg" src="" alt="" />
-  </div>
 
-  <script>
-    const revealEls = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); }
-      });
-    }, { threshold: 0.08 });
-    revealEls.forEach(el => observer.observe(el));
+<script>
+(function () {
+  var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var bands = [].slice.call(document.querySelectorAll(".band[data-name]")).filter(function (b) { return b.dataset.name !== "At a glance" && b.dataset.name !== "Next"; });
+  var segs = document.getElementById("segs"), bar = document.getElementById("bar"), now = document.getElementById("now");
+  bands.forEach(function (b, i) {
+    if (!b.id) b.id = "s" + i;
+    segs.insertAdjacentHTML("beforeend", '<a href="#' + b.id + '"><i></i><b></b><span>' + b.dataset.name + '</span></a>');
+  });
+  var links = segs.querySelectorAll("a"), fills = segs.querySelectorAll("b");
+  var all = [].slice.call(document.querySelectorAll(".band"));
 
-    const navTitle = document.getElementById('navTitle');
-    window.addEventListener('scroll', () => {
-      navTitle.classList.toggle('visible', window.scrollY > 120);
+  function update() {
+    var y = scrollY + 40, cur = 0;
+    bands.forEach(function (b, i) {
+      var top = b.offsetTop, end = top + b.offsetHeight;
+      var p = Math.max(0, Math.min(1, (y - top) / (end - top)));
+      fills[i].style.width = p * 100 + "%";
+      if (y >= top) cur = i;
     });
+    links.forEach(function (l, i) { l.classList.toggle("cur", i === cur); });
+    now.textContent = bands[cur].dataset.name;
+    // Bar colour follows the band under it
+    var under = all.filter(function (b) { return b.offsetTop <= y; }).pop() || all[0];
+  }
+  addEventListener("scroll", update, { passive: true });
+  addEventListener("resize", update);
+  update();
 
-    // Lightbox
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightboxImg');
-    document.querySelectorAll('.img-slot img, .lightbox-trigger').forEach(img => {
-      img.addEventListener('click', () => {
-        lightboxImg.src = img.src;
-        lightboxImg.alt = img.alt;
-        lightbox.classList.add('open');
-        document.body.style.overflow = 'hidden';
-      });
+  // Reveal and count up
+  function countUp(el) {
+    var to = +el.dataset.count, dec = +(el.dataset.dec || 0), s0 = performance.now(), d = reduce ? 0 : 1200;
+    (function step(t) {
+      var p = d ? Math.min(1, (t - s0) / d) : 1, e = 1 - Math.pow(1 - p, 3);
+      el.textContent = (to * e).toFixed(dec);
+      if (p < 1) requestAnimationFrame(step);
+    })(s0);
+  }
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add("in");
+      e.target.querySelectorAll("[data-count]").forEach(countUp);
+      io.unobserve(e.target);
     });
-    function closeLightbox() { lightbox.classList.remove('open'); document.body.style.overflow = ''; }
-    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
-    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
-  </script>
-  <script src="/toc.js"></script>
-
-  <!-- Flow videos: play only while on screen -->
-  <script>
-  (function(){
-    var vids=document.querySelectorAll('.fv video');
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { vids.forEach(function(v){ v.removeAttribute('autoplay'); v.pause(); v.controls=true; }); return; }
-    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ e.isIntersecting ? e.target.play().catch(function(){}) : e.target.pause(); }); }, { threshold: 0.25 });
-    vids.forEach(function(v){ io.observe(v); });
-  })();
-  </script>
-
+  }, { rootMargin: "0px 0px -10% 0px" });
+  document.querySelectorAll(".rv").forEach(function (el) { io.observe(el); });
+})();
+</script>
 </body>
 </html>
