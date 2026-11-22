@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Wiryana · Five years, reviewed</title>
+<title>Wiryana - a software designer</title>
 <meta name="description" content="Wiryana — Software Designer based in Jakarta, Indonesia. Designing digital products that scale with clarity and impact.">
-<meta property="og:title" content="Wiryana — Software Designer">
+<meta property="og:title" content="Wiryana - a software designer">
 <meta property="og:description" content="Software Designer based in Jakarta, designing digital products that scale with clarity and impact.">
-<meta property="og:image" content="https://wiryanaw.com/og-image-v3.png">
+<meta property="og:image" content="https://wiryanaw.com/og-image-v4.png">
 <meta property="og:url" content="https://wiryanaw.com">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://wiryanaw.com/og-image-v3.png">
+<meta name="twitter:image" content="https://wiryanaw.com/og-image-v4.png">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -124,6 +124,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .tap { position: fixed; z-index: 1; top: 0; bottom: 0; width: 30%; outline: none !important; -webkit-tap-highlight-color: transparent; }
 .tap.l { left: 0; cursor: w-resize; } .tap.r { right: 0; width: 70%; cursor: e-resize; }
 .hint { position: fixed; z-index: 4; left: 0; right: 0; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); text-align: center; font: 500 12px var(--f); letter-spacing: .1em; text-transform: uppercase; opacity: .55; pointer-events: none; }
+.hint .h-touch { display: none; }
+@media (hover: none) and (pointer: coarse) { .hint .h-key { display: none; } .hint .h-touch { display: inline; } }
 .chrome { position: relative; z-index: 4; color: var(--white); transition: color .4s ease; }
 .chrome.dark { color: var(--black); }
 .slide a, .slide button { position: relative; z-index: 3; }
@@ -226,7 +228,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 <div class="chrome" id="chrome">
   <div class="bars" id="bars" aria-hidden="true"></div>
   <div class="top"><span class="who"><i aria-hidden="true"></i>Wiryana</span><span class="ctl"><button id="pp" aria-label="Pause"><svg viewBox="0 0 16 16"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></svg></button></span></div>
-  <div class="hint" id="hint">Tap to continue</div>
+  <div class="hint" id="hint"><span class="h-key">Click to continue · Space to pause</span><span class="h-touch">Tap to continue · Hold to pause</span></div>
 </div>
 
 <script>
