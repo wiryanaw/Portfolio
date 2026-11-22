@@ -128,6 +128,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .edge { position: fixed; left: 0; right: 0; height: 1px; z-index: 5; pointer-events: none; background: var(--edge, #D8FF2E); }
 .edge.t { top: 0; } .edge.b { bottom: 0; }
 .hint .h-touch { display: none; }
+.m-only { display: none; }
 @media (hover: none) and (pointer: coarse) { .hint .h-key { display: none; } .hint .h-touch { display: inline; } }
 .chrome { position: relative; z-index: 4; color: var(--white); transition: color .4s ease; }
 .chrome.dark { color: var(--black); }
@@ -140,6 +141,11 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   .has-shot .shot { width: 100%; top: auto; right: auto; }
   .shot { position: relative; right: auto; top: auto; width: 100%; margin-top: 28px; transform: rotate(4deg) !important; }
   .slide.on .shot { transform: rotate(-2deg) !important; }
+  .has-shot .shot { flex-shrink: 0; width: 74%; margin-top: 22px; }
+  .has-shot .say { font-size: 19px; margin-top: 16px; }
+  .has-shot .swap small { margin-top: 8px; }
+  .slide.has-shot { padding-top: 96px; }
+  .m-hide { display: none; } .m-only { display: inline; }
   .slide:has(.spread) { padding-bottom: calc(46vh + 28px); }
   .spread { position: absolute; left: 0; right: 0; bottom: 0; height: 46vh; margin: 0; grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr 1fr; gap: 3px; }
   .spread figure { position: relative; overflow: hidden; }
@@ -181,9 +187,9 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   </section>
 
   <section class="slide has-shot s-lime" data-c="dark">
-    <div class="k">Menu Management · 2022 · menu switches every morning</div>
+    <div class="k">Menu Management · 2022<span class="m-hide"> · menu switches every morning</span></div>
     <div class="big swap"><span class="from"><b>480</b><small>by hand, before</small></span><span class="arrow">→</span><span><b>1</b><small>per ingredient, after</small></span></div>
-    <p class="say">Before opening, staff turned menus on and off one by one: about 20 items, on GoFood, GrabFood and ShopeeFood, for 8 brands. Now one switch per ingredient does it everywhere. <b>97.78% more efficient.</b></p>
+    <p class="say"><span class="m-hide">Before opening, staff turned menus on and off one by one: about 20 items, on GoFood, GrabFood and ShopeeFood, for 8 brands. </span><span class="m-only">Menus were switched one by one, across 3 delivery apps and 8 brands. </span>Now one switch per ingredient does it everywhere. <b>97.78% more efficient.</b></p>
     <a class="say" href="/Menu-management/" style="text-decoration:none;border-bottom:2px solid;align-self:flex-start;font-weight:600">Read the case →</a>
     <a class="shot" href="/Menu-management/"><img src="/thumb-menu.jpg" alt="Menu Management material screen"></a>
   </section>
