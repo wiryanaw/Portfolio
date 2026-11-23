@@ -178,6 +178,34 @@ figcaption { margin-top: 12px; font: 600 12px var(--f); letter-spacing: .08em; t
 .foot-base { display: flex; justify-content: space-between; margin-top: 72px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.08); font-size: 14px; opacity: .6; }
 .foot-base a { text-decoration: none; }
 
+/* Two reads: a short version for hiring managers, the full case for everyone else */
+.mode { display: inline-flex; gap: 2px; padding: 3px; border-radius: 999px; background: rgba(255,255,255,.08); }
+.mode button { font: 600 13px var(--f); color: rgba(255,255,255,.7); background: none; border: 0; padding: 7px 14px; border-radius: 999px; cursor: pointer; white-space: nowrap; transition: background-color .2s ease, color .2s ease; }
+.mode button small { margin-left: 6px; font-size: 12px; font-weight: 500; opacity: .6; }
+.mode button:hover { color: var(--white); }
+.mode button[aria-pressed="true"] { background: var(--lime); color: var(--ink); }
+.mode-lg { margin: 0 0 40px; padding: 4px; gap: 2px; }
+.mode-lg button { font-size: 14px; padding: 8px 16px; }
+.mode-lg button small { font-size: 13px; margin-left: 6px; }
+body.brief .full { display: none; }
+body:not(.brief) .short { display: none; }
+
+.sum { margin-top: 56px; border-top: 1.5px solid var(--line); }
+.sum div { display: grid; grid-template-columns: 5fr 7fr; gap: 64px; padding: 26px 0; border-bottom: 1.5px solid var(--line); }
+.sum dt { font: 700 22px/1.2 var(--f); letter-spacing: -0.02em; color: var(--white); }
+.sum dd { margin: 0; font-size: 18px; line-height: 1.5; max-width: 58ch; }
+.sum dd b { color: var(--white); font-weight: 600; }
+.moves { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; counter-reset: m; }
+.move { counter-increment: m; padding: 26px 24px; border-radius: 16px; background: var(--card); }
+.move::before { content: counter(m, decimal-leading-zero); display: block; font: 700 14px var(--f); letter-spacing: .06em; color: var(--lime); }
+.move h3 { margin-top: 18px; font-size: 24px; }
+.move p { margin-top: 12px; font-size: 16px; line-height: 1.5; }
+.sub-k { margin-top: 88px; }
+.more { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; margin-top: 88px; padding: 32px; border-radius: 20px; background: var(--card); }
+.more p { font: 700 clamp(22px, 2.4vw, 30px)/1.2 var(--f); color: var(--white); }
+.more p small { display: block; margin-top: 6px; font: 400 16px var(--f); color: rgba(255,255,255,.7); }
+.more button { font: 700 17px var(--f); color: var(--ink); background: var(--lime); border: 0; border-radius: 999px; padding: 16px 26px; cursor: pointer; }
+
 /* Reveal on scroll */
 .rv { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .9s var(--ease); }
 .rv.in { opacity: 1; transform: none; }
@@ -209,7 +237,15 @@ figcaption { margin-top: 12px; font: 600 12px var(--f); letter-spacing: .08em; t
   .nc-sub { font-size: 16px; }
   .nc-title { font-size: 40px; white-space: nowrap; }
   .glance-band, .next { padding-top: 64px; padding-bottom: 64px; }
-  .hero { min-height: 0; padding-top: 120px; }
+  .hero { min-height: 0; padding-top: 88px; }
+  .mode-lg { margin-bottom: 32px; }
+  .mode-lg { display: flex; }
+  .mode-lg button { flex: 1; padding: 8px 10px; font-size: 13px; }
+  .mode-lg button small { font-size: 12px; margin-left: 4px; }
+  .sum div { grid-template-columns: 1fr; gap: 10px; }
+  .moves { grid-template-columns: 1fr; }
+  .more { padding: 24px; }
+  .more button { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -251,7 +287,7 @@ figcaption { margin-top: 12px; font: 600 12px var(--f); letter-spacing: .08em; t
 }
 </style>
 </head>
-<body id="top">
+<body id="top" class="brief">
 
 <header class="bar" id="bar">
   <a class="home" href="/"><i class="orb"></i>Wiryana</a>
@@ -262,6 +298,10 @@ figcaption { margin-top: 12px; font: 600 12px var(--f); letter-spacing: .08em; t
 <main>
   <section class="band dark hero" data-name="Overview">
     <div class="wrap">
+      <div class="mode mode-lg rv" role="group" aria-label="Case study length">
+        <button type="button" data-mode="brief" aria-pressed="true">Short version<small>2 min</small></button>
+        <button type="button" data-mode="full" aria-pressed="false">Full case study<small>5 min</small></button>
+      </div>
       <div class="k rv">QR Scanner · Hangry App · Loyalty · 2022</div>
       <h1 class="rv">QR complaints dropped by 54%.</h1>
       <p class="lead rv">Users were struggling to scan QR codes on Hangry receipts, flooding support with complaints and abandoning the loyalty flow. I led the research and design of a <b>contextual in app help system</b> that cut those complaints by 54% within three months of launch.</p>
@@ -286,7 +326,31 @@ figcaption { margin-top: 12px; font: 600 12px var(--f); letter-spacing: .08em; t
     </div>
   </section>
 
-  <section class="band dark" id="problem" data-name="Problem">
+  <section class="band dark short" id="short" data-name="Short version">
+    <div class="wrap">
+      <div class="k rv">The short version</div>
+      <h2 class="rv">What I did, and <span class="hl">why it worked.</span></h2>
+      <dl class="sum rv">
+        <div><dt>The problem</dt><dd>Users struggled to scan the QR code on Hangry receipts. Every failed scan became a <b>support complaint</b>, and people dropped out of the loyalty flow.</dd></div>
+        <div><dt>My role</dt><dd>I led the research and design, working with <b>one engineer</b>, from February to March 2022.</dd></div>
+        <div><dt>How it shipped</dt><dd>Released in mid March 2022. Complaints fell from <b>35 to 16</b>, comparing the three months before and after launch.</dd></div>
+      </dl>
+
+      <div class="k rv sub-k">Three decisions that mattered</div>
+      <div class="moves">
+        <div class="move rv"><h3>Tested what actually breaks a scan.</h3><p>Controlled experiments on printer quality, QR density and cameras across iOS and Android. Flattening receipts helped most, and print size made no difference.</p></div>
+        <div class="move rv"><h3>Looked at what others got wrong.</h3><p>Most competitors offered only a "?" icon. Only Dana and Grab explained the QR code with illustrated help, which set our direction.</p></div>
+        <div class="move rv"><h3>Help only when people ask.</h3><p>A mandatory instruction page was rejected because it blocked users who didn't need help. The shipped sheet opens on request, for folded receipts, water damage or poor lighting.</p></div>
+      </div>
+
+      <div class="k rv sub-k">The final UI</div>
+      <figure class="rv" style="margin-top:28px"><div class="pic"><img src="/cs3-solution.png" alt="Final UI, contextual help bottom sheet" loading="lazy"></div><figcaption>The contextual help sheet</figcaption></figure>
+
+      <div class="more rv"><p>Want the whole process?<small>The experiments, the benchmark, the rejected iteration and the complaint data.</small></p><button type="button" data-mode="full">Read the full case study</button></div>
+    </div>
+  </section>
+
+  <section class="band dark full" id="problem" data-name="Problem">
     <div class="wrap">
       <div class="k rv"><b>01</b>The problem</div>
       <h2 class="rv">Scans failed, so people <span class="hl">gave up.</span></h2>
@@ -301,7 +365,7 @@ figcaption { margin-top: 12px; font: 600 12px var(--f); letter-spacing: .08em; t
     </div>
   </section>
 
-  <section class="band dark" id="objectives" data-name="Objectives">
+  <section class="band dark full" id="objectives" data-name="Objectives">
     <div class="wrap">
       <div class="k rv"><b>02</b>Objectives</div>
       <h2 class="rv">Help in the moment, <span class="hl">fewer complaints.</span></h2>
@@ -312,7 +376,7 @@ figcaption { margin-top: 12px; font: 600 12px var(--f); letter-spacing: .08em; t
     </div>
   </section>
 
-  <section class="band dark" id="research" data-name="Research">
+  <section class="band dark full" id="research" data-name="Research">
     <div class="wrap">
       <div class="k rv"><b>03</b>Research</div>
       <h2 class="rv">We tested what actually <span class="hl">breaks a scan.</span></h2>
@@ -324,7 +388,7 @@ figcaption { margin-top: 12px; font: 600 12px var(--f); letter-spacing: .08em; t
     </div>
   </section>
 
-  <section class="band dark" id="benchmark" data-name="Benchmark">
+  <section class="band dark full" id="benchmark" data-name="Benchmark">
     <div class="wrap">
       <div class="k rv"><b>04</b>Competitive benchmark</div>
       <h2 class="rv">Most apps offered <span class="hl">a lonely “?”.</span></h2>
@@ -336,7 +400,7 @@ figcaption { margin-top: 12px; font: 600 12px var(--f); letter-spacing: .08em; t
     </div>
   </section>
 
-  <section class="band dark" id="solution" data-name="Solution">
+  <section class="band dark full" id="solution" data-name="Solution">
     <div class="wrap">
       <div class="k rv"><b>05</b>Solution</div>
       <h2 class="rv">Help only when <span class="hl">you ask for it.</span></h2>
@@ -348,7 +412,7 @@ figcaption { margin-top: 12px; font: 600 12px var(--f); letter-spacing: .08em; t
     </div>
   </section>
 
-  <section class="band dark" id="results" data-name="Results">
+  <section class="band dark full" id="results" data-name="Results">
     <div class="wrap">
       <div class="k rv"><b>06</b>Results</div>
       <h2 class="rv">Complaints cut by <span class="hl">more than half.</span></h2>
@@ -390,14 +454,35 @@ figcaption { margin-top: 12px; font: 600 12px var(--f); letter-spacing: .08em; t
 <script>
 (function () {
   var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var bands = [].slice.call(document.querySelectorAll(".band[data-name]")).filter(function (b) { return b.dataset.name !== "At a glance" && b.dataset.name !== "Next"; });
   var segs = document.getElementById("segs"), bar = document.getElementById("bar"), now = document.getElementById("now");
-  bands.forEach(function (b, i) {
-    if (!b.id) b.id = "s" + i;
-    segs.insertAdjacentHTML("beforeend", '<a href="#' + b.id + '"><i></i><b></b><span>' + b.dataset.name + '</span></a>');
+  var bands, links, fills, all;
+
+  // Short version or full case: the chapter bar only lists what is showing
+  function build() {
+    bands = [].slice.call(document.querySelectorAll(".band[data-name]")).filter(function (b) { return b.dataset.name !== "At a glance" && b.dataset.name !== "Next" && b.offsetParent !== null; });
+    segs.innerHTML = "";
+    bands.forEach(function (b, i) {
+      if (!b.id) b.id = "s" + i;
+      segs.insertAdjacentHTML("beforeend", '<a href="#' + b.id + '"><i></i><b></b><span>' + b.dataset.name + '</span></a>');
+    });
+    links = segs.querySelectorAll("a"); fills = segs.querySelectorAll("b");
+    all = [].slice.call(document.querySelectorAll(".band")).filter(function (b) { return b.offsetParent !== null; });
+  }
+  function setMode(m, jump) {
+    document.body.classList.toggle("brief", m === "brief");
+    document.querySelectorAll(".mode button").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.mode === m); });
+    try { localStorage.setItem("caseMode", m); } catch (e) {}
+    build(); update();
+    // The switch at the top stays put; the button at the end of the short version lands on the full story, no scroll animation
+    if (jump) { var t = document.getElementById("problem"); scrollTo({ top: t.getBoundingClientRect().top + scrollY - 72, behavior: "instant" }); }
+  }
+  document.querySelectorAll("[data-mode]").forEach(function (b) {
+    b.addEventListener("click", function () { setMode(b.dataset.mode, !b.closest(".mode")); });
   });
-  var links = segs.querySelectorAll("a"), fills = segs.querySelectorAll("b");
-  var all = [].slice.call(document.querySelectorAll(".band"));
+  var saved = null; try { saved = localStorage.getItem("caseMode"); } catch (e) {}
+  document.body.classList.toggle("brief", saved !== "full");
+  document.querySelectorAll(".mode button").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.mode === (saved === "full" ? "full" : "brief")); });
+  build();
 
   function update() {
     var y = scrollY + 40, cur = 0;
